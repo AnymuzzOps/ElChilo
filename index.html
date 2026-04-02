@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>El Chilómetro | Avances concretos de Chile</title>
+  <meta
+    name="description"
+    content="El Chilómetro registra avances concretos de Chile con información verificable, lenguaje claro y foco en hechos."
+  />
+
+  <!-- Open Graph básico -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="El Chilómetro" />
+  <meta
+    property="og:description"
+    content="Proyecto independiente que reporta avances concretos de Chile con información verificable y tono neutral."
+  />
+  <meta property="og:url" content="https://tu-usuario.github.io/el-chilometro/" />
+  <meta property="og:locale" content="es_CL" />
+
+  <style>
+    :root {
+      /* =============================
+         BLOQUE FÁCIL DE PERSONALIZAR
+         ============================= */
+      --project-name: "El Chilómetro";
+      --x-url: "https://x.com/tu_perfil";
+      --project-short-description: "Registro independiente de avances concretos de Chile.";
+
+      /* Paleta sobria + acento contenido inspirado en Chile */
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --text: #151922;
+      --text-soft: #4d5566;
+      --border: #d9deea;
+      --accent: #0b4ea2;
+      --accent-soft: #e8f0ff;
+      --shadow: 0 10px 30px rgba(9, 18, 33, 0.07);
+
+      --radius: 14px;
+      --content-max: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #fbfcff 0%, var(--bg) 52%, #f4f6fb 100%);
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: min(100% - 2rem, var(--content-max));
+      margin-inline: auto;
+    }
+
+    header,
+    section,
+    footer {
+      padding-block: clamp(2.3rem, 5vw, 5rem);
+    }
+
+    .hero {
+      padding-top: clamp(3rem, 9vw, 7rem);
+    }
+
+    .hero-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 6px);
+      box-shadow: var(--shadow);
+      padding: clamp(1.2rem, 2.4vw, 2.2rem);
+      display: grid;
+      gap: 1.2rem;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero-wrap::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 220px;
+      aspect-ratio: 1;
+      background: radial-gradient(circle, rgba(11,78,162,0.19) 0%, rgba(11,78,162,0.02) 65%, transparent 72%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: .02em;
+      font-size: .93rem;
+      margin: 0;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: .6rem;
+      height: .6rem;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: .85;
+    }
+
+    h1, h2, h3 { line-height: 1.15; margin: 0; }
+
+    h1 {
+      font-size: clamp(2rem, 5.8vw, 3.4rem);
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--text-soft);
+      max-width: 68ch;
+      font-size: clamp(1rem, 2.4vw, 1.16rem);
+    }
+
+    .manifest {
+      margin: .2rem 0 0;
+      max-width: 65ch;
+      padding: .85rem 1rem;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 9px;
+      background: #fcfdff;
+      color: #2f3645;
+      font-size: .98rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      width: fit-content;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: .72rem 1.1rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(180deg, #125db9 0%, #0b4ea2 100%);
+      box-shadow: 0 8px 18px rgba(11, 78, 162, .25);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(11, 78, 162, .3);
+    }
+
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--accent);
+      border-color: var(--border);
+    }
+
+    .section-title {
+      font-size: clamp(1.4rem, 3.4vw, 2rem);
+      letter-spacing: -0.01em;
+      margin-bottom: .7rem;
+    }
+
+    .section-intro {
+      margin: 0;
+      color: var(--text-soft);
+      max-width: 70ch;
+    }
+
+    .rule-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.2rem 0 0;
+      display: grid;
+      gap: .7rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .rule-list li,
+    .principle,
+    .post-card,
+    .format-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .rule-list li {
+      padding: .85rem .95rem;
+      color: #273044;
+      font-size: .96rem;
+    }
+
+    .principles-grid,
+    .posts-grid {
+      margin-top: 1.2rem;
+      display: grid;
+      gap: .85rem;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    }
+
+    .principle {
+      padding: 1rem;
+      min-height: 98px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      color: #1f2940;
+      background-image: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+    }
+
+    .format-card {
+      margin-top: 1.2rem;
+      padding: 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .format-list {
+      margin: .7rem 0 0;
+      padding-left: 1.2rem;
+      color: #273044;
+    }
+
+    .format-list li { margin: .35rem 0; }
+
+    .posts-grid {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .post-card {
+      padding: 1rem;
+      display: grid;
+      gap: .6rem;
+      background: #ffffff;
+    }
+
+    .post-meta {
+      font-size: .82rem;
+      color: #5b6475;
+      display: flex;
+      justify-content: space-between;
+      gap: .8rem;
+    }
+
+    .post-text {
+      margin: 0;
+      color: #1b2334;
+      font-size: .96rem;
+    }
+
+    .closing {
+      text-align: center;
+      padding-bottom: clamp(2.8rem, 8vw, 6rem);
+    }
+
+    .closing-box {
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 4px);
+      background: #fff;
+      padding: clamp(1.1rem, 2.2vw, 2rem);
+      display: grid;
+      gap: .85rem;
+      justify-items: center;
+    }
+
+    .closing p {
+      margin: 0;
+      max-width: 60ch;
+      color: var(--text-soft);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid rgba(11, 78, 162, .35);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .container { width: min(100% - 1.2rem, var(--content-max)); }
+      .hero-wrap { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#contenido" class="sr-only">Saltar al contenido principal</a>
+
+  <header class="hero" aria-label="Presentación del proyecto">
+    <div class="container hero-wrap">
+      <p class="eyebrow">Proyecto independiente</p>
+      <h1 id="project-name">El Chilómetro</h1>
+      <p class="lead" id="project-description">Registro independiente de avances concretos de Chile.</p>
+      <p class="manifest">
+        Reportamos hechos verificables.
+        <br />
+        Priorizamos claridad, contexto mínimo y precisión.
+        <br />
+        La credibilidad está por encima del impacto.
+      </p>
+      <a class="btn btn-primary" id="x-link-top" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">
+        Ver perfil en X
+      </a>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section aria-labelledby="que-es">
+      <div class="container">
+        <h2 class="section-title" id="que-es">Qué es</h2>
+        <p class="section-intro">
+          El Chilómetro registra avances concretos de Chile a partir de información verificable.
+          Publica datos, informes, estudios, anuncios y hechos comprobables.
+          Informa hechos, no opiniones.
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="como-comunica">
+      <div class="container">
+        <h2 class="section-title" id="como-comunica">Cómo comunica</h2>
+        <p class="section-intro">Reglas editoriales del proyecto:</p>
+        <ul class="rule-list">
+          <li>Tono neutral.</li>
+          <li>Lenguaje simple y directo.</li>
+          <li>Foco en hechos verificables.</li>
+          <li>Contexto mínimo necesario.</li>
+          <li>Precisión antes que impacto.</li>
+          <li>Sin bando.</li>
+          <li>Sin agenda.</li>
+          <li>Sin exageración.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="principios">
+      <div class="container">
+        <h2 class="section-title" id="principios">Principios</h2>
+        <div class="principles-grid" role="list" aria-label="Principios editoriales">
+          <div class="principle" role="listitem">Sin bando</div>
+          <div class="principle" role="listitem">Sin agenda</div>
+          <div class="principle" role="listitem">Basado en hechos</div>
+          <div class="principle" role="listitem">Avances concretos</div>
+          <div class="principle" role="listitem">Información verificable</div>
+          <div class="principle" role="listitem">Claridad antes que ruido</div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="formato">
+      <div class="container">
+        <h2 class="section-title" id="formato">Formato</h2>
+        <p class="section-intro">
+          Cada noticia, informe, estudio, anuncio o dato verificable se transforma en publicaciones breves para X.
+        </p>
+        <article class="format-card" aria-label="Reglas de formato para publicaciones">
+          <ul class="format-list">
+            <li>1 post si el hecho cabe con claridad.</li>
+            <li>1 hilo de 2 posts cuando se requiere contexto.</li>
+            <li>Nunca más de 2 posts por hecho.</li>
+            <li>Prioridad: brevedad, precisión y comprensión rápida.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="ejemplos">
+      <div class="container">
+        <h2 class="section-title" id="ejemplos">Ejemplo de estilo</h2>
+        <p class="section-intro">Ejemplos ficticios de publicaciones con tono neutral y foco en hechos.</p>
+
+        <!-- Ejemplos fáciles de editar -->
+        <div class="posts-grid" id="example-posts">
+          <article class="post-card" aria-label="Ejemplo transporte">
+            <div class="post-meta"><span>Transporte</span><span>Post único</span></div>
+            <p class="post-text">
+              Región Metropolitana: la entidad informó la incorporación gradual de nuevos buses eléctricos en recorridos urbanos.
+              El reporte señala mejora en frecuencia y menor ruido en operación.
+            </p>
+          </article>
+
+          <article class="post-card" aria-label="Ejemplo ciencia">
+            <div class="post-meta"><span>Ciencia</span><span>Post único</span></div>
+            <p class="post-text">
+              Según el estudio de una universidad chilena, se validó un método de monitoreo ambiental con datos abiertos.
+              El informe indica resultados consistentes para seguimiento territorial.
+            </p>
+          </article>
+
+          <article class="post-card" aria-label="Ejemplo salud">
+            <div class="post-meta"><span>Salud</span><span>Hilo de 2 posts</span></div>
+            <p class="post-text">
+              La autoridad sanitaria informó una ampliación de cobertura en atención preventiva en centros locales.
+              Datos muestran más disponibilidad horaria y derivación temprana en comunas piloto.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="cierre">
+      <div class="container closing-box">
+        <h2 class="section-title" id="cierre">Cierre</h2>
+        <p>
+          Registrar el progreso de Chile de forma clara, consistente y verificable.
+        </p>
+        <a class="btn btn-ghost" id="x-link-bottom" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">
+          Seguir en X
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container" style="padding-top:0; padding-bottom:2rem;">
+    <small style="color:#616b7d;">© <span id="year"></span> El Chilómetro.</small>
+  </footer>
+
+  <script>
+    /* ==================================================
+       PERSONALIZACIÓN RÁPIDA (edita estos valores)
+       ================================================== */
+    const SITE_CONFIG = {
+      projectName: "El Chilómetro",
+      projectDescription: "Registro independiente de avances concretos de Chile.",
+      xUrl: "https://x.com/tu_perfil"
+    };
+
+    document.title = `${SITE_CONFIG.projectName} | Avances concretos de Chile`;
+    document.getElementById("project-name").textContent = SITE_CONFIG.projectName;
+    document.getElementById("project-description").textContent = SITE_CONFIG.projectDescription;
+
+    const xTop = document.getElementById("x-link-top");
+    const xBottom = document.getElementById("x-link-bottom");
+    xTop.href = SITE_CONFIG.xUrl;
+    xBottom.href = SITE_CONFIG.xUrl;
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
