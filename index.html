@@ -1,0 +1,1747 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>El Chilómetro | Portada editorial por categorías</title>
+  <meta
+    name="description"
+    content="Portada editorial de El Chilómetro con categorías de noticias y panel de edición local para gestionar contenido verificable."
+  />
+
+  <!-- Open Graph básico -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="El Chilómetro" />
+  <meta
+    property="og:description"
+    content="Noticias por categoría sobre avances concretos de Chile, con edición local desde la misma página."
+  />
+  <meta property="og:url" content="https://tu-usuario.github.io/el-chilometro/" />
+  <meta property="og:locale" content="es_CL" />
+
+  <style>
+    :root {
+      /* =============================
+         PERSONALIZACIÓN RÁPIDA
+         ============================= */
+      --project-name: "El Chilómetro";
+      --project-tagline: "Avances concretos de Chile";
+      --project-editorial-line: "Registro breve de hechos verificables en desarrollo.";
+      --x-url: "https://x.com/tu_perfil";
+
+      --bg: #fcfcfc;
+      --bg-soft: #f7f7f7;
+      --surface: #ffffff;
+      --border: #e8e8e8;
+      --text: #111111;
+      --text-soft: #5d5d5d;
+      --accent-red: #b3131b;
+      --accent-red-soft: #f6e6e8;
+      --shadow-soft: 0 10px 30px rgba(16, 16, 16, 0.05);
+      --radius: 14px;
+      --content-max: 1160px;
+
+      /* Acento dinámico de categoría */
+      --cat: #b3131b;
+      --cat-soft: #f6e6e8;
+      --cat-border: #e6c0c4;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: min(100% - 2.2rem, var(--content-max));
+      margin-inline: auto;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--cat) 35%, white);
+      outline-offset: 2px;
+    }
+
+    /* =============================
+       HERO EDITORIAL
+       ============================= */
+    .hero {
+      padding: clamp(1.6rem, 4.5vw, 3rem) 0 clamp(1.1rem, 2.8vw, 1.8rem);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,.96), rgba(255,255,255,.96)),
+        repeating-linear-gradient(90deg, transparent 0 28px, rgba(17,17,17,.02) 28px 29px);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: linear-gradient(to right, transparent 0 12%, color-mix(in srgb, var(--accent-red) 70%, white) 12% 36%, transparent 36% 100%);
+      opacity: .65;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr auto;
+      gap: 1.2rem;
+      align-items: end;
+    }
+
+    .hero-kicker {
+      margin: 0 0 .55rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .78rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #6a6a6a;
+      font-weight: 650;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: #8a8a8a;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: .98;
+      letter-spacing: -0.03em;
+      font-weight: 760;
+    }
+
+    .hero-tagline {
+      margin: .55rem 0 0;
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      color: #2f2f2f;
+      font-weight: 520;
+    }
+
+    .hero-line {
+      margin: .55rem 0 0;
+      color: var(--text-soft);
+      font-size: .95rem;
+      max-width: 65ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: .65rem;
+      align-items: center;
+    }
+
+    .x-button,
+    .admin-open {
+      text-decoration: none;
+      color: #3a3a3a;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 999px;
+      padding: .5rem .88rem;
+      font-size: .85rem;
+      font-weight: 600;
+      transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease;
+      cursor: pointer;
+    }
+
+    .x-button:hover,
+    .x-button:focus-visible,
+    .admin-open:hover,
+    .admin-open:focus-visible {
+      color: #6f0f15;
+      background: var(--accent-red-soft);
+      border-color: #e2b9bd;
+      transform: translateY(-1px);
+    }
+
+    .measure-mark {
+      width: 66px;
+      height: 56px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .measure-mark::before {
+      content: "";
+      position: absolute;
+      inset: 10px 12px;
+      background: repeating-linear-gradient(to right, color-mix(in srgb, var(--accent-red) 34%, white) 0 2px, transparent 2px 10px);
+      opacity: .58;
+    }
+
+    .measure-mark::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      height: 2px;
+      background: color-mix(in srgb, var(--accent-red) 55%, white);
+      border-radius: 99px;
+    }
+
+    /* =============================
+       PANEL EDITORIAL PRINCIPAL
+       ============================= */
+    main {
+      padding: clamp(1.25rem, 3.6vw, 2.6rem) 0 clamp(2rem, 6vw, 4rem);
+    }
+
+    .news-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 4px);
+      box-shadow: var(--shadow-soft);
+      padding: clamp(1rem, 2.8vw, 1.9rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, var(--cat) 0 28%, transparent 28% 100%);
+      opacity: .85;
+    }
+
+    .panel-head {
+      display: grid;
+      gap: .3rem;
+      margin-bottom: 1rem;
+      padding-top: .2rem;
+    }
+
+    .panel-eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .72rem;
+      color: #797979;
+      font-weight: 650;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: clamp(1.28rem, 3vw, 1.75rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    .panel-sub {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: .95rem;
+      max-width: 70ch;
+    }
+
+    .tabs-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: .8rem 0;
+      margin-bottom: 1rem;
+    }
+
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .52rem;
+    }
+
+    .tab {
+      appearance: none;
+      border: 1px solid var(--tone-border, var(--border));
+      background: var(--tone-soft, #f6f6f6);
+      color: var(--tone-text, #333);
+      border-radius: 999px;
+      padding: .48rem .82rem;
+      font-size: .77rem;
+      letter-spacing: .03em;
+      font-weight: 680;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+
+    .tab.active {
+      border-color: color-mix(in srgb, var(--tone) 55%, #ffffff);
+      background: color-mix(in srgb, var(--tone) 17%, #ffffff);
+      color: color-mix(in srgb, var(--tone) 73%, #161616);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 20%, #ffffff);
+    }
+
+    .news-layout {
+      display: grid;
+      gap: .85rem;
+    }
+
+    .news-featured,
+    .news-side {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-featured {
+      padding: clamp(1rem, 2.8vw, 1.4rem);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.045);
+    }
+
+    .news-featured::before,
+    .news-side::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--cat);
+      opacity: .74;
+    }
+
+    .news-side {
+      padding: .9rem .95rem .95rem 1rem;
+    }
+
+    .cat-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      border: 1px solid var(--cat-border);
+      background: var(--cat-soft);
+      color: color-mix(in srgb, var(--cat) 78%, #2a2a2a);
+      border-radius: 999px;
+      padding: .2rem .58rem;
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .news-featured h3 {
+      margin: .58rem 0 .5rem;
+      font-size: clamp(1.3rem, 2.8vw, 2rem);
+      line-height: 1.13;
+      letter-spacing: -0.02em;
+    }
+
+    .news-side h4 {
+      margin: .35rem 0 .38rem;
+      font-size: 1.04rem;
+      line-height: 1.24;
+      letter-spacing: -0.01em;
+    }
+
+    .summary {
+      margin: 0;
+      color: #353535;
+      font-size: .95rem;
+      max-width: 72ch;
+    }
+
+    .meta {
+      margin: .62rem 0 0;
+      font-size: .8rem;
+      color: #7a7a7a;
+    }
+
+    .more {
+      margin-top: .6rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      text-decoration: none;
+      color: color-mix(in srgb, var(--cat) 82%, #1a1a1a);
+      font-weight: 660;
+      font-size: .9rem;
+      border-radius: 8px;
+      padding: .25rem .48rem;
+      transition: background-color .16s ease;
+    }
+
+    .more:hover,
+    .more:focus-visible {
+      background: var(--cat-soft);
+    }
+
+    .secondary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .75rem;
+    }
+
+    .empty-state {
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-soft);
+      padding: 1rem;
+      color: var(--text-soft);
+      font-size: .93rem;
+    }
+
+    /* =============================
+       PANEL ADMINISTRACIÓN
+       ============================= */
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 30;
+    }
+
+    .admin-modal.open {
+      display: flex;
+    }
+
+    .admin-card {
+      width: min(980px, 100%);
+      max-height: min(90vh, 880px);
+      overflow: auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(17,17,17,.16);
+      padding: 1rem;
+    }
+
+    .admin-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: .8rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: .8rem;
+      margin-bottom: .9rem;
+    }
+
+    .admin-head h3 {
+      margin: 0;
+      font-size: 1.12rem;
+    }
+
+    .admin-head p {
+      margin: .25rem 0 0;
+      color: var(--text-soft);
+      font-size: .88rem;
+    }
+
+    .hidden { display: none !important; }
+
+    .admin-close {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #444;
+      border-radius: 10px;
+      padding: .35rem .6rem;
+      cursor: pointer;
+    }
+
+    .auth-panel {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-soft);
+      padding: .85rem;
+      margin-bottom: .9rem;
+    }
+
+    .auth-panel h4 {
+      margin: 0 0 .4rem;
+      font-size: .95rem;
+    }
+
+    .auth-panel p {
+      margin: 0 0 .6rem;
+      color: #616161;
+      font-size: .84rem;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: .9rem;
+    }
+
+    .admin-block {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-soft);
+      padding: .85rem;
+    }
+
+    .admin-block h4 {
+      margin: 0 0 .65rem;
+      font-size: .93rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #4e4e4e;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .65rem;
+    }
+
+    .field {
+      display: grid;
+      gap: .35rem;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: .8rem;
+      color: #5f5f5f;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #dadada;
+      border-radius: 10px;
+      background: #fff;
+      color: #1d1d1d;
+      padding: .52rem .6rem;
+      min-height: 2.3rem;
+    }
+
+    .field textarea {
+      min-height: 5.4rem;
+      resize: vertical;
+    }
+
+    .inline-actions {
+      display: flex;
+      gap: .45rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #2e2e2e;
+      border-radius: 10px;
+      padding: .45rem .68rem;
+      cursor: pointer;
+      font-size: .86rem;
+    }
+
+    .btn-primary {
+      background: var(--accent-red-soft);
+      border-color: #e1bcc0;
+      color: #72131a;
+      font-weight: 650;
+    }
+
+    .btn-danger {
+      background: #fbf1f2;
+      border-color: #edcfd2;
+      color: #7e161e;
+    }
+
+    .status-msg {
+      margin: .5rem 0 0;
+      font-size: .8rem;
+      color: #656565;
+      min-height: 1.2em;
+    }
+
+    .status-msg.error { color: #8a1a22; }
+    .status-msg.ok { color: #2d6a47; }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .83rem;
+      color: #474747;
+    }
+
+    .news-admin-list {
+      display: grid;
+      gap: .55rem;
+      max-height: 420px;
+      overflow: auto;
+      padding-right: .2rem;
+    }
+
+    .admin-item {
+      border: 1px solid #e1e1e1;
+      border-radius: 10px;
+      background: #fff;
+      padding: .55rem .62rem;
+      display: grid;
+      gap: .4rem;
+    }
+
+    .admin-item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: .5rem;
+      align-items: baseline;
+    }
+
+    .admin-item-title {
+      margin: 0;
+      font-size: .89rem;
+      line-height: 1.28;
+      color: #1d1d1d;
+    }
+
+    .admin-meta {
+      margin: 0;
+      color: #666;
+      font-size: .76rem;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: .12rem .42rem;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      font-size: .68rem;
+      color: #555;
+      background: #fafafa;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-weight: 650;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 0 1.4rem;
+      background: #fdfdfd;
+    }
+
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .7rem;
+      flex-wrap: wrap;
+      color: var(--text-soft);
+      font-size: .84rem;
+    }
+
+    .foot mark {
+      background: transparent;
+      color: #3a3a3a;
+      font-weight: 600;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .hero-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .secondary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container { width: min(100% - 1.2rem, var(--content-max)); }
+      .tabs-wrap { margin-inline: -.1rem; }
+
+      .category-tabs {
+        overflow-x: auto;
+        padding-bottom: .15rem;
+        flex-wrap: nowrap;
+      }
+
+      .tab { flex: 0 0 auto; }
+      .news-featured,
+      .news-side { padding-left: .95rem; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#principal" class="sr-only">Saltar al contenido principal</a>
+
+  <header class="hero" aria-label="Encabezado editorial">
+    <div class="container hero-grid">
+      <div>
+        <p class="hero-kicker">Registro editorial</p>
+        <h1 id="project-name">El Chilómetro</h1>
+        <p class="hero-tagline" id="project-tagline">Avances concretos de Chile</p>
+        <p class="hero-line" id="project-line">Registro breve de hechos verificables en desarrollo.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="admin-open" id="open-admin" type="button">Administrar noticias</button>
+        <a id="x-link" class="x-button" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">Perfil en X</a>
+        <div class="measure-mark" aria-hidden="true"></div>
+      </div>
+    </div>
+  </header>
+
+  <main id="principal">
+    <section class="container" aria-labelledby="panel-title">
+      <article class="news-panel">
+        <header class="panel-head">
+          <p class="panel-eyebrow">Portada</p>
+          <h2 class="panel-title" id="panel-title">Noticias por categoría</h2>
+          <p class="panel-sub" id="panel-sub">Selecciona una categoría para ver el hecho principal y dos actualizaciones relacionadas.</p>
+        </header>
+
+        <div class="tabs-wrap">
+          <div class="category-tabs" id="category-tabs" role="tablist" aria-label="Categorías de noticias"></div>
+        </div>
+
+        <section class="news-layout" id="news-layout" aria-live="polite" aria-label="Listado dinámico de noticias"></section>
+      </article>
+    </section>
+  </main>
+
+  <!-- Modal Editor -->
+  <section class="admin-modal" id="admin-modal" aria-hidden="true" aria-label="Panel de administración de noticias">
+    <div class="admin-card" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+      <div class="admin-head">
+        <div>
+          <h3 id="admin-title">Editor de noticias</h3>
+          <p>Agrega, edita y elimina noticias en Supabase. La portada pública se actualiza al guardar cambios.</p>
+        </div>
+        <div class="inline-actions">
+          <button class="btn hidden" id="btn-logout" type="button">Cerrar sesión</button>
+          <button class="admin-close" id="close-admin" type="button">Cerrar</button>
+        </div>
+      </div>
+
+      <section class="auth-panel hidden" id="auth-panel" aria-label="Inicio de sesión para administración">
+        <h4>Ingreso de administrador</h4>
+        <p>Debes iniciar sesión para crear, editar o eliminar noticias.</p>
+        <form id="auth-form" class="form-grid">
+          <div class="field">
+            <label for="auth-email">Email *</label>
+            <input id="auth-email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="auth-password">Password *</label>
+            <input id="auth-password" type="password" required autocomplete="current-password" />
+          </div>
+          <div class="field full">
+            <div class="inline-actions">
+              <button class="btn btn-primary" type="submit">Ingresar</button>
+            </div>
+            <p class="status-msg" id="auth-status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+
+      <div class="admin-grid hidden" id="admin-grid">
+        <section class="admin-block" aria-label="Formulario de edición">
+          <h4>Formulario</h4>
+          <form id="news-form">
+            <input type="hidden" id="news-id" />
+            <div class="form-grid">
+              <div class="field">
+                <label for="news-category">Categoría *</label>
+                <select id="news-category" required></select>
+              </div>
+
+              <div class="field">
+                <label for="news-date">Fecha *</label>
+                <input id="news-date" type="date" required />
+              </div>
+
+              <div class="field full">
+                <label for="news-title">Título *</label>
+                <input id="news-title" type="text" maxlength="180" required placeholder="Ej: Nueva planta solar inicia operación en Antofagasta" />
+              </div>
+
+              <div class="field full">
+                <label for="news-summary">Bajada / resumen *</label>
+                <textarea id="news-summary" maxlength="420" required placeholder="Resumen breve, neutral y verificable."></textarea>
+              </div>
+
+              <div class="field">
+                <label for="news-source-name">Nombre de fuente *</label>
+                <input id="news-source-name" type="text" maxlength="120" required placeholder="Ej: Ministerio de Energía" />
+              </div>
+
+              <div class="field">
+                <label for="news-source-url">URL de fuente</label>
+                <input id="news-source-url" type="url" placeholder="https://..." />
+              </div>
+
+              <div class="field full">
+                <div class="inline-actions">
+                  <button class="btn" id="btn-extract-title" type="button">Intentar extraer título</button>
+                </div>
+                <p class="status-msg" id="extract-status" aria-live="polite"></p>
+              </div>
+
+              <div class="field full">
+                <label class="switch-row" for="news-featured">
+                  <input id="news-featured" type="checkbox" />
+                  Marcar como destacada
+                </label>
+              </div>
+
+              <div class="field full">
+                <label class="switch-row" for="news-published">
+                  <input id="news-published" type="checkbox" checked />
+                  Publicada (desmarca para guardar como borrador)
+                </label>
+              </div>
+
+              <div class="field">
+                <label for="news-display-order">Orden de despliegue (opcional)</label>
+                <input id="news-display-order" type="number" min="0" step="1" placeholder="Ej: 1" />
+              </div>
+
+              <div class="field">
+                <label for="admin-form-mode">Modo</label>
+                <input id="admin-form-mode" type="text" value="Creación" readonly />
+              </div>
+
+              <div class="field full">
+                <div class="inline-actions">
+                  <button class="btn btn-primary" type="submit" id="btn-save">Guardar noticia</button>
+                  <button class="btn" type="button" id="btn-cancel-edit">Cancelar edición</button>
+                  <button class="btn" type="button" id="btn-restore-demo">Restaurar noticias demo</button>
+                  <button class="btn btn-danger" type="button" id="btn-clear-storage">Limpiar localStorage</button>
+                </div>
+                <p class="status-msg" id="form-status" aria-live="polite"></p>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <section class="admin-block" aria-label="Listado de noticias guardadas">
+          <h4>Noticias guardadas</h4>
+          <div class="form-grid" style="margin-bottom:.6rem;">
+            <div class="field">
+              <label for="filter-category">Filtro categoría</label>
+              <select id="filter-category"></select>
+            </div>
+            <div class="field">
+              <label for="filter-status">Filtro estado</label>
+              <select id="filter-status">
+                <option value="all">Todas</option>
+                <option value="published">Publicadas</option>
+                <option value="draft">Borradores</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="filter-search">Buscar (título, fuente o resumen)</label>
+              <input id="filter-search" type="search" placeholder="Buscar noticias..." />
+            </div>
+          </div>
+          <div class="news-admin-list" id="news-admin-list"></div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <span><mark id="footer-project">El Chilómetro</mark> · Portada editorial</span>
+      <span id="footer-year">© 2026</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const STORAGE_KEY = "el-chilometro-news-v1";
+
+    const SUPABASE_URL = "https://isyemlgmnmwaoqweskyn.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_AVj9wl5N369ovPfSz9VFZw_a4_TZHrg";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const SITE_CONFIG = {
+      projectName: "El Chilómetro",
+      projectTagline: "Avances concretos de Chile",
+      projectEditorialLine: "Registro breve de hechos verificables en desarrollo.",
+      xUrl: "https://x.com/tu_perfil",
+      defaultCategory: "NATURALEZA"
+    };
+
+    const CATEGORY_STYLES = {
+      "NATURALEZA": { tone: "#2f6f4f", soft: "#eaf4ee", border: "#bfd9ca" },
+      "ENERGÍA": { tone: "#9a6c1d", soft: "#f8f1e3", border: "#e5d2ab" },
+      "MINERÍA": { tone: "#8b5a3a", soft: "#f5ece6", border: "#dec8b8" },
+      "INFRAESTRUCTURA": { tone: "#5f6e79", soft: "#eef2f5", border: "#cfd9df" },
+      "MOVILIDAD": { tone: "#b64b50", soft: "#faecec", border: "#e8c3c6" },
+      "CIENCIA Y TECNOLOGÍA": { tone: "#5f567c", soft: "#efedf6", border: "#cfc9df" },
+      "SALUD": { tone: "#a65c68", soft: "#f6ecef", border: "#dfc5cb" },
+      "INVERSIÓN": { tone: "#7f2f3f", soft: "#f3e8eb", border: "#d8b8c0" }
+    };
+
+    const CATEGORY_ORDER = [
+      "NATURALEZA",
+      "ENERGÍA",
+      "MINERÍA",
+      "INFRAESTRUCTURA",
+      "MOVILIDAD",
+      "CIENCIA Y TECNOLOGÍA",
+      "SALUD",
+      "INVERSIÓN"
+    ];
+
+    const CATEGORY_ALIASES = {
+      "NATURALEZA": "NATURALEZA",
+      "ENERGIA": "ENERGÍA",
+      "ENERGÍA": "ENERGÍA",
+      "MINERIA": "MINERÍA",
+      "MINERÍA": "MINERÍA",
+      "INFRAESTRUCTURA": "INFRAESTRUCTURA",
+      "MOVILIDAD": "MOVILIDAD",
+      "CIENCIA Y TECNOLOGIA": "CIENCIA Y TECNOLOGÍA",
+      "CIENCIA Y TECNOLOGÍA": "CIENCIA Y TECNOLOGÍA",
+      "SALUD": "SALUD",
+      "INVERSION": "INVERSIÓN",
+      "INVERSIÓN": "INVERSIÓN"
+    };
+
+    const DEMO_NEWS = [
+      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Plan regional amplía restauración de bosque nativo en zona centro-sur", summary: "El informe técnico incluye nuevos sectores priorizados para recuperación ecológica y seguimiento anual.", sourceName: "Gobierno regional", sourceUrl: "", date: "2026-04-02", featured: true },
+      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Monitoreo de humedales urbanos suma estaciones de observación comunitaria", summary: "Datos abiertos muestran mayor cobertura de medición en calidad de agua y biodiversidad.", sourceName: "Municipalidad", sourceUrl: "", date: "2026-04-01", featured: false },
+      { id: crypto.randomUUID(), category: "ENERGÍA", title: "Nueva planta solar inicia operación en la Región de Antofagasta", summary: "El proyecto incorpora capacidad adicional al sistema eléctrico del norte del país.", sourceName: "Coordinador eléctrico", sourceUrl: "", date: "2026-04-02", featured: true }
+    ];
+
+    const state = {
+      news: [],
+      adminNews: [],
+      activeCategory: CATEGORY_ORDER.includes(SITE_CONFIG.defaultCategory) ? SITE_CONFIG.defaultCategory : CATEGORY_ORDER[0],
+      editingId: null,
+      user: null,
+      filters: {
+        category: "all",
+        status: "all",
+        search: ""
+      }
+    };
+
+    const root = document.documentElement;
+    const els = {
+      projectName: document.getElementById("project-name"),
+      projectTagline: document.getElementById("project-tagline"),
+      projectLine: document.getElementById("project-line"),
+      footerProject: document.getElementById("footer-project"),
+      footerYear: document.getElementById("footer-year"),
+      xLink: document.getElementById("x-link"),
+      panelSub: document.getElementById("panel-sub"),
+      tabs: document.getElementById("category-tabs"),
+      newsLayout: document.getElementById("news-layout"),
+      openAdmin: document.getElementById("open-admin"),
+      closeAdmin: document.getElementById("close-admin"),
+      adminModal: document.getElementById("admin-modal"),
+      adminGrid: document.getElementById("admin-grid"),
+      authPanel: document.getElementById("auth-panel"),
+      adminList: document.getElementById("news-admin-list"),
+      logoutBtn: document.getElementById("btn-logout"),
+      authForm: document.getElementById("auth-form"),
+      authEmail: document.getElementById("auth-email"),
+      authPassword: document.getElementById("auth-password"),
+      authStatus: document.getElementById("auth-status"),
+      form: document.getElementById("news-form"),
+      newsId: document.getElementById("news-id"),
+      category: document.getElementById("news-category"),
+      date: document.getElementById("news-date"),
+      title: document.getElementById("news-title"),
+      summary: document.getElementById("news-summary"),
+      sourceName: document.getElementById("news-source-name"),
+      sourceUrl: document.getElementById("news-source-url"),
+      featured: document.getElementById("news-featured"),
+      published: document.getElementById("news-published"),
+      displayOrder: document.getElementById("news-display-order"),
+      formMode: document.getElementById("admin-form-mode"),
+      extractBtn: document.getElementById("btn-extract-title"),
+      extractStatus: document.getElementById("extract-status"),
+      formStatus: document.getElementById("form-status"),
+      cancelBtn: document.getElementById("btn-cancel-edit"),
+      restoreBtn: document.getElementById("btn-restore-demo"),
+      clearBtn: document.getElementById("btn-clear-storage"),
+      filterCategory: document.getElementById("filter-category"),
+      filterStatus: document.getElementById("filter-status"),
+      filterSearch: document.getElementById("filter-search")
+    };
+
+    function normalizeCategory(rawCategory) {
+      const normalized = (rawCategory || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().trim();
+      return CATEGORY_ALIASES[normalized] || null;
+    }
+
+    function normalizeSupabaseNews(row) {
+      const category = normalizeCategory(row.category);
+      if (!category) return null;
+
+      const isoDate = row.published_at ? String(row.published_at).slice(0, 10) : new Date().toISOString().slice(0, 10);
+      const sourceName = row.source_name || "Fuente no indicada";
+
+      return {
+        id: row.id || crypto.randomUUID(),
+        category,
+        title: (row.title || "").trim(),
+        summary: (row.summary || "").trim(),
+        sourceName,
+        sourceUrl: (row.source_url || "").trim(),
+        date: isoDate,
+        featured: Boolean(row.is_featured),
+        isPublished: Boolean(row.is_published),
+        displayOrder: row.display_order ?? null,
+        meta: `Fuente: ${sourceName} · ${isoDate}`
+      };
+    }
+
+    async function fetchNewsFromSupabase() {
+      const { data, error } = await supabaseClient
+        .from("Noticias")
+        .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
+        .eq("is_published", true)
+        .order("category", { ascending: true })
+        .order("is_featured", { ascending: false })
+        .order("display_order", { ascending: true })
+        .order("published_at", { ascending: false });
+
+      if (error) throw error;
+
+      return (data || [])
+        .map(normalizeSupabaseNews)
+        .filter((item) => item && item.title && item.summary);
+    }
+
+    async function loadAdminNews() {
+      if (!isAuthenticated()) {
+        state.adminNews = [];
+        renderAdminList();
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from("Noticias")
+        .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
+        .order("is_featured", { ascending: false })
+        .order("published_at", { ascending: false })
+        .order("display_order", { ascending: true });
+
+      if (error) {
+        console.error("error al cargar noticias admin", error.message);
+        throw error;
+      }
+
+      state.adminNews = (data || [])
+        .map(normalizeSupabaseNews)
+        .filter(Boolean);
+    }
+
+    function filterAdminNews() {
+      const search = state.filters.search.toLowerCase().trim();
+
+      return state.adminNews.filter((item) => {
+        const categoryOk = state.filters.category === "all" || item.category === state.filters.category;
+        const statusOk =
+          state.filters.status === "all" ||
+          (state.filters.status === "published" && item.isPublished) ||
+          (state.filters.status === "draft" && !item.isPublished);
+
+        const haystack = `${item.title} ${item.sourceName || ""} ${item.summary || ""}`.toLowerCase();
+        const searchOk = !search || haystack.includes(search);
+        return categoryOk && statusOk && searchOk;
+      });
+    }
+
+    async function createNews(payload) {
+      const { error } = await supabaseClient.from("Noticias").insert(payload);
+      if (error) throw error;
+    }
+
+    async function updateNews(id, payload) {
+      const { error } = await supabaseClient.from("Noticias").update(payload).eq("id", id);
+      if (error) throw error;
+    }
+
+    async function deleteNews(id) {
+      const { error } = await supabaseClient.from("Noticias").delete().eq("id", id);
+      if (error) throw error;
+    }
+
+    function groupNewsByCategory(newsItems) {
+      const groups = {};
+      CATEGORY_ORDER.forEach((cat) => { groups[cat] = []; });
+      newsItems.forEach((item) => {
+        if (groups[item.category]) groups[item.category].push(item);
+      });
+      return groups;
+    }
+
+    function setLocalFallback(newsItems) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newsItems));
+    }
+
+    function getLocalFallback() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed.filter((n) => n && n.category && n.title && n.summary);
+      } catch {
+        return [];
+      }
+    }
+
+    function initializarCabecera() {
+      els.projectName.textContent = SITE_CONFIG.projectName;
+      els.projectTagline.textContent = SITE_CONFIG.projectTagline;
+      els.projectLine.textContent = SITE_CONFIG.projectEditorialLine;
+      els.footerProject.textContent = SITE_CONFIG.projectName;
+      els.footerYear.textContent = `© ${new Date().getFullYear()}`;
+      els.xLink.href = SITE_CONFIG.xUrl;
+      document.title = `${SITE_CONFIG.projectName} | Portada editorial por categorías`;
+    }
+
+    function isAuthenticated() {
+      return Boolean(state.user);
+    }
+
+    function updateAdminVisibility() {
+      if (isAuthenticated()) {
+        els.authPanel.classList.add("hidden");
+        els.adminGrid.classList.remove("hidden");
+        els.logoutBtn.classList.remove("hidden");
+      } else {
+        els.authPanel.classList.remove("hidden");
+        els.adminGrid.classList.add("hidden");
+        els.logoutBtn.classList.add("hidden");
+      }
+    }
+
+    async function checkActiveSession() {
+      const { data, error } = await supabaseClient.auth.getUser();
+      if (error || !data?.user) {
+        state.user = null;
+        console.log("usuario sin sesión");
+      } else {
+        state.user = data.user;
+        console.log("usuario activo", data.user.email);
+      }
+      updateAdminVisibility();
+    }
+
+    async function loginWithPassword(email, password) {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        console.error("login fallido", error.message);
+        throw error;
+      }
+      state.user = data.user ?? null;
+      console.log("login exitoso", state.user?.email || "");
+      updateAdminVisibility();
+    }
+
+    async function logout() {
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) throw error;
+      state.user = null;
+      console.log("logout exitoso");
+      updateAdminVisibility();
+    }
+
+    function applyCategoryAccent(category) {
+      const style = CATEGORY_STYLES[category] || CATEGORY_STYLES["INVERSIÓN"];
+      root.style.setProperty("--cat", style.tone);
+      root.style.setProperty("--cat-soft", style.soft);
+      root.style.setProperty("--cat-border", style.border);
+      els.panelSub.textContent = `Categoría activa: ${category}. Hecho principal y dos actualizaciones relacionadas.`;
+    }
+
+    function renderizarTabs() {
+      els.tabs.innerHTML = "";
+      CATEGORY_ORDER.forEach((category) => {
+        const style = CATEGORY_STYLES[category];
+        const isActive = category === state.activeCategory;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `tab${isActive ? " active" : ""}`;
+        btn.setAttribute("role", "tab");
+        btn.setAttribute("aria-selected", isActive ? "true" : "false");
+        btn.textContent = category;
+        btn.style.setProperty("--tone", style.tone);
+        btn.style.setProperty("--tone-soft", style.soft);
+        btn.style.setProperty("--tone-border", style.border);
+        btn.style.setProperty("--tone-text", style.tone);
+        btn.addEventListener("click", () => {
+          if (state.activeCategory !== category) {
+            state.activeCategory = category;
+            applyCategoryAccent(category);
+            renderizarTabs();
+            renderizarNoticias();
+          }
+        });
+        els.tabs.appendChild(btn);
+      });
+    }
+
+    function seleccionarNoticiasPortada(category) {
+      const groups = groupNewsByCategory(state.news);
+      const items = [...(groups[category] || [])];
+      if (!items.length) return { featured: null, secondary: [] };
+
+      const featuredCandidates = items.filter((item) => item.featured);
+      const featured = featuredCandidates.length ? featuredCandidates[0] : items[0];
+      const secondary = items.filter((item) => item.id !== featured.id).slice(0, 2);
+      return { featured, secondary };
+    }
+
+    function fechaLegible(isoDate) {
+      if (!isoDate) return "Fecha no indicada";
+      const [year, month, day] = isoDate.split("-");
+      return `${day}-${month}-${year}`;
+    }
+
+    function crearTarjetaNoticia(item, category, type = "secondary") {
+      const article = document.createElement("article");
+      article.className = type === "featured" ? "news-featured" : "news-side";
+
+      const label = document.createElement("span");
+      label.className = "cat-label";
+      label.textContent = category;
+
+      const title = document.createElement(type === "featured" ? "h3" : "h4");
+      title.textContent = item.title;
+
+      const summary = document.createElement("p");
+      summary.className = "summary";
+      summary.textContent = item.summary;
+
+      const meta = document.createElement("p");
+      meta.className = "meta";
+      meta.textContent = item.meta || `Fuente: ${item.sourceName || "No indicada"} · ${fechaLegible(item.date)}`;
+
+      const more = document.createElement("a");
+      more.className = "more";
+      if (item.sourceUrl) {
+        more.href = item.sourceUrl;
+        more.target = "_blank";
+        more.rel = "noopener noreferrer";
+      } else {
+        more.href = "#";
+      }
+      more.textContent = "Ver más";
+      more.setAttribute("aria-label", `Ver más sobre: ${item.title}`);
+
+      article.append(label, title, summary, meta, more);
+      return article;
+    }
+
+    function renderizarNoticias() {
+      const { featured, secondary } = seleccionarNoticiasPortada(state.activeCategory);
+      els.newsLayout.innerHTML = "";
+
+      if (!featured) {
+        const empty = document.createElement("p");
+        empty.className = "empty-state";
+        empty.textContent = "No hay noticias publicadas para esta categoría.";
+        els.newsLayout.appendChild(empty);
+        return;
+      }
+
+      els.newsLayout.appendChild(crearTarjetaNoticia(featured, state.activeCategory, "featured"));
+      const secondaryGrid = document.createElement("div");
+      secondaryGrid.className = "secondary-grid";
+      secondary.forEach((item) => secondaryGrid.appendChild(crearTarjetaNoticia(item, state.activeCategory, "secondary")));
+      if (!secondary.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty-state";
+        empty.textContent = "No hay noticias secundarias para esta categoría.";
+        secondaryGrid.appendChild(empty);
+      }
+      els.newsLayout.appendChild(secondaryGrid);
+    }
+
+    function llenarSelectCategorias() {
+      els.category.innerHTML = "";
+      CATEGORY_ORDER.forEach((cat) => {
+        const option = document.createElement("option");
+        option.value = cat;
+        option.textContent = cat;
+        els.category.appendChild(option);
+      });
+
+      els.filterCategory.innerHTML = "";
+      const allOpt = document.createElement("option");
+      allOpt.value = "all";
+      allOpt.textContent = "Todas";
+      els.filterCategory.appendChild(allOpt);
+
+      CATEGORY_ORDER.forEach((cat) => {
+        const option = document.createElement("option");
+        option.value = cat;
+        option.textContent = cat;
+        els.filterCategory.appendChild(option);
+      });
+    }
+
+    function limpiarFormulario() {
+      state.editingId = null;
+      els.newsId.value = "";
+      els.category.value = state.activeCategory;
+      els.date.value = new Date().toISOString().slice(0, 10);
+      els.title.value = "";
+      els.summary.value = "";
+      els.sourceName.value = "";
+      els.sourceUrl.value = "";
+      els.featured.checked = false;
+      els.published.checked = true;
+      els.displayOrder.value = "";
+      els.formMode.value = "Creación";
+      els.formStatus.textContent = "";
+      els.extractStatus.textContent = "";
+      els.formStatus.className = "status-msg";
+      els.extractStatus.className = "status-msg";
+    }
+
+    function resetAdminForm() {
+      limpiarFormulario();
+    }
+
+    function validarFormulario() {
+      const required = [els.category.value, els.date.value, els.title.value.trim(), els.summary.value.trim(), els.sourceName.value.trim()];
+      return required.every(Boolean);
+    }
+
+    function construirNoticiaDesdeFormulario() {
+      return {
+        id: state.editingId || crypto.randomUUID(),
+        category: els.category.value,
+        title: els.title.value.trim(),
+        summary: els.summary.value.trim(),
+        sourceName: els.sourceName.value.trim(),
+        sourceUrl: els.sourceUrl.value.trim(),
+        date: els.date.value,
+        featured: els.featured.checked,
+        isPublished: els.published.checked,
+        displayOrder: els.displayOrder.value === "" ? null : Number(els.displayOrder.value),
+        meta: `Fuente: ${els.sourceName.value.trim() || "Fuente no indicada"} · ${els.date.value}`
+      };
+    }
+
+    function toSupabasePayload(noticia) {
+      return {
+        title: noticia.title,
+        summary: noticia.summary,
+        category: noticia.category,
+        source_name: noticia.sourceName,
+        source_url: noticia.sourceUrl || null,
+        published_at: noticia.date || null,
+        is_featured: noticia.featured,
+        is_published: noticia.isPublished,
+        display_order: noticia.displayOrder
+      };
+    }
+
+    function renderAdminList() {
+      els.adminList.innerHTML = "";
+      const filtered = filterAdminNews();
+
+      if (!filtered.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty-state";
+        empty.textContent = "No hay noticias que coincidan con los filtros.";
+        els.adminList.appendChild(empty);
+        return;
+      }
+
+      const ordered = [...filtered].sort((a, b) => {
+        if (a.featured !== b.featured) return a.featured ? -1 : 1;
+        if (a.category !== b.category) return CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
+        return String(b.date).localeCompare(String(a.date));
+      });
+
+      ordered.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "admin-item";
+        const top = document.createElement("div");
+        top.className = "admin-item-top";
+        const title = document.createElement("p");
+        title.className = "admin-item-title";
+        title.textContent = item.title;
+        const pill = document.createElement("span");
+        pill.className = "pill";
+        pill.textContent = item.featured ? "Destacada" : "Normal";
+        top.append(title, pill);
+
+        const meta = document.createElement("p");
+        meta.className = "admin-meta";
+        meta.textContent = `${item.category} · ${item.sourceName || "Fuente no indicada"} · ${fechaLegible(item.date)} · ${item.isPublished ? "Publicada" : "Borrador"}`;
+
+        const actions = document.createElement("div");
+        actions.className = "inline-actions";
+        const editBtn = document.createElement("button");
+        editBtn.type = "button";
+        editBtn.className = "btn";
+        editBtn.textContent = "Editar";
+        editBtn.addEventListener("click", () => cargarNoticiaEnFormulario(item.id));
+
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.className = "btn btn-danger";
+        delBtn.textContent = "Eliminar";
+        delBtn.addEventListener("click", () => {
+          if (!isAuthenticated()) {
+            els.formStatus.textContent = "Debes iniciar sesión para eliminar noticias.";
+            els.formStatus.className = "status-msg error";
+            return;
+          }
+          handleDelete(item.id);
+        });
+
+        actions.append(editBtn, delBtn);
+        card.append(top, meta, actions);
+        els.adminList.appendChild(card);
+      });
+    }
+
+    function cargarNoticiaEnFormulario(id) {
+      const item = state.adminNews.find((news) => news.id === id);
+      if (!item) return;
+      state.editingId = id;
+      els.newsId.value = id;
+      els.category.value = item.category;
+      els.date.value = item.date;
+      els.title.value = item.title;
+      els.summary.value = item.summary;
+      els.sourceName.value = item.sourceName || "";
+      els.sourceUrl.value = item.sourceUrl || "";
+      els.featured.checked = Boolean(item.featured);
+      els.published.checked = Boolean(item.isPublished);
+      els.displayOrder.value = item.displayOrder ?? "";
+      els.formMode.value = "Edición";
+      els.formStatus.textContent = "Editando noticia existente.";
+      els.formStatus.className = "status-msg";
+    }
+
+    async function abrirEditor() {
+      els.adminModal.classList.add("open");
+      els.adminModal.setAttribute("aria-hidden", "false");
+      updateAdminVisibility();
+      if (!state.editingId) limpiarFormulario();
+      if (isAuthenticated()) {
+        try {
+          await loadAdminNews();
+          renderAdminList();
+        } catch (error) {
+          els.formStatus.textContent = "Error al cargar noticias del administrador.";
+          els.formStatus.className = "status-msg error";
+        }
+      }
+    }
+
+    function cerrarEditor() {
+      els.adminModal.classList.remove("open");
+      els.adminModal.setAttribute("aria-hidden", "true");
+      limpiarFormulario();
+    }
+
+    async function intentarExtraerTituloDesdeURL() {
+      const url = els.sourceUrl.value.trim();
+      els.extractStatus.textContent = "";
+      els.extractStatus.className = "status-msg";
+
+      if (!url) {
+        els.extractStatus.textContent = "Primero pega una URL de fuente.";
+        els.extractStatus.classList.add("error");
+        return;
+      }
+
+      try {
+        const response = await fetch(url, { method: "GET" });
+        const html = await response.text();
+        const match = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+
+        if (match && match[1]) {
+          els.title.value = match[1].trim();
+          els.extractStatus.textContent = "Título extraído correctamente. Puedes editarlo manualmente si lo necesitas.";
+          els.extractStatus.classList.add("ok");
+          return;
+        }
+
+        els.extractStatus.textContent = "No se encontró un título utilizable en la página. Escríbelo manualmente.";
+        els.extractStatus.classList.add("error");
+      } catch (error) {
+        els.extractStatus.textContent = "No se pudo extraer el título automáticamente. Escríbelo manualmente.";
+        els.extractStatus.classList.add("error");
+      }
+    }
+
+    async function restaurarNoticiasDemo() {
+      if (!isAuthenticated()) return;
+      try {
+        await loadAdminNews();
+        await refreshPublicNews();
+        renderAll();
+        els.formStatus.textContent = "Datos recargados desde Supabase.";
+        els.formStatus.className = "status-msg ok";
+      } catch (error) {
+        console.error("error al recargar datos", error.message);
+        els.formStatus.textContent = "Error al recargar datos desde Supabase.";
+        els.formStatus.className = "status-msg error";
+      }
+    }
+
+    function limpiarStorageNoticias() {
+      if (!confirm("¿Limpiar fallback local (localStorage)?")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      els.formStatus.textContent = "Fallback local limpiado.";
+      els.formStatus.className = "status-msg ok";
+    }
+
+    async function refreshPublicNews() {
+      try {
+        const supabaseNews = await fetchNewsFromSupabase();
+        state.news = supabaseNews;
+        setLocalFallback(supabaseNews);
+      } catch (error) {
+        console.error("error al refrescar portada", error.message);
+        state.news = getLocalFallback();
+      }
+    }
+
+    async function handleDelete(id) {
+      if (!isAuthenticated()) return;
+      if (!confirm("¿Eliminar esta noticia? Esta acción no se puede deshacer.")) return;
+      try {
+        await deleteNews(id);
+        if (state.editingId === id) resetAdminForm();
+        await loadAdminNews();
+        await refreshPublicNews();
+        renderAll();
+        els.formStatus.textContent = "Noticia eliminada.";
+        els.formStatus.className = "status-msg ok";
+      } catch (error) {
+        console.error("error al eliminar noticia", error.message);
+        els.formStatus.textContent = "Error al eliminar la noticia.";
+        els.formStatus.className = "status-msg error";
+      }
+    }
+
+    async function handleAdminSubmit(event) {
+      event.preventDefault();
+      els.formStatus.textContent = "";
+      els.formStatus.className = "status-msg";
+
+      if (!isAuthenticated()) {
+        els.formStatus.textContent = "Debes iniciar sesión para guardar cambios.";
+        els.formStatus.classList.add("error");
+        return;
+      }
+
+      if (!validarFormulario()) {
+        els.formStatus.textContent = "Completa categoría, fecha, título, resumen y fuente.";
+        els.formStatus.classList.add("error");
+        return;
+      }
+
+      const noticia = construirNoticiaDesdeFormulario();
+      const payload = toSupabasePayload(noticia);
+
+      try {
+        if (state.editingId) {
+          await updateNews(state.editingId, payload);
+          els.formStatus.textContent = "Noticia actualizada.";
+        } else {
+          await createNews(payload);
+          els.formStatus.textContent = "Noticia creada.";
+        }
+      } catch (error) {
+        console.error("error al guardar/actualizar noticia", error.message);
+        els.formStatus.textContent = state.editingId ? "Error al actualizar la noticia." : "Error al crear la noticia.";
+        els.formStatus.classList.add("error");
+        return;
+      }
+
+      els.formStatus.classList.add("ok");
+      resetAdminForm();
+      await loadAdminNews();
+      await refreshPublicNews();
+      renderAll();
+    }
+
+    function renderAll() {
+      applyCategoryAccent(state.activeCategory);
+      renderizarTabs();
+      renderizarNoticias();
+      renderAdminList();
+    }
+
+    function initEvents() {
+      els.openAdmin.addEventListener("click", abrirEditor);
+      els.closeAdmin.addEventListener("click", cerrarEditor);
+      els.logoutBtn.addEventListener("click", async () => {
+        try {
+          await logout();
+          els.authStatus.textContent = "Sesión cerrada.";
+          els.authStatus.className = "status-msg";
+        } catch (error) {
+          console.error("error al cerrar sesión", error.message);
+        }
+      });
+      els.adminModal.addEventListener("click", (event) => {
+        if (event.target === els.adminModal) cerrarEditor();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && els.adminModal.classList.contains("open")) cerrarEditor();
+      });
+      els.form.addEventListener("submit", handleAdminSubmit);
+      els.authForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        els.authStatus.textContent = "";
+        els.authStatus.className = "status-msg";
+        try {
+          await loginWithPassword(els.authEmail.value.trim(), els.authPassword.value);
+          els.authStatus.textContent = "Ingreso exitoso.";
+          els.authStatus.classList.add("ok");
+          els.authPassword.value = "";
+        } catch (error) {
+          els.authStatus.textContent = "No se pudo iniciar sesión. Revisa email y password.";
+          els.authStatus.classList.add("error");
+        }
+      });
+      els.cancelBtn.addEventListener("click", resetAdminForm);
+      els.restoreBtn.addEventListener("click", () => { restaurarNoticiasDemo(); });
+      els.clearBtn.addEventListener("click", limpiarStorageNoticias);
+      els.extractBtn.addEventListener("click", intentarExtraerTituloDesdeURL);
+      els.filterCategory.addEventListener("change", () => {
+        state.filters.category = els.filterCategory.value;
+        renderAdminList();
+      });
+      els.filterStatus.addEventListener("change", () => {
+        state.filters.status = els.filterStatus.value;
+        renderAdminList();
+      });
+      els.filterSearch.addEventListener("input", () => {
+        state.filters.search = els.filterSearch.value;
+        renderAdminList();
+      });
+
+      supabaseClient.auth.onAuthStateChange(async (event, session) => {
+        if (session?.user) {
+          state.user = session.user;
+          console.log("usuario activo", session.user.email || "");
+          try {
+            await loadAdminNews();
+          } catch (error) {
+            console.error("error al cargar noticias admin tras auth", error.message);
+          }
+        } else {
+          state.user = null;
+          console.log("usuario sin sesión");
+          state.adminNews = [];
+        }
+        updateAdminVisibility();
+        renderAdminList();
+      });
+    }
+
+    async function initSite() {
+      initializarCabecera();
+      llenarSelectCategorias();
+      initEvents();
+      await checkActiveSession();
+
+      try {
+        await refreshPublicNews();
+        if (!state.news.length) {
+          console.warn("Supabase no devolvió noticias publicadas. Se aplicará fallback local.");
+          state.news = getLocalFallback();
+          if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+        }
+      } catch (error) {
+        console.error("Error al cargar noticias desde Supabase:", error);
+        state.news = getLocalFallback();
+        if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+      }
+
+      if (isAuthenticated()) {
+        try {
+          await loadAdminNews();
+        } catch (error) {
+          els.formStatus.textContent = "Error al cargar noticias del administrador.";
+          els.formStatus.className = "status-msg error";
+        }
+      }
+
+      renderAll();
+    }
+
+    initSite();
+  </script>
+</body>
+</html>
