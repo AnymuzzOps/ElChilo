@@ -485,6 +485,8 @@
       font-size: .88rem;
     }
 
+    .hidden { display: none !important; }
+
     .admin-close {
       border: 1px solid var(--border);
       background: #fff;
@@ -492,6 +494,25 @@
       border-radius: 10px;
       padding: .35rem .6rem;
       cursor: pointer;
+    }
+
+    .auth-panel {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-soft);
+      padding: .85rem;
+      margin-bottom: .9rem;
+    }
+
+    .auth-panel h4 {
+      margin: 0 0 .4rem;
+      font-size: .95rem;
+    }
+
+    .auth-panel p {
+      margin: 0 0 .6rem;
+      color: #616161;
+      font-size: .84rem;
     }
 
     .admin-grid {
@@ -755,10 +776,34 @@
           <h3 id="admin-title">Editor de noticias</h3>
           <p>Agrega, edita y elimina noticias. Los cambios se guardan en este navegador mediante localStorage.</p>
         </div>
-        <button class="admin-close" id="close-admin" type="button">Cerrar</button>
+        <div class="inline-actions">
+          <button class="btn hidden" id="btn-logout" type="button">Cerrar sesión</button>
+          <button class="admin-close" id="close-admin" type="button">Cerrar</button>
+        </div>
       </div>
 
-      <div class="admin-grid">
+      <section class="auth-panel hidden" id="auth-panel" aria-label="Inicio de sesión para administración">
+        <h4>Ingreso de administrador</h4>
+        <p>Debes iniciar sesión para crear, editar o eliminar noticias.</p>
+        <form id="auth-form" class="form-grid">
+          <div class="field">
+            <label for="auth-email">Email *</label>
+            <input id="auth-email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="auth-password">Password *</label>
+            <input id="auth-password" type="password" required autocomplete="current-password" />
+          </div>
+          <div class="field full">
+            <div class="inline-actions">
+              <button class="btn btn-primary" type="submit">Ingresar</button>
+            </div>
+            <p class="status-msg" id="auth-status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+
+      <div class="admin-grid hidden" id="admin-grid">
         <section class="admin-block" aria-label="Formulario de edición">
           <h4>Formulario</h4>
           <form id="news-form">
@@ -898,7 +943,8 @@
     const state = {
       news: [],
       activeCategory: CATEGORY_ORDER.includes(SITE_CONFIG.defaultCategory) ? SITE_CONFIG.defaultCategory : CATEGORY_ORDER[0],
-      editingId: null
+      editingId: null,
+      user: null
     };
 
     const root = document.documentElement;
@@ -915,7 +961,14 @@
       openAdmin: document.getElementById("open-admin"),
       closeAdmin: document.getElementById("close-admin"),
       adminModal: document.getElementById("admin-modal"),
+      adminGrid: document.getElementById("admin-grid"),
+      authPanel: document.getElementById("auth-panel"),
       adminList: document.getElementById("news-admin-list"),
+      logoutBtn: document.getElementById("btn-logout"),
+      authForm: document.getElementById("auth-form"),
+      authEmail: document.getElementById("auth-email"),
+      authPassword: document.getElementById("auth-password"),
+      authStatus: document.getElementById("auth-status"),
       form: document.getElementById("news-form"),
       newsId: document.getElementById("news-id"),
       category: document.getElementById("news-category"),
@@ -961,7 +1014,7 @@
 
     async function fetchNewsFromSupabase() {
       const { data, error } = await supabaseClient
-        .from("noticias")
+        .from("Noticias")
         .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
         .eq("is_published", true)
         .order("category", { ascending: true })
@@ -1009,6 +1062,53 @@
       els.footerYear.textContent = `© ${new Date().getFullYear()}`;
       els.xLink.href = SITE_CONFIG.xUrl;
       document.title = `${SITE_CONFIG.projectName} | Portada editorial por categorías`;
+    }
+
+    function isAuthenticated() {
+      return Boolean(state.user);
+    }
+
+    function updateAdminVisibility() {
+      if (isAuthenticated()) {
+        els.authPanel.classList.add("hidden");
+        els.adminGrid.classList.remove("hidden");
+        els.logoutBtn.classList.remove("hidden");
+      } else {
+        els.authPanel.classList.remove("hidden");
+        els.adminGrid.classList.add("hidden");
+        els.logoutBtn.classList.add("hidden");
+      }
+    }
+
+    async function checkActiveSession() {
+      const { data, error } = await supabaseClient.auth.getUser();
+      if (error || !data?.user) {
+        state.user = null;
+        console.log("usuario sin sesión");
+      } else {
+        state.user = data.user;
+        console.log("usuario activo", data.user.email);
+      }
+      updateAdminVisibility();
+    }
+
+    async function loginWithPassword(email, password) {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        console.error("login fallido", error.message);
+        throw error;
+      }
+      state.user = data.user ?? null;
+      console.log("login exitoso", state.user?.email || "");
+      updateAdminVisibility();
+    }
+
+    async function logout() {
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) throw error;
+      state.user = null;
+      console.log("logout exitoso");
+      updateAdminVisibility();
     }
 
     function applyCategoryAccent(category) {
@@ -1169,16 +1269,19 @@
     }
 
     function agregarNoticia(noticia) {
+      if (!isAuthenticated()) return;
       state.news.push(noticia);
       setLocalFallback(state.news);
     }
 
     function editarNoticia(id, noticiaActualizada) {
+      if (!isAuthenticated()) return;
       state.news = state.news.map((item) => (item.id === id ? noticiaActualizada : item));
       setLocalFallback(state.news);
     }
 
     function eliminarNoticia(id) {
+      if (!isAuthenticated()) return;
       state.news = state.news.filter((item) => item.id !== id);
       setLocalFallback(state.news);
     }
@@ -1228,6 +1331,11 @@
         delBtn.className = "btn btn-danger";
         delBtn.textContent = "Eliminar";
         delBtn.addEventListener("click", () => {
+          if (!isAuthenticated()) {
+            els.formStatus.textContent = "Debes iniciar sesión para eliminar noticias.";
+            els.formStatus.className = "status-msg error";
+            return;
+          }
           if (!confirm("¿Eliminar esta noticia del estado local?") ) return;
           eliminarNoticia(item.id);
           if (state.editingId === item.id) limpiarFormulario();
@@ -1259,6 +1367,7 @@
     function abrirEditor() {
       els.adminModal.classList.add("open");
       els.adminModal.setAttribute("aria-hidden", "false");
+      updateAdminVisibility();
       if (!state.editingId) limpiarFormulario();
     }
 
@@ -1300,6 +1409,11 @@
     }
 
     function restaurarNoticiasDemo() {
+      if (!isAuthenticated()) {
+        els.formStatus.textContent = "Debes iniciar sesión para restaurar noticias.";
+        els.formStatus.className = "status-msg error";
+        return;
+      }
       if (!confirm("¿Restaurar noticias demo como fallback local?")) return;
       state.news = DEMO_NEWS.map((n) => ({ ...n, id: crypto.randomUUID() }));
       setLocalFallback(state.news);
@@ -1310,6 +1424,11 @@
     }
 
     function limpiarStorageNoticias() {
+      if (!isAuthenticated()) {
+        els.formStatus.textContent = "Debes iniciar sesión para limpiar localStorage.";
+        els.formStatus.className = "status-msg error";
+        return;
+      }
       if (!confirm("¿Limpiar localStorage de noticias?")) return;
       localStorage.removeItem(STORAGE_KEY);
       els.formStatus.textContent = "localStorage limpiado.";
@@ -1320,6 +1439,12 @@
       event.preventDefault();
       els.formStatus.textContent = "";
       els.formStatus.className = "status-msg";
+
+      if (!isAuthenticated()) {
+        els.formStatus.textContent = "Debes iniciar sesión para guardar cambios.";
+        els.formStatus.classList.add("error");
+        return;
+      }
 
       if (!validarFormulario()) {
         els.formStatus.textContent = "Completa categoría, fecha, título, resumen y fuente.";
@@ -1351,6 +1476,15 @@
     function initEvents() {
       els.openAdmin.addEventListener("click", abrirEditor);
       els.closeAdmin.addEventListener("click", cerrarEditor);
+      els.logoutBtn.addEventListener("click", async () => {
+        try {
+          await logout();
+          els.authStatus.textContent = "Sesión cerrada.";
+          els.authStatus.className = "status-msg";
+        } catch (error) {
+          console.error("error al cerrar sesión", error.message);
+        }
+      });
       els.adminModal.addEventListener("click", (event) => {
         if (event.target === els.adminModal) cerrarEditor();
       });
@@ -1358,16 +1492,42 @@
         if (event.key === "Escape" && els.adminModal.classList.contains("open")) cerrarEditor();
       });
       els.form.addEventListener("submit", onSubmitFormulario);
+      els.authForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        els.authStatus.textContent = "";
+        els.authStatus.className = "status-msg";
+        try {
+          await loginWithPassword(els.authEmail.value.trim(), els.authPassword.value);
+          els.authStatus.textContent = "Ingreso exitoso.";
+          els.authStatus.classList.add("ok");
+          els.authPassword.value = "";
+        } catch (error) {
+          els.authStatus.textContent = "No se pudo iniciar sesión. Revisa email y password.";
+          els.authStatus.classList.add("error");
+        }
+      });
       els.cancelBtn.addEventListener("click", limpiarFormulario);
       els.restoreBtn.addEventListener("click", restaurarNoticiasDemo);
       els.clearBtn.addEventListener("click", limpiarStorageNoticias);
       els.extractBtn.addEventListener("click", intentarExtraerTituloDesdeURL);
+
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (session?.user) {
+          state.user = session.user;
+          console.log("usuario activo", session.user.email || "");
+        } else {
+          state.user = null;
+          console.log("usuario sin sesión");
+        }
+        updateAdminVisibility();
+      });
     }
 
     async function initSite() {
       initializarCabecera();
       llenarSelectCategorias();
       initEvents();
+      await checkActiveSession();
 
       try {
         const supabaseNews = await fetchNewsFromSupabase();
