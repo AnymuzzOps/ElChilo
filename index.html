@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>El Chilómetro | Avances concretos de Chile</title>
+  <title>El Chilómetro | Noticias por categoría</title>
   <meta
     name="description"
-    content="El Chilómetro registra avances concretos de Chile con información verificable, lenguaje claro y foco en hechos."
+    content="Portada de noticias de El Chilómetro con avances concretos de Chile organizados por categoría."
   />
 
   <!-- Open Graph básico -->
@@ -14,7 +14,7 @@
   <meta property="og:title" content="El Chilómetro" />
   <meta
     property="og:description"
-    content="Proyecto independiente que reporta avances concretos de Chile con información verificable y tono neutral."
+    content="Noticias por categoría sobre avances concretos de Chile, en formato breve y verificable."
   />
   <meta property="og:url" content="https://tu-usuario.github.io/el-chilometro/" />
   <meta property="og:locale" content="es_CL" />
@@ -22,38 +22,37 @@
   <style>
     :root {
       /* =============================
-         BLOQUE FÁCIL DE PERSONALIZAR
+         PERSONALIZACIÓN RÁPIDA
          ============================= */
       --project-name: "El Chilómetro";
+      --project-tagline: "Avances concretos de Chile";
       --x-url: "https://x.com/tu_perfil";
-      --project-short-description: "Registro independiente de avances concretos de Chile.";
 
-      /* Paleta sobria + acento contenido inspirado en Chile */
-      --bg: #f7f8fa;
+      /* Identidad visual editorial */
+      --bg: #ffffff;
+      --bg-soft: #fafafa;
       --surface: #ffffff;
-      --text: #151922;
-      --text-soft: #4d5566;
-      --border: #d9deea;
-      --accent: #0b4ea2;
-      --accent-soft: #e8f0ff;
-      --shadow: 0 10px 30px rgba(9, 18, 33, 0.07);
+      --border: #e9e9e9;
+      --text: #111111;
+      --text-soft: #5a5a5a;
+      --accent: #b3131b;
+      --accent-soft: #f8e9ea;
+      --shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
 
-      --radius: 14px;
-      --content-max: 1100px;
+      --radius: 12px;
+      --content-max: 1080px;
     }
 
     * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
       color: var(--text);
-      background: linear-gradient(180deg, #fbfcff 0%, var(--bg) 52%, #f4f6fb 100%);
-      line-height: 1.55;
+      line-height: 1.5;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
     }
@@ -61,232 +60,6 @@
     .container {
       width: min(100% - 2rem, var(--content-max));
       margin-inline: auto;
-    }
-
-    header,
-    section,
-    footer {
-      padding-block: clamp(2.3rem, 5vw, 5rem);
-    }
-
-    .hero {
-      padding-top: clamp(3rem, 9vw, 7rem);
-    }
-
-    .hero-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 6px);
-      box-shadow: var(--shadow);
-      padding: clamp(1.2rem, 2.4vw, 2.2rem);
-      display: grid;
-      gap: 1.2rem;
-      position: relative;
-      overflow: hidden;
-      isolation: isolate;
-    }
-
-    .hero-wrap::after {
-      content: "";
-      position: absolute;
-      inset: auto -80px -80px auto;
-      width: 220px;
-      aspect-ratio: 1;
-      background: radial-gradient(circle, rgba(11,78,162,0.19) 0%, rgba(11,78,162,0.02) 65%, transparent 72%);
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: .45rem;
-      color: var(--accent);
-      font-weight: 600;
-      letter-spacing: .02em;
-      font-size: .93rem;
-      margin: 0;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: .6rem;
-      height: .6rem;
-      border-radius: 50%;
-      background: var(--accent);
-      opacity: .85;
-    }
-
-    h1, h2, h3 { line-height: 1.15; margin: 0; }
-
-    h1 {
-      font-size: clamp(2rem, 5.8vw, 3.4rem);
-      letter-spacing: -0.02em;
-    }
-
-    .lead {
-      margin: 0;
-      color: var(--text-soft);
-      max-width: 68ch;
-      font-size: clamp(1rem, 2.4vw, 1.16rem);
-    }
-
-    .manifest {
-      margin: .2rem 0 0;
-      max-width: 65ch;
-      padding: .85rem 1rem;
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 9px;
-      background: #fcfdff;
-      color: #2f3645;
-      font-size: .98rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: .4rem;
-      width: fit-content;
-      text-decoration: none;
-      border-radius: 999px;
-      padding: .72rem 1.1rem;
-      font-weight: 600;
-      border: 1px solid transparent;
-      transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
-    }
-
-    .btn-primary {
-      color: #fff;
-      background: linear-gradient(180deg, #125db9 0%, #0b4ea2 100%);
-      box-shadow: 0 8px 18px rgba(11, 78, 162, .25);
-    }
-
-    .btn-primary:hover,
-    .btn-primary:focus-visible {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(11, 78, 162, .3);
-    }
-
-    .btn-ghost {
-      background: var(--surface);
-      color: var(--accent);
-      border-color: var(--border);
-    }
-
-    .section-title {
-      font-size: clamp(1.4rem, 3.4vw, 2rem);
-      letter-spacing: -0.01em;
-      margin-bottom: .7rem;
-    }
-
-    .section-intro {
-      margin: 0;
-      color: var(--text-soft);
-      max-width: 70ch;
-    }
-
-    .rule-list {
-      list-style: none;
-      padding: 0;
-      margin: 1.2rem 0 0;
-      display: grid;
-      gap: .7rem;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-
-    .rule-list li,
-    .principle,
-    .post-card,
-    .format-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-
-    .rule-list li {
-      padding: .85rem .95rem;
-      color: #273044;
-      font-size: .96rem;
-    }
-
-    .principles-grid,
-    .posts-grid {
-      margin-top: 1.2rem;
-      display: grid;
-      gap: .85rem;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    }
-
-    .principle {
-      padding: 1rem;
-      min-height: 98px;
-      display: flex;
-      align-items: center;
-      font-weight: 600;
-      color: #1f2940;
-      background-image: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
-    }
-
-    .format-card {
-      margin-top: 1.2rem;
-      padding: 1rem;
-      box-shadow: var(--shadow);
-    }
-
-    .format-list {
-      margin: .7rem 0 0;
-      padding-left: 1.2rem;
-      color: #273044;
-    }
-
-    .format-list li { margin: .35rem 0; }
-
-    .posts-grid {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    }
-
-    .post-card {
-      padding: 1rem;
-      display: grid;
-      gap: .6rem;
-      background: #ffffff;
-    }
-
-    .post-meta {
-      font-size: .82rem;
-      color: #5b6475;
-      display: flex;
-      justify-content: space-between;
-      gap: .8rem;
-    }
-
-    .post-text {
-      margin: 0;
-      color: #1b2334;
-      font-size: .96rem;
-    }
-
-    .closing {
-      text-align: center;
-      padding-bottom: clamp(2.8rem, 8vw, 6rem);
-    }
-
-    .closing-box {
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 4px);
-      background: #fff;
-      padding: clamp(1.1rem, 2.2vw, 2rem);
-      display: grid;
-      gap: .85rem;
-      justify-items: center;
-    }
-
-    .closing p {
-      margin: 0;
-      max-width: 60ch;
-      color: var(--text-soft);
     }
 
     .sr-only {
@@ -302,168 +75,433 @@
 
     a:focus-visible,
     button:focus-visible {
-      outline: 3px solid rgba(11, 78, 162, .35);
+      outline: 3px solid rgba(179, 19, 27, 0.28);
       outline-offset: 2px;
     }
 
-    @media (max-width: 600px) {
+    header {
+      padding: clamp(2rem, 6vw, 4rem) 0 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 2.9rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .tagline {
+      margin: .4rem 0 0;
+      color: var(--text-soft);
+      font-size: clamp(.98rem, 2.3vw, 1.1rem);
+    }
+
+    .x-link {
+      color: var(--text-soft);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: .45rem .8rem;
+      border-radius: 999px;
+      font-size: .9rem;
+      transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+    }
+
+    .x-link:hover,
+    .x-link:focus-visible {
+      background: var(--accent-soft);
+      border-color: #efced1;
+      color: #7f0f15;
+    }
+
+    main {
+      padding: clamp(1.3rem, 3.5vw, 2.3rem) 0 clamp(2.5rem, 6vw, 4rem);
+    }
+
+    .news-panel {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 2px);
+      padding: clamp(1rem, 2.6vw, 1.6rem);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      margin-bottom: .95rem;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: clamp(1.2rem, 3vw, 1.55rem);
+      letter-spacing: -0.01em;
+    }
+
+    .panel-head p {
+      margin: .35rem 0 0;
+      color: var(--text-soft);
+      font-size: .95rem;
+    }
+
+    .category-tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: .55rem;
+      margin-bottom: 1rem;
+    }
+
+    .tab {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: #252525;
+      border-radius: 10px;
+      padding: .62rem .72rem;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+    }
+
+    .tab:hover {
+      background: #fff6f6;
+      border-color: #f0d7d9;
+      color: #6f0e13;
+    }
+
+    .tab.active {
+      border-color: #dcb2b6;
+      background: var(--accent-soft);
+      color: #7a0f14;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: .75rem;
+      min-height: 220px;
+    }
+
+    .news-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .9rem;
+      display: grid;
+      gap: .6rem;
+      align-content: start;
+    }
+
+    .news-card h3 {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .news-card p {
+      margin: 0;
+      color: #363636;
+      font-size: .93rem;
+    }
+
+    .news-meta {
+      color: var(--text-soft);
+      font-size: .82rem;
+      margin-top: .15rem;
+    }
+
+    .more-link {
+      width: fit-content;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: .9rem;
+      padding: .28rem .5rem;
+      border-radius: 8px;
+      transition: background-color .15s ease;
+    }
+
+    .more-link:hover,
+    .more-link:focus-visible {
+      background: var(--accent-soft);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.1rem 0 1.5rem;
+      color: var(--text-soft);
+      font-size: .88rem;
+    }
+
+    @media (max-width: 640px) {
       .container { width: min(100% - 1.2rem, var(--content-max)); }
-      .hero-wrap { padding: 1rem; }
+      .category-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tab { font-size: .76rem; }
     }
   </style>
 </head>
 <body>
-  <a href="#contenido" class="sr-only">Saltar al contenido principal</a>
+  <a href="#principal" class="sr-only">Saltar al contenido principal</a>
 
-  <header class="hero" aria-label="Presentación del proyecto">
-    <div class="container hero-wrap">
-      <p class="eyebrow">Proyecto independiente</p>
-      <h1 id="project-name">El Chilómetro</h1>
-      <p class="lead" id="project-description">Registro independiente de avances concretos de Chile.</p>
-      <p class="manifest">
-        Reportamos hechos verificables.
-        <br />
-        Priorizamos claridad, contexto mínimo y precisión.
-        <br />
-        La credibilidad está por encima del impacto.
-      </p>
-      <a class="btn btn-primary" id="x-link-top" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">
-        Ver perfil en X
-      </a>
+  <header aria-label="Cabecera principal">
+    <div class="container topbar">
+      <div>
+        <h1 id="project-name">El Chilómetro</h1>
+        <p class="tagline" id="project-tagline">Avances concretos de Chile</p>
+      </div>
+      <a class="x-link" id="x-link" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">Perfil en X</a>
     </div>
   </header>
 
-  <main id="contenido">
-    <section aria-labelledby="que-es">
-      <div class="container">
-        <h2 class="section-title" id="que-es">Qué es</h2>
-        <p class="section-intro">
-          El Chilómetro registra avances concretos de Chile a partir de información verificable.
-          Publica datos, informes, estudios, anuncios y hechos comprobables.
-          Informa hechos, no opiniones.
-        </p>
-      </div>
-    </section>
-
-    <section aria-labelledby="como-comunica">
-      <div class="container">
-        <h2 class="section-title" id="como-comunica">Cómo comunica</h2>
-        <p class="section-intro">Reglas editoriales del proyecto:</p>
-        <ul class="rule-list">
-          <li>Tono neutral.</li>
-          <li>Lenguaje simple y directo.</li>
-          <li>Foco en hechos verificables.</li>
-          <li>Contexto mínimo necesario.</li>
-          <li>Precisión antes que impacto.</li>
-          <li>Sin bando.</li>
-          <li>Sin agenda.</li>
-          <li>Sin exageración.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section aria-labelledby="principios">
-      <div class="container">
-        <h2 class="section-title" id="principios">Principios</h2>
-        <div class="principles-grid" role="list" aria-label="Principios editoriales">
-          <div class="principle" role="listitem">Sin bando</div>
-          <div class="principle" role="listitem">Sin agenda</div>
-          <div class="principle" role="listitem">Basado en hechos</div>
-          <div class="principle" role="listitem">Avances concretos</div>
-          <div class="principle" role="listitem">Información verificable</div>
-          <div class="principle" role="listitem">Claridad antes que ruido</div>
+  <main id="principal">
+    <section class="container" aria-labelledby="news-title">
+      <div class="news-panel">
+        <div class="panel-head">
+          <h2 id="news-title">Noticias por categoría</h2>
+          <p>Selecciona una categoría para ver avances recientes.</p>
         </div>
-      </div>
-    </section>
 
-    <section aria-labelledby="formato">
-      <div class="container">
-        <h2 class="section-title" id="formato">Formato</h2>
-        <p class="section-intro">
-          Cada noticia, informe, estudio, anuncio o dato verificable se transforma en publicaciones breves para X.
-        </p>
-        <article class="format-card" aria-label="Reglas de formato para publicaciones">
-          <ul class="format-list">
-            <li>1 post si el hecho cabe con claridad.</li>
-            <li>1 hilo de 2 posts cuando se requiere contexto.</li>
-            <li>Nunca más de 2 posts por hecho.</li>
-            <li>Prioridad: brevedad, precisión y comprensión rápida.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section aria-labelledby="ejemplos">
-      <div class="container">
-        <h2 class="section-title" id="ejemplos">Ejemplo de estilo</h2>
-        <p class="section-intro">Ejemplos ficticios de publicaciones con tono neutral y foco en hechos.</p>
-
-        <!-- Ejemplos fáciles de editar -->
-        <div class="posts-grid" id="example-posts">
-          <article class="post-card" aria-label="Ejemplo transporte">
-            <div class="post-meta"><span>Transporte</span><span>Post único</span></div>
-            <p class="post-text">
-              Región Metropolitana: la entidad informó la incorporación gradual de nuevos buses eléctricos en recorridos urbanos.
-              El reporte señala mejora en frecuencia y menor ruido en operación.
-            </p>
-          </article>
-
-          <article class="post-card" aria-label="Ejemplo ciencia">
-            <div class="post-meta"><span>Ciencia</span><span>Post único</span></div>
-            <p class="post-text">
-              Según el estudio de una universidad chilena, se validó un método de monitoreo ambiental con datos abiertos.
-              El informe indica resultados consistentes para seguimiento territorial.
-            </p>
-          </article>
-
-          <article class="post-card" aria-label="Ejemplo salud">
-            <div class="post-meta"><span>Salud</span><span>Hilo de 2 posts</span></div>
-            <p class="post-text">
-              La autoridad sanitaria informó una ampliación de cobertura en atención preventiva en centros locales.
-              Datos muestran más disponibilidad horaria y derivación temprana en comunas piloto.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="closing" aria-labelledby="cierre">
-      <div class="container closing-box">
-        <h2 class="section-title" id="cierre">Cierre</h2>
-        <p>
-          Registrar el progreso de Chile de forma clara, consistente y verificable.
-        </p>
-        <a class="btn btn-ghost" id="x-link-bottom" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">
-          Seguir en X
-        </a>
+        <div class="category-tabs" id="category-tabs" role="tablist" aria-label="Categorías de noticias"></div>
+        <div class="news-grid" id="news-grid" aria-live="polite"></div>
       </div>
     </section>
   </main>
 
-  <footer class="container" style="padding-top:0; padding-bottom:2rem;">
-    <small style="color:#616b7d;">© <span id="year"></span> El Chilómetro.</small>
+  <footer>
+    <div class="container">
+      <span id="footer-text">© El Chilómetro</span>
+    </div>
   </footer>
 
   <script>
     /* ==================================================
-       PERSONALIZACIÓN RÁPIDA (edita estos valores)
+       PERSONALIZACIÓN RÁPIDA (editar aquí)
        ================================================== */
     const SITE_CONFIG = {
       projectName: "El Chilómetro",
-      projectDescription: "Registro independiente de avances concretos de Chile.",
-      xUrl: "https://x.com/tu_perfil"
+      projectTagline: "Avances concretos de Chile",
+      xUrl: "https://x.com/tu_perfil",
+      defaultCategory: "NATURALEZA"
     };
 
-    document.title = `${SITE_CONFIG.projectName} | Avances concretos de Chile`;
-    document.getElementById("project-name").textContent = SITE_CONFIG.projectName;
-    document.getElementById("project-description").textContent = SITE_CONFIG.projectDescription;
+    /* ==================================================
+       CONTENIDO DEMO DE NOTICIAS POR CATEGORÍA
+       (2-3 noticias por categoría)
+       ================================================== */
+    const NEWS_BY_CATEGORY = {
+      "NATURALEZA": [
+        {
+          title: "Plan regional amplía restauración de bosque nativo en zona centro-sur",
+          summary: "El informe técnico indica nuevas hectáreas priorizadas para recuperación ecológica durante el año.",
+          meta: "Fuente: Gobierno regional · 2 abril 2026"
+        },
+        {
+          title: "Nuevo monitoreo de humedales urbanos incorpora estaciones adicionales",
+          summary: "Datos públicos muestran seguimiento más frecuente de calidad de agua y biodiversidad local.",
+          meta: "Fuente: Municipalidad · 1 abril 2026"
+        },
+        {
+          title: "Reserva costera reporta avances en control de especies invasoras",
+          summary: "La entidad informó continuidad del programa y medición periódica de resultados.",
+          meta: "Fuente: Servicio ambiental · 31 marzo 2026"
+        }
+      ],
+      "ENERGÍA": [
+        {
+          title: "Nueva planta solar inicia operación en la Región de Antofagasta",
+          summary: "El proyecto incorpora capacidad adicional al sistema eléctrico del norte del país.",
+          meta: "Fuente: Coordinador eléctrico · 2 abril 2026"
+        },
+        {
+          title: "Informe sectorial registra más proyectos de almacenamiento en evaluación",
+          summary: "El reporte señala crecimiento de iniciativas para respaldo de generación renovable.",
+          meta: "Fuente: Ministerio de Energía · 30 marzo 2026"
+        }
+      ],
+      "MINERÍA": [
+        {
+          title: "Faena de cobre incorpora sistema de recirculación de agua en nueva etapa",
+          summary: "La compañía informó que la actualización busca reducir consumo hídrico en operación continua.",
+          meta: "Fuente: Empresa minera · 2 abril 2026"
+        },
+        {
+          title: "Programa técnico abre cupos para formación en mantenimiento minero",
+          summary: "El plan considera capacitación práctica en regiones con actividad extractiva.",
+          meta: "Fuente: Centro de formación · 29 marzo 2026"
+        }
+      ],
+      "INFRAESTRUCTURA": [
+        {
+          title: "Comenzó nueva etapa de mejoramiento vial en tramo interurbano del sur",
+          summary: "El proyecto contempla obras de seguridad y mayor continuidad para transporte regional.",
+          meta: "Fuente: Dirección de obras · 1 abril 2026"
+        },
+        {
+          title: "Terminal logístico anuncia ampliación de capacidad operativa",
+          summary: "La entidad informó ajustes de infraestructura para reforzar flujos de carga.",
+          meta: "Fuente: Operador portuario · 31 marzo 2026"
+        },
+        {
+          title: "Avanza habilitación de centro de servicios públicos en capital regional",
+          summary: "El reporte indica integración de trámites en un mismo punto de atención.",
+          meta: "Fuente: Servicio público · 28 marzo 2026"
+        }
+      ],
+      "MOVILIDAD": [
+        {
+          title: "Sistema de buses suma nuevos recorridos eléctricos en horario punta",
+          summary: "La autoridad reportó aumento de cobertura en zonas con alta demanda de traslado diario.",
+          meta: "Fuente: Transporte metropolitano · 2 abril 2026"
+        },
+        {
+          title: "Red ferroviaria regional extiende pilotos de pago integrado",
+          summary: "Datos operacionales muestran continuidad del plan para facilitar combinación de viajes.",
+          meta: "Fuente: Empresa ferroviaria · 30 marzo 2026"
+        }
+      ],
+      "CIENCIA Y TECNOLOGÍA": [
+        {
+          title: "Universidad chilena publica resultados de plataforma para monitoreo sísmico",
+          summary: "Según el estudio, el sistema mejora tiempos de procesamiento de datos en pruebas controladas.",
+          meta: "Fuente: Centro de investigación · 1 abril 2026"
+        },
+        {
+          title: "Laboratorio nacional habilita nuevo banco de datos de acceso abierto",
+          summary: "El repositorio incluye series para investigación aplicada en medioambiente y salud.",
+          meta: "Fuente: Institución científica · 31 marzo 2026"
+        },
+        {
+          title: "Programa de innovación pública anuncia convocatoria para soluciones digitales",
+          summary: "La iniciativa busca pilotos que simplifiquen trámites y tiempos de respuesta.",
+          meta: "Fuente: Agencia estatal · 29 marzo 2026"
+        }
+      ],
+      "SALUD": [
+        {
+          title: "Red de atención primaria amplía agenda preventiva en comunas piloto",
+          summary: "La entidad informó mayor disponibilidad de controles en horario extendido.",
+          meta: "Fuente: Servicio de salud · 2 abril 2026"
+        },
+        {
+          title: "Hospital regional implementa módulo digital para seguimiento de exámenes",
+          summary: "El reporte señala reducción de tiempos en entrega de resultados rutinarios.",
+          meta: "Fuente: Hospital público · 1 abril 2026"
+        }
+      ],
+      "INVERSIÓN": [
+        {
+          title: "Fondo productivo regional adjudica nuevas iniciativas para pymes",
+          summary: "El programa prioriza proyectos con ejecución local y metas de continuidad operativa.",
+          meta: "Fuente: Agencia de desarrollo · 2 abril 2026"
+        },
+        {
+          title: "Anuncian cartera de inversión en infraestructura hídrica para zonas agrícolas",
+          summary: "La propuesta incluye etapas de diseño y ejecución con seguimiento público.",
+          meta: "Fuente: Organismo sectorial · 30 marzo 2026"
+        },
+        {
+          title: "Plataforma de financiamiento reporta alza en proyectos de economía circular",
+          summary: "Datos del trimestre muestran mayor participación de iniciativas de reutilización y eficiencia.",
+          meta: "Fuente: Informe financiero · 28 marzo 2026"
+        }
+      ]
+    };
 
-    const xTop = document.getElementById("x-link-top");
-    const xBottom = document.getElementById("x-link-bottom");
-    xTop.href = SITE_CONFIG.xUrl;
-    xBottom.href = SITE_CONFIG.xUrl;
+    const categoryOrder = [
+      "NATURALEZA",
+      "ENERGÍA",
+      "MINERÍA",
+      "INFRAESTRUCTURA",
+      "MOVILIDAD",
+      "CIENCIA Y TECNOLOGÍA",
+      "SALUD",
+      "INVERSIÓN"
+    ];
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+    const projectNameEl = document.getElementById("project-name");
+    const taglineEl = document.getElementById("project-tagline");
+    const xLinkEl = document.getElementById("x-link");
+    const footerTextEl = document.getElementById("footer-text");
+    const tabsEl = document.getElementById("category-tabs");
+    const newsGridEl = document.getElementById("news-grid");
+
+    projectNameEl.textContent = SITE_CONFIG.projectName;
+    taglineEl.textContent = SITE_CONFIG.projectTagline;
+    xLinkEl.href = SITE_CONFIG.xUrl;
+    document.title = `${SITE_CONFIG.projectName} | Noticias por categoría`;
+    footerTextEl.textContent = `© ${new Date().getFullYear()} ${SITE_CONFIG.projectName}`;
+
+    let activeCategory = categoryOrder.includes(SITE_CONFIG.defaultCategory)
+      ? SITE_CONFIG.defaultCategory
+      : categoryOrder[0];
+
+    function renderTabs() {
+      tabsEl.innerHTML = "";
+
+      categoryOrder.forEach((category) => {
+        const isActive = category === activeCategory;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `tab${isActive ? " active" : ""}`;
+        btn.setAttribute("role", "tab");
+        btn.setAttribute("aria-selected", isActive ? "true" : "false");
+        btn.setAttribute("aria-controls", "news-grid");
+        btn.textContent = category;
+
+        btn.addEventListener("click", () => {
+          if (activeCategory !== category) {
+            activeCategory = category;
+            renderTabs();
+            renderNews();
+          }
+        });
+
+        tabsEl.appendChild(btn);
+      });
+    }
+
+    function renderNews() {
+      const items = NEWS_BY_CATEGORY[activeCategory] || [];
+      newsGridEl.innerHTML = "";
+
+      items.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "news-card";
+
+        const title = document.createElement("h3");
+        title.textContent = item.title;
+
+        const summary = document.createElement("p");
+        summary.textContent = item.summary;
+
+        const meta = document.createElement("p");
+        meta.className = "news-meta";
+        meta.textContent = item.meta || "Fuente no indicada";
+
+        const link = document.createElement("a");
+        link.href = "#";
+        link.className = "more-link";
+        link.textContent = "Ver más";
+        link.setAttribute("aria-label", `Ver más sobre: ${item.title}`);
+
+        card.append(title, summary, meta, link);
+        newsGridEl.appendChild(card);
+      });
+    }
+
+    renderTabs();
+    renderNews();
   </script>
 </body>
 </html>
