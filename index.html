@@ -836,8 +836,13 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const STORAGE_KEY = "el-chilometro-news-v1";
+
+    const SUPABASE_URL = "https://isyemlgmnmwaoqweskyn.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_AVj9wl5N369ovPfSz9VFZw_a4_TZHrg";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const SITE_CONFIG = {
       projectName: "El Chilómetro",
@@ -869,31 +874,25 @@
       "INVERSIÓN"
     ];
 
+    const CATEGORY_ALIASES = {
+      "NATURALEZA": "NATURALEZA",
+      "ENERGIA": "ENERGÍA",
+      "ENERGÍA": "ENERGÍA",
+      "MINERIA": "MINERÍA",
+      "MINERÍA": "MINERÍA",
+      "INFRAESTRUCTURA": "INFRAESTRUCTURA",
+      "MOVILIDAD": "MOVILIDAD",
+      "CIENCIA Y TECNOLOGIA": "CIENCIA Y TECNOLOGÍA",
+      "CIENCIA Y TECNOLOGÍA": "CIENCIA Y TECNOLOGÍA",
+      "SALUD": "SALUD",
+      "INVERSION": "INVERSIÓN",
+      "INVERSIÓN": "INVERSIÓN"
+    };
+
     const DEMO_NEWS = [
       { id: crypto.randomUUID(), category: "NATURALEZA", title: "Plan regional amplía restauración de bosque nativo en zona centro-sur", summary: "El informe técnico incluye nuevos sectores priorizados para recuperación ecológica y seguimiento anual.", sourceName: "Gobierno regional", sourceUrl: "", date: "2026-04-02", featured: true },
       { id: crypto.randomUUID(), category: "NATURALEZA", title: "Monitoreo de humedales urbanos suma estaciones de observación comunitaria", summary: "Datos abiertos muestran mayor cobertura de medición en calidad de agua y biodiversidad.", sourceName: "Municipalidad", sourceUrl: "", date: "2026-04-01", featured: false },
-      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Reserva costera reporta continuidad en control de especies invasoras", summary: "La entidad informó que el programa mantiene medición periódica de resultados por temporada.", sourceName: "Servicio ambiental", sourceUrl: "", date: "2026-03-31", featured: false },
-
-      { id: crypto.randomUUID(), category: "ENERGÍA", title: "Nueva planta solar inicia operación en la Región de Antofagasta", summary: "El proyecto incorpora capacidad adicional al sistema eléctrico del norte del país.", sourceName: "Coordinador eléctrico", sourceUrl: "", date: "2026-04-02", featured: true },
-      { id: crypto.randomUUID(), category: "ENERGÍA", title: "Informe sectorial registra avance de proyectos de almacenamiento en evaluación", summary: "El reporte señala continuidad en iniciativas de respaldo para generación renovable.", sourceName: "Ministerio de Energía", sourceUrl: "", date: "2026-03-30", featured: false },
-
-      { id: crypto.randomUUID(), category: "MINERÍA", title: "Faena de cobre integra sistema de recirculación de agua en nueva etapa", summary: "La compañía informó que la actualización reduce demanda hídrica en operación continua.", sourceName: "Empresa minera", sourceUrl: "", date: "2026-04-02", featured: true },
-      { id: crypto.randomUUID(), category: "MINERÍA", title: "Programa técnico abre cupos para formación en mantenimiento minero", summary: "El plan considera capacitación práctica en regiones con actividad extractiva.", sourceName: "Centro de formación", sourceUrl: "", date: "2026-03-29", featured: false },
-
-      { id: crypto.randomUUID(), category: "INFRAESTRUCTURA", title: "Comenzó nueva etapa de mejoramiento vial en tramo interurbano del sur", summary: "El proyecto contempla obras de seguridad y continuidad para transporte regional.", sourceName: "Dirección de obras", sourceUrl: "", date: "2026-04-01", featured: true },
-      { id: crypto.randomUUID(), category: "INFRAESTRUCTURA", title: "Terminal logístico anuncia ampliación de capacidad operativa", summary: "La entidad informó ajustes de infraestructura para reforzar flujos de carga.", sourceName: "Operador portuario", sourceUrl: "", date: "2026-03-31", featured: false },
-
-      { id: crypto.randomUUID(), category: "MOVILIDAD", title: "Sistema de buses suma nuevos recorridos eléctricos en horario punta", summary: "La autoridad reportó aumento de cobertura en zonas con alta demanda diaria.", sourceName: "Transporte metropolitano", sourceUrl: "", date: "2026-04-02", featured: true },
-      { id: crypto.randomUUID(), category: "MOVILIDAD", title: "Red ferroviaria regional extiende pilotos de pago integrado", summary: "Datos operacionales muestran continuidad del plan para facilitar combinación de viajes.", sourceName: "Empresa ferroviaria", sourceUrl: "", date: "2026-03-30", featured: false },
-
-      { id: crypto.randomUUID(), category: "CIENCIA Y TECNOLOGÍA", title: "Universidad chilena publica resultados de plataforma para monitoreo sísmico", summary: "Según el estudio, el sistema mejora tiempos de procesamiento de datos en pruebas controladas.", sourceName: "Centro de investigación", sourceUrl: "", date: "2026-04-01", featured: true },
-      { id: crypto.randomUUID(), category: "CIENCIA Y TECNOLOGÍA", title: "Laboratorio nacional habilita banco de datos de acceso abierto", summary: "El repositorio integra series para investigación aplicada en medioambiente y salud.", sourceName: "Institución científica", sourceUrl: "", date: "2026-03-31", featured: false },
-
-      { id: crypto.randomUUID(), category: "SALUD", title: "Red de atención primaria amplía agenda preventiva en comunas piloto", summary: "La entidad informó mayor disponibilidad de controles en horario extendido.", sourceName: "Servicio de salud", sourceUrl: "", date: "2026-04-02", featured: true },
-      { id: crypto.randomUUID(), category: "SALUD", title: "Hospital regional implementa módulo digital para seguimiento de exámenes", summary: "El reporte señala reducción de tiempos en entrega de resultados rutinarios.", sourceName: "Hospital público", sourceUrl: "", date: "2026-04-01", featured: false },
-
-      { id: crypto.randomUUID(), category: "INVERSIÓN", title: "Fondo productivo regional adjudica nuevas iniciativas para pymes", summary: "El programa prioriza proyectos con ejecución local y continuidad operativa.", sourceName: "Agencia de desarrollo", sourceUrl: "", date: "2026-04-02", featured: true },
-      { id: crypto.randomUUID(), category: "INVERSIÓN", title: "Anuncian cartera de inversión en infraestructura hídrica para zonas agrícolas", summary: "La propuesta incluye diseño, ejecución por etapas y seguimiento público.", sourceName: "Organismo sectorial", sourceUrl: "", date: "2026-03-30", featured: false }
+      { id: crypto.randomUUID(), category: "ENERGÍA", title: "Nueva planta solar inicia operación en la Región de Antofagasta", summary: "El proyecto incorpora capacidad adicional al sistema eléctrico del norte del país.", sourceName: "Coordinador eléctrico", sourceUrl: "", date: "2026-04-02", featured: true }
     ];
 
     const state = {
@@ -903,7 +902,6 @@
     };
 
     const root = document.documentElement;
-
     const els = {
       projectName: document.getElementById("project-name"),
       projectTagline: document.getElementById("project-tagline"),
@@ -911,16 +909,13 @@
       footerProject: document.getElementById("footer-project"),
       footerYear: document.getElementById("footer-year"),
       xLink: document.getElementById("x-link"),
-
       panelSub: document.getElementById("panel-sub"),
       tabs: document.getElementById("category-tabs"),
       newsLayout: document.getElementById("news-layout"),
-
       openAdmin: document.getElementById("open-admin"),
       closeAdmin: document.getElementById("close-admin"),
       adminModal: document.getElementById("admin-modal"),
       adminList: document.getElementById("news-admin-list"),
-
       form: document.getElementById("news-form"),
       newsId: document.getElementById("news-id"),
       category: document.getElementById("news-category"),
@@ -930,17 +925,83 @@
       sourceName: document.getElementById("news-source-name"),
       sourceUrl: document.getElementById("news-source-url"),
       featured: document.getElementById("news-featured"),
-
       extractBtn: document.getElementById("btn-extract-title"),
       extractStatus: document.getElementById("extract-status"),
       formStatus: document.getElementById("form-status"),
-
       cancelBtn: document.getElementById("btn-cancel-edit"),
       restoreBtn: document.getElementById("btn-restore-demo"),
       clearBtn: document.getElementById("btn-clear-storage")
     };
 
-    function inicializarCabecera() {
+    function normalizeCategory(rawCategory) {
+      const normalized = (rawCategory || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().trim();
+      return CATEGORY_ALIASES[normalized] || null;
+    }
+
+    function normalizeSupabaseNews(row) {
+      const category = normalizeCategory(row.category);
+      if (!category) return null;
+
+      const isoDate = row.published_at ? String(row.published_at).slice(0, 10) : new Date().toISOString().slice(0, 10);
+      const sourceName = row.source_name || "Fuente no indicada";
+
+      return {
+        id: row.id || crypto.randomUUID(),
+        category,
+        title: (row.title || "").trim(),
+        summary: (row.summary || "").trim(),
+        sourceName,
+        sourceUrl: (row.source_url || "").trim(),
+        date: isoDate,
+        featured: Boolean(row.is_featured),
+        displayOrder: row.display_order ?? null,
+        meta: `Fuente: ${sourceName} · ${isoDate}`
+      };
+    }
+
+    async function fetchNewsFromSupabase() {
+      const { data, error } = await supabaseClient
+        .from("noticias")
+        .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
+        .eq("is_published", true)
+        .order("category", { ascending: true })
+        .order("is_featured", { ascending: false })
+        .order("display_order", { ascending: true })
+        .order("published_at", { ascending: false });
+
+      if (error) throw error;
+
+      return (data || [])
+        .map(normalizeSupabaseNews)
+        .filter((item) => item && item.title && item.summary);
+    }
+
+    function groupNewsByCategory(newsItems) {
+      const groups = {};
+      CATEGORY_ORDER.forEach((cat) => { groups[cat] = []; });
+      newsItems.forEach((item) => {
+        if (groups[item.category]) groups[item.category].push(item);
+      });
+      return groups;
+    }
+
+    function setLocalFallback(newsItems) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newsItems));
+    }
+
+    function getLocalFallback() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed.filter((n) => n && n.category && n.title && n.summary);
+      } catch {
+        return [];
+      }
+    }
+
+    function initializarCabecera() {
       els.projectName.textContent = SITE_CONFIG.projectName;
       els.projectTagline.textContent = SITE_CONFIG.projectTagline;
       els.projectLine.textContent = SITE_CONFIG.projectEditorialLine;
@@ -948,76 +1009,6 @@
       els.footerYear.textContent = `© ${new Date().getFullYear()}`;
       els.xLink.href = SITE_CONFIG.xUrl;
       document.title = `${SITE_CONFIG.projectName} | Portada editorial por categorías`;
-    }
-
-    function normalizarNoticia(noticia) {
-      return {
-        id: noticia.id || crypto.randomUUID(),
-        category: CATEGORY_ORDER.includes(noticia.category) ? noticia.category : CATEGORY_ORDER[0],
-        title: (noticia.title || "").trim(),
-        summary: (noticia.summary || "").trim(),
-        sourceName: (noticia.sourceName || "").trim(),
-        sourceUrl: (noticia.sourceUrl || "").trim(),
-        date: noticia.date || new Date().toISOString().slice(0, 10),
-        featured: Boolean(noticia.featured)
-      };
-    }
-
-    function cargarNoticias() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-
-      if (!raw) {
-        state.news = DEMO_NEWS.map((n) => ({ ...n }));
-        guardarNoticias();
-        return;
-      }
-
-      try {
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) throw new Error("Formato inválido");
-        state.news = parsed.map(normalizarNoticia);
-      } catch (error) {
-        state.news = DEMO_NEWS.map((n) => ({ ...n }));
-        guardarNoticias();
-      }
-    }
-
-    function guardarNoticias() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.news));
-    }
-
-    function agruparPorCategoria() {
-      const groups = {};
-      CATEGORY_ORDER.forEach((cat) => { groups[cat] = []; });
-      state.news.forEach((item) => {
-        if (groups[item.category]) groups[item.category].push(item);
-      });
-      return groups;
-    }
-
-    function seleccionarNoticiasPortada(category) {
-      const groups = agruparPorCategoria();
-      const items = [...(groups[category] || [])];
-
-      items.sort((a, b) => {
-        if (a.date !== b.date) return b.date.localeCompare(a.date);
-        return 0;
-      });
-
-      if (!items.length) return { featured: null, secondary: [] };
-
-      const featuredCandidates = items.filter((item) => item.featured);
-      let featured = null;
-
-      if (featuredCandidates.length) {
-        featuredCandidates.sort((a, b) => b.date.localeCompare(a.date));
-        featured = featuredCandidates[0];
-      } else {
-        featured = items[0];
-      }
-
-      const secondary = items.filter((item) => item.id !== featured.id).slice(0, 2);
-      return { featured, secondary };
     }
 
     function applyCategoryAccent(category) {
@@ -1030,23 +1021,19 @@
 
     function renderizarTabs() {
       els.tabs.innerHTML = "";
-
       CATEGORY_ORDER.forEach((category) => {
         const style = CATEGORY_STYLES[category];
         const isActive = category === state.activeCategory;
-
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = `tab${isActive ? " active" : ""}`;
         btn.setAttribute("role", "tab");
         btn.setAttribute("aria-selected", isActive ? "true" : "false");
         btn.textContent = category;
-
         btn.style.setProperty("--tone", style.tone);
         btn.style.setProperty("--tone-soft", style.soft);
         btn.style.setProperty("--tone-border", style.border);
         btn.style.setProperty("--tone-text", style.tone);
-
         btn.addEventListener("click", () => {
           if (state.activeCategory !== category) {
             state.activeCategory = category;
@@ -1055,9 +1042,19 @@
             renderizarNoticias();
           }
         });
-
         els.tabs.appendChild(btn);
       });
+    }
+
+    function seleccionarNoticiasPortada(category) {
+      const groups = groupNewsByCategory(state.news);
+      const items = [...(groups[category] || [])];
+      if (!items.length) return { featured: null, secondary: [] };
+
+      const featuredCandidates = items.filter((item) => item.featured);
+      const featured = featuredCandidates.length ? featuredCandidates[0] : items[0];
+      const secondary = items.filter((item) => item.id !== featured.id).slice(0, 2);
+      return { featured, secondary };
     }
 
     function fechaLegible(isoDate) {
@@ -1083,13 +1080,17 @@
 
       const meta = document.createElement("p");
       meta.className = "meta";
-      meta.textContent = `Fuente: ${item.sourceName || "No indicada"} · ${fechaLegible(item.date)}`;
+      meta.textContent = item.meta || `Fuente: ${item.sourceName || "No indicada"} · ${fechaLegible(item.date)}`;
 
       const more = document.createElement("a");
       more.className = "more";
-      more.href = item.sourceUrl || "#";
-      more.target = item.sourceUrl ? "_blank" : "_self";
-      more.rel = item.sourceUrl ? "noopener noreferrer" : "";
+      if (item.sourceUrl) {
+        more.href = item.sourceUrl;
+        more.target = "_blank";
+        more.rel = "noopener noreferrer";
+      } else {
+        more.href = "#";
+      }
       more.textContent = "Ver más";
       more.setAttribute("aria-label", `Ver más sobre: ${item.title}`);
 
@@ -1104,27 +1105,21 @@
       if (!featured) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
-        empty.textContent = "No hay noticias disponibles para esta categoría. Puedes agregarlas desde “Administrar noticias”.";
+        empty.textContent = "No hay noticias publicadas para esta categoría.";
         els.newsLayout.appendChild(empty);
         return;
       }
 
       els.newsLayout.appendChild(crearTarjetaNoticia(featured, state.activeCategory, "featured"));
-
       const secondaryGrid = document.createElement("div");
       secondaryGrid.className = "secondary-grid";
-
-      secondary.forEach((item) => {
-        secondaryGrid.appendChild(crearTarjetaNoticia(item, state.activeCategory, "secondary"));
-      });
-
+      secondary.forEach((item) => secondaryGrid.appendChild(crearTarjetaNoticia(item, state.activeCategory, "secondary")));
       if (!secondary.length) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
         empty.textContent = "No hay noticias secundarias para esta categoría.";
         secondaryGrid.appendChild(empty);
       }
-
       els.newsLayout.appendChild(secondaryGrid);
     }
 
@@ -1160,73 +1155,68 @@
     }
 
     function construirNoticiaDesdeFormulario() {
-      return normalizarNoticia({
+      return {
         id: state.editingId || crypto.randomUUID(),
         category: els.category.value,
-        title: els.title.value,
-        summary: els.summary.value,
-        sourceName: els.sourceName.value,
-        sourceUrl: els.sourceUrl.value,
+        title: els.title.value.trim(),
+        summary: els.summary.value.trim(),
+        sourceName: els.sourceName.value.trim(),
+        sourceUrl: els.sourceUrl.value.trim(),
         date: els.date.value,
-        featured: els.featured.checked
-      });
+        featured: els.featured.checked,
+        meta: `Fuente: ${els.sourceName.value.trim() || "Fuente no indicada"} · ${els.date.value}`
+      };
     }
 
     function agregarNoticia(noticia) {
       state.news.push(noticia);
-      guardarNoticias();
+      setLocalFallback(state.news);
     }
 
     function editarNoticia(id, noticiaActualizada) {
       state.news = state.news.map((item) => (item.id === id ? noticiaActualizada : item));
-      guardarNoticias();
+      setLocalFallback(state.news);
     }
 
     function eliminarNoticia(id) {
       state.news = state.news.filter((item) => item.id !== id);
-      guardarNoticias();
+      setLocalFallback(state.news);
     }
 
     function renderizarListadoEditor() {
       els.adminList.innerHTML = "";
-
       if (!state.news.length) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
-        empty.textContent = "No hay noticias guardadas.";
+        empty.textContent = "No hay noticias cargadas.";
         els.adminList.appendChild(empty);
         return;
       }
 
       const ordered = [...state.news].sort((a, b) => {
         if (a.category !== b.category) return CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
-        return b.date.localeCompare(a.date);
+        return String(b.date).localeCompare(String(a.date));
       });
 
       ordered.forEach((item) => {
         const card = document.createElement("article");
         card.className = "admin-item";
-
         const top = document.createElement("div");
         top.className = "admin-item-top";
-
         const title = document.createElement("p");
         title.className = "admin-item-title";
         title.textContent = item.title;
-
         const pill = document.createElement("span");
         pill.className = "pill";
         pill.textContent = item.featured ? "Destacada" : "Secundaria";
-
         top.append(title, pill);
 
         const meta = document.createElement("p");
         meta.className = "admin-meta";
-        meta.textContent = `${item.category} · ${item.sourceName} · ${fechaLegible(item.date)}`;
+        meta.textContent = `${item.category} · ${item.sourceName || "Fuente no indicada"} · ${fechaLegible(item.date)}`;
 
         const actions = document.createElement("div");
         actions.className = "inline-actions";
-
         const editBtn = document.createElement("button");
         editBtn.type = "button";
         editBtn.className = "btn";
@@ -1238,8 +1228,7 @@
         delBtn.className = "btn btn-danger";
         delBtn.textContent = "Eliminar";
         delBtn.addEventListener("click", () => {
-          const ok = confirm("¿Eliminar esta noticia?");
-          if (!ok) return;
+          if (!confirm("¿Eliminar esta noticia del estado local?") ) return;
           eliminarNoticia(item.id);
           if (state.editingId === item.id) limpiarFormulario();
           renderAll();
@@ -1254,18 +1243,16 @@
     function cargarNoticiaEnFormulario(id) {
       const item = state.news.find((news) => news.id === id);
       if (!item) return;
-
       state.editingId = id;
       els.newsId.value = id;
       els.category.value = item.category;
       els.date.value = item.date;
       els.title.value = item.title;
       els.summary.value = item.summary;
-      els.sourceName.value = item.sourceName;
-      els.sourceUrl.value = item.sourceUrl;
-      els.featured.checked = item.featured;
-
-      els.formStatus.textContent = "Editando noticia existente.";
+      els.sourceName.value = item.sourceName || "";
+      els.sourceUrl.value = item.sourceUrl || "";
+      els.featured.checked = Boolean(item.featured);
+      els.formStatus.textContent = "Editando noticia en estado local.";
       els.formStatus.className = "status-msg";
     }
 
@@ -1313,24 +1300,19 @@
     }
 
     function restaurarNoticiasDemo() {
-      const ok = confirm("¿Restaurar noticias demo? Se reemplazarán las noticias guardadas en este navegador.");
-      if (!ok) return;
+      if (!confirm("¿Restaurar noticias demo como fallback local?")) return;
       state.news = DEMO_NEWS.map((n) => ({ ...n, id: crypto.randomUUID() }));
-      guardarNoticias();
+      setLocalFallback(state.news);
       limpiarFormulario();
       renderAll();
-      els.formStatus.textContent = "Noticias demo restauradas.";
+      els.formStatus.textContent = "Fallback local restaurado con noticias demo.";
       els.formStatus.className = "status-msg ok";
     }
 
     function limpiarStorageNoticias() {
-      const ok = confirm("¿Limpiar todo el localStorage de noticias de El Chilómetro?");
-      if (!ok) return;
+      if (!confirm("¿Limpiar localStorage de noticias?")) return;
       localStorage.removeItem(STORAGE_KEY);
-      state.news = [];
-      limpiarFormulario();
-      renderAll();
-      els.formStatus.textContent = "LocalStorage limpiado.";
+      els.formStatus.textContent = "localStorage limpiado.";
       els.formStatus.className = "status-msg ok";
     }
 
@@ -1340,19 +1322,18 @@
       els.formStatus.className = "status-msg";
 
       if (!validarFormulario()) {
-        els.formStatus.textContent = "Completa los campos obligatorios: categoría, fecha, título, resumen y nombre de fuente.";
+        els.formStatus.textContent = "Completa categoría, fecha, título, resumen y fuente.";
         els.formStatus.classList.add("error");
         return;
       }
 
       const noticia = construirNoticiaDesdeFormulario();
-
       if (state.editingId) {
         editarNoticia(state.editingId, noticia);
-        els.formStatus.textContent = "Noticia actualizada.";
+        els.formStatus.textContent = "Noticia actualizada en estado local.";
       } else {
         agregarNoticia(noticia);
-        els.formStatus.textContent = "Noticia agregada.";
+        els.formStatus.textContent = "Noticia agregada en estado local.";
       }
 
       els.formStatus.classList.add("ok");
@@ -1370,17 +1351,12 @@
     function initEvents() {
       els.openAdmin.addEventListener("click", abrirEditor);
       els.closeAdmin.addEventListener("click", cerrarEditor);
-
       els.adminModal.addEventListener("click", (event) => {
         if (event.target === els.adminModal) cerrarEditor();
       });
-
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && els.adminModal.classList.contains("open")) {
-          cerrarEditor();
-        }
+        if (event.key === "Escape" && els.adminModal.classList.contains("open")) cerrarEditor();
       });
-
       els.form.addEventListener("submit", onSubmitFormulario);
       els.cancelBtn.addEventListener("click", limpiarFormulario);
       els.restoreBtn.addEventListener("click", restaurarNoticiasDemo);
@@ -1388,16 +1364,31 @@
       els.extractBtn.addEventListener("click", intentarExtraerTituloDesdeURL);
     }
 
-    function init() {
-      inicializarCabecera();
+    async function initSite() {
+      initializarCabecera();
       llenarSelectCategorias();
-      cargarNoticias();
-      limpiarFormulario();
-      renderAll();
       initEvents();
+
+      try {
+        const supabaseNews = await fetchNewsFromSupabase();
+        if (supabaseNews.length) {
+          state.news = supabaseNews;
+          setLocalFallback(supabaseNews);
+        } else {
+          console.warn("Supabase no devolvió noticias publicadas. Se aplicará fallback local.");
+          state.news = getLocalFallback();
+          if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+        }
+      } catch (error) {
+        console.error("Error al cargar noticias desde Supabase:", error);
+        state.news = getLocalFallback();
+        if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+      }
+
+      renderAll();
     }
 
-    init();
+    initSite();
   </script>
 </body>
 </html>
