@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>El Chilómetro | Noticias por categoría</title>
+  <meta
+    name="description"
+    content="Portada de noticias de El Chilómetro con avances concretos de Chile organizados por categoría."
+  />
+
+  <!-- Open Graph básico -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="El Chilómetro" />
+  <meta
+    property="og:description"
+    content="Noticias por categoría sobre avances concretos de Chile, en formato breve y verificable."
+  />
+  <meta property="og:url" content="https://tu-usuario.github.io/el-chilometro/" />
+  <meta property="og:locale" content="es_CL" />
+
+  <style>
+    :root {
+      /* =============================
+         PERSONALIZACIÓN RÁPIDA
+         ============================= */
+      --project-name: "El Chilómetro";
+      --project-tagline: "Avances concretos de Chile";
+      --x-url: "https://x.com/tu_perfil";
+
+      /* Identidad visual editorial */
+      --bg: #ffffff;
+      --bg-soft: #fafafa;
+      --surface: #ffffff;
+      --border: #e9e9e9;
+      --text: #111111;
+      --text-soft: #5a5a5a;
+      --accent: #b3131b;
+      --accent-soft: #f8e9ea;
+      --shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+
+      --radius: 12px;
+      --content-max: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: min(100% - 2rem, var(--content-max));
+      margin-inline: auto;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid rgba(179, 19, 27, 0.28);
+      outline-offset: 2px;
+    }
+
+    header {
+      padding: clamp(2rem, 6vw, 4rem) 0 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 5vw, 2.9rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .tagline {
+      margin: .4rem 0 0;
+      color: var(--text-soft);
+      font-size: clamp(.98rem, 2.3vw, 1.1rem);
+    }
+
+    .x-link {
+      color: var(--text-soft);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: .45rem .8rem;
+      border-radius: 999px;
+      font-size: .9rem;
+      transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+    }
+
+    .x-link:hover,
+    .x-link:focus-visible {
+      background: var(--accent-soft);
+      border-color: #efced1;
+      color: #7f0f15;
+    }
+
+    main {
+      padding: clamp(1.3rem, 3.5vw, 2.3rem) 0 clamp(2.5rem, 6vw, 4rem);
+    }
+
+    .news-panel {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 2px);
+      padding: clamp(1rem, 2.6vw, 1.6rem);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      margin-bottom: .95rem;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: clamp(1.2rem, 3vw, 1.55rem);
+      letter-spacing: -0.01em;
+    }
+
+    .panel-head p {
+      margin: .35rem 0 0;
+      color: var(--text-soft);
+      font-size: .95rem;
+    }
+
+    .category-tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: .55rem;
+      margin-bottom: 1rem;
+    }
+
+    .tab {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: #252525;
+      border-radius: 10px;
+      padding: .62rem .72rem;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+    }
+
+    .tab:hover {
+      background: #fff6f6;
+      border-color: #f0d7d9;
+      color: #6f0e13;
+    }
+
+    .tab.active {
+      border-color: #dcb2b6;
+      background: var(--accent-soft);
+      color: #7a0f14;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: .75rem;
+      min-height: 220px;
+    }
+
+    .news-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .9rem;
+      display: grid;
+      gap: .6rem;
+      align-content: start;
+    }
+
+    .news-card h3 {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .news-card p {
+      margin: 0;
+      color: #363636;
+      font-size: .93rem;
+    }
+
+    .news-meta {
+      color: var(--text-soft);
+      font-size: .82rem;
+      margin-top: .15rem;
+    }
+
+    .more-link {
+      width: fit-content;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: .9rem;
+      padding: .28rem .5rem;
+      border-radius: 8px;
+      transition: background-color .15s ease;
+    }
+
+    .more-link:hover,
+    .more-link:focus-visible {
+      background: var(--accent-soft);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.1rem 0 1.5rem;
+      color: var(--text-soft);
+      font-size: .88rem;
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 1.2rem, var(--content-max)); }
+      .category-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tab { font-size: .76rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#principal" class="sr-only">Saltar al contenido principal</a>
+
+  <header aria-label="Cabecera principal">
+    <div class="container topbar">
+      <div>
+        <h1 id="project-name">El Chilómetro</h1>
+        <p class="tagline" id="project-tagline">Avances concretos de Chile</p>
+      </div>
+      <a class="x-link" id="x-link" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">Perfil en X</a>
+    </div>
+  </header>
+
+  <main id="principal">
+    <section class="container" aria-labelledby="news-title">
+      <div class="news-panel">
+        <div class="panel-head">
+          <h2 id="news-title">Noticias por categoría</h2>
+          <p>Selecciona una categoría para ver avances recientes.</p>
+        </div>
+
+        <div class="category-tabs" id="category-tabs" role="tablist" aria-label="Categorías de noticias"></div>
+        <div class="news-grid" id="news-grid" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <span id="footer-text">© El Chilómetro</span>
+    </div>
+  </footer>
+
+  <script>
+    /* ==================================================
+       PERSONALIZACIÓN RÁPIDA (editar aquí)
+       ================================================== */
+    const SITE_CONFIG = {
+      projectName: "El Chilómetro",
+      projectTagline: "Avances concretos de Chile",
+      xUrl: "https://x.com/tu_perfil",
+      defaultCategory: "NATURALEZA"
+    };
+
+    /* ==================================================
+       CONTENIDO DEMO DE NOTICIAS POR CATEGORÍA
+       (2-3 noticias por categoría)
+       ================================================== */
+    const NEWS_BY_CATEGORY = {
+      "NATURALEZA": [
+        {
+          title: "Plan regional amplía restauración de bosque nativo en zona centro-sur",
+          summary: "El informe técnico indica nuevas hectáreas priorizadas para recuperación ecológica durante el año.",
+          meta: "Fuente: Gobierno regional · 2 abril 2026"
+        },
+        {
+          title: "Nuevo monitoreo de humedales urbanos incorpora estaciones adicionales",
+          summary: "Datos públicos muestran seguimiento más frecuente de calidad de agua y biodiversidad local.",
+          meta: "Fuente: Municipalidad · 1 abril 2026"
+        },
+        {
+          title: "Reserva costera reporta avances en control de especies invasoras",
+          summary: "La entidad informó continuidad del programa y medición periódica de resultados.",
+          meta: "Fuente: Servicio ambiental · 31 marzo 2026"
+        }
+      ],
+      "ENERGÍA": [
+        {
+          title: "Nueva planta solar inicia operación en la Región de Antofagasta",
+          summary: "El proyecto incorpora capacidad adicional al sistema eléctrico del norte del país.",
+          meta: "Fuente: Coordinador eléctrico · 2 abril 2026"
+        },
+        {
+          title: "Informe sectorial registra más proyectos de almacenamiento en evaluación",
+          summary: "El reporte señala crecimiento de iniciativas para respaldo de generación renovable.",
+          meta: "Fuente: Ministerio de Energía · 30 marzo 2026"
+        }
+      ],
+      "MINERÍA": [
+        {
+          title: "Faena de cobre incorpora sistema de recirculación de agua en nueva etapa",
+          summary: "La compañía informó que la actualización busca reducir consumo hídrico en operación continua.",
+          meta: "Fuente: Empresa minera · 2 abril 2026"
+        },
+        {
+          title: "Programa técnico abre cupos para formación en mantenimiento minero",
+          summary: "El plan considera capacitación práctica en regiones con actividad extractiva.",
+          meta: "Fuente: Centro de formación · 29 marzo 2026"
+        }
+      ],
+      "INFRAESTRUCTURA": [
+        {
+          title: "Comenzó nueva etapa de mejoramiento vial en tramo interurbano del sur",
+          summary: "El proyecto contempla obras de seguridad y mayor continuidad para transporte regional.",
+          meta: "Fuente: Dirección de obras · 1 abril 2026"
+        },
+        {
+          title: "Terminal logístico anuncia ampliación de capacidad operativa",
+          summary: "La entidad informó ajustes de infraestructura para reforzar flujos de carga.",
+          meta: "Fuente: Operador portuario · 31 marzo 2026"
+        },
+        {
+          title: "Avanza habilitación de centro de servicios públicos en capital regional",
+          summary: "El reporte indica integración de trámites en un mismo punto de atención.",
+          meta: "Fuente: Servicio público · 28 marzo 2026"
+        }
+      ],
+      "MOVILIDAD": [
+        {
+          title: "Sistema de buses suma nuevos recorridos eléctricos en horario punta",
+          summary: "La autoridad reportó aumento de cobertura en zonas con alta demanda de traslado diario.",
+          meta: "Fuente: Transporte metropolitano · 2 abril 2026"
+        },
+        {
+          title: "Red ferroviaria regional extiende pilotos de pago integrado",
+          summary: "Datos operacionales muestran continuidad del plan para facilitar combinación de viajes.",
+          meta: "Fuente: Empresa ferroviaria · 30 marzo 2026"
+        }
+      ],
+      "CIENCIA Y TECNOLOGÍA": [
+        {
+          title: "Universidad chilena publica resultados de plataforma para monitoreo sísmico",
+          summary: "Según el estudio, el sistema mejora tiempos de procesamiento de datos en pruebas controladas.",
+          meta: "Fuente: Centro de investigación · 1 abril 2026"
+        },
+        {
+          title: "Laboratorio nacional habilita nuevo banco de datos de acceso abierto",
+          summary: "El repositorio incluye series para investigación aplicada en medioambiente y salud.",
+          meta: "Fuente: Institución científica · 31 marzo 2026"
+        },
+        {
+          title: "Programa de innovación pública anuncia convocatoria para soluciones digitales",
+          summary: "La iniciativa busca pilotos que simplifiquen trámites y tiempos de respuesta.",
+          meta: "Fuente: Agencia estatal · 29 marzo 2026"
+        }
+      ],
+      "SALUD": [
+        {
+          title: "Red de atención primaria amplía agenda preventiva en comunas piloto",
+          summary: "La entidad informó mayor disponibilidad de controles en horario extendido.",
+          meta: "Fuente: Servicio de salud · 2 abril 2026"
+        },
+        {
+          title: "Hospital regional implementa módulo digital para seguimiento de exámenes",
+          summary: "El reporte señala reducción de tiempos en entrega de resultados rutinarios.",
+          meta: "Fuente: Hospital público · 1 abril 2026"
+        }
+      ],
+      "INVERSIÓN": [
+        {
+          title: "Fondo productivo regional adjudica nuevas iniciativas para pymes",
+          summary: "El programa prioriza proyectos con ejecución local y metas de continuidad operativa.",
+          meta: "Fuente: Agencia de desarrollo · 2 abril 2026"
+        },
+        {
+          title: "Anuncian cartera de inversión en infraestructura hídrica para zonas agrícolas",
+          summary: "La propuesta incluye etapas de diseño y ejecución con seguimiento público.",
+          meta: "Fuente: Organismo sectorial · 30 marzo 2026"
+        },
+        {
+          title: "Plataforma de financiamiento reporta alza en proyectos de economía circular",
+          summary: "Datos del trimestre muestran mayor participación de iniciativas de reutilización y eficiencia.",
+          meta: "Fuente: Informe financiero · 28 marzo 2026"
+        }
+      ]
+    };
+
+    const categoryOrder = [
+      "NATURALEZA",
+      "ENERGÍA",
+      "MINERÍA",
+      "INFRAESTRUCTURA",
+      "MOVILIDAD",
+      "CIENCIA Y TECNOLOGÍA",
+      "SALUD",
+      "INVERSIÓN"
+    ];
+
+    const projectNameEl = document.getElementById("project-name");
+    const taglineEl = document.getElementById("project-tagline");
+    const xLinkEl = document.getElementById("x-link");
+    const footerTextEl = document.getElementById("footer-text");
+    const tabsEl = document.getElementById("category-tabs");
+    const newsGridEl = document.getElementById("news-grid");
+
+    projectNameEl.textContent = SITE_CONFIG.projectName;
+    taglineEl.textContent = SITE_CONFIG.projectTagline;
+    xLinkEl.href = SITE_CONFIG.xUrl;
+    document.title = `${SITE_CONFIG.projectName} | Noticias por categoría`;
+    footerTextEl.textContent = `© ${new Date().getFullYear()} ${SITE_CONFIG.projectName}`;
+
+    let activeCategory = categoryOrder.includes(SITE_CONFIG.defaultCategory)
+      ? SITE_CONFIG.defaultCategory
+      : categoryOrder[0];
+
+    function renderTabs() {
+      tabsEl.innerHTML = "";
+
+      categoryOrder.forEach((category) => {
+        const isActive = category === activeCategory;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `tab${isActive ? " active" : ""}`;
+        btn.setAttribute("role", "tab");
+        btn.setAttribute("aria-selected", isActive ? "true" : "false");
+        btn.setAttribute("aria-controls", "news-grid");
+        btn.textContent = category;
+
+        btn.addEventListener("click", () => {
+          if (activeCategory !== category) {
+            activeCategory = category;
+            renderTabs();
+            renderNews();
+          }
+        });
+
+        tabsEl.appendChild(btn);
+      });
+    }
+
+    function renderNews() {
+      const items = NEWS_BY_CATEGORY[activeCategory] || [];
+      newsGridEl.innerHTML = "";
+
+      items.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "news-card";
+
+        const title = document.createElement("h3");
+        title.textContent = item.title;
+
+        const summary = document.createElement("p");
+        summary.textContent = item.summary;
+
+        const meta = document.createElement("p");
+        meta.className = "news-meta";
+        meta.textContent = item.meta || "Fuente no indicada";
+
+        const link = document.createElement("a");
+        link.href = "#";
+        link.className = "more-link";
+        link.textContent = "Ver más";
+        link.setAttribute("aria-label", `Ver más sobre: ${item.title}`);
+
+        card.append(title, summary, meta, link);
+        newsGridEl.appendChild(card);
+      });
+    }
+
+    renderTabs();
+    renderNews();
+  </script>
+</body>
+</html>
