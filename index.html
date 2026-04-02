@@ -1034,13 +1034,21 @@
     };
 
     function normalizeCategory(rawCategory) {
-      const normalized = (rawCategory || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().trim();
-      return CATEGORY_ALIASES[normalized] || null;
+      const normalized = (rawCategory || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase()
+        .replace(/\s+/g, " ")
+        .trim();
+
+      if (!normalized) return "SIN CATEGORÍA";
+      if (CATEGORY_ALIASES[normalized]) return CATEGORY_ALIASES[normalized];
+      if (CATEGORY_ORDER.includes(normalized)) return normalized;
+      return normalized;
     }
 
     function normalizeSupabaseNews(row) {
       const category = normalizeCategory(row.category);
-      if (!category) return null;
 
       const isoDate = row.published_at ? String(row.published_at).slice(0, 10) : new Date().toISOString().slice(0, 10);
       const sourceName = row.source_name || "Fuente no indicada";
@@ -1074,7 +1082,7 @@
 
       return (data || [])
         .map(normalizeSupabaseNews)
-        .filter((item) => item && item.title && item.summary);
+        .filter((item) => item && item.title && item.summary && CATEGORY_ORDER.includes(item.category));
     }
 
     async function loadAdminNews() {
@@ -1096,9 +1104,8 @@
         throw error;
       }
 
-      state.adminNews = (data || [])
-        .map(normalizeSupabaseNews)
-        .filter(Boolean);
+      state.adminNews = (data || []).map(normalizeSupabaseNews);
+      console.log("admin noticias cargadas", state.adminNews.length);
     }
 
     function filterAdminNews() {
@@ -1421,7 +1428,11 @@
 
       const ordered = [...filtered].sort((a, b) => {
         if (a.featured !== b.featured) return a.featured ? -1 : 1;
-        if (a.category !== b.category) return CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
+        if (a.category !== b.category) {
+          const ai = CATEGORY_ORDER.indexOf(a.category);
+          const bi = CATEGORY_ORDER.indexOf(b.category);
+          return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+        }
         return String(b.date).localeCompare(String(a.date));
       });
 
