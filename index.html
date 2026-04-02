@@ -774,7 +774,7 @@
       <div class="admin-head">
         <div>
           <h3 id="admin-title">Editor de noticias</h3>
-          <p>Agrega, edita y elimina noticias. Los cambios se guardan en este navegador mediante localStorage.</p>
+          <p>Agrega, edita y elimina noticias en Supabase. La portada pública se actualiza al guardar cambios.</p>
         </div>
         <div class="inline-actions">
           <button class="btn hidden" id="btn-logout" type="button">Cerrar sesión</button>
@@ -854,6 +854,23 @@
               </div>
 
               <div class="field full">
+                <label class="switch-row" for="news-published">
+                  <input id="news-published" type="checkbox" checked />
+                  Publicada (desmarca para guardar como borrador)
+                </label>
+              </div>
+
+              <div class="field">
+                <label for="news-display-order">Orden de despliegue (opcional)</label>
+                <input id="news-display-order" type="number" min="0" step="1" placeholder="Ej: 1" />
+              </div>
+
+              <div class="field">
+                <label for="admin-form-mode">Modo</label>
+                <input id="admin-form-mode" type="text" value="Creación" readonly />
+              </div>
+
+              <div class="field full">
                 <div class="inline-actions">
                   <button class="btn btn-primary" type="submit" id="btn-save">Guardar noticia</button>
                   <button class="btn" type="button" id="btn-cancel-edit">Cancelar edición</button>
@@ -868,6 +885,24 @@
 
         <section class="admin-block" aria-label="Listado de noticias guardadas">
           <h4>Noticias guardadas</h4>
+          <div class="form-grid" style="margin-bottom:.6rem;">
+            <div class="field">
+              <label for="filter-category">Filtro categoría</label>
+              <select id="filter-category"></select>
+            </div>
+            <div class="field">
+              <label for="filter-status">Filtro estado</label>
+              <select id="filter-status">
+                <option value="all">Todas</option>
+                <option value="published">Publicadas</option>
+                <option value="draft">Borradores</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="filter-search">Buscar (título, fuente o resumen)</label>
+              <input id="filter-search" type="search" placeholder="Buscar noticias..." />
+            </div>
+          </div>
           <div class="news-admin-list" id="news-admin-list"></div>
         </section>
       </div>
@@ -942,9 +977,15 @@
 
     const state = {
       news: [],
+      adminNews: [],
       activeCategory: CATEGORY_ORDER.includes(SITE_CONFIG.defaultCategory) ? SITE_CONFIG.defaultCategory : CATEGORY_ORDER[0],
       editingId: null,
-      user: null
+      user: null,
+      filters: {
+        category: "all",
+        status: "all",
+        search: ""
+      }
     };
 
     const root = document.documentElement;
@@ -978,12 +1019,18 @@
       sourceName: document.getElementById("news-source-name"),
       sourceUrl: document.getElementById("news-source-url"),
       featured: document.getElementById("news-featured"),
+      published: document.getElementById("news-published"),
+      displayOrder: document.getElementById("news-display-order"),
+      formMode: document.getElementById("admin-form-mode"),
       extractBtn: document.getElementById("btn-extract-title"),
       extractStatus: document.getElementById("extract-status"),
       formStatus: document.getElementById("form-status"),
       cancelBtn: document.getElementById("btn-cancel-edit"),
       restoreBtn: document.getElementById("btn-restore-demo"),
-      clearBtn: document.getElementById("btn-clear-storage")
+      clearBtn: document.getElementById("btn-clear-storage"),
+      filterCategory: document.getElementById("filter-category"),
+      filterStatus: document.getElementById("filter-status"),
+      filterSearch: document.getElementById("filter-search")
     };
 
     function normalizeCategory(rawCategory) {
@@ -1007,6 +1054,7 @@
         sourceUrl: (row.source_url || "").trim(),
         date: isoDate,
         featured: Boolean(row.is_featured),
+        isPublished: Boolean(row.is_published),
         displayOrder: row.display_order ?? null,
         meta: `Fuente: ${sourceName} · ${isoDate}`
       };
@@ -1027,6 +1075,61 @@
       return (data || [])
         .map(normalizeSupabaseNews)
         .filter((item) => item && item.title && item.summary);
+    }
+
+    async function loadAdminNews() {
+      if (!isAuthenticated()) {
+        state.adminNews = [];
+        renderAdminList();
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from("Noticias")
+        .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
+        .order("is_featured", { ascending: false })
+        .order("published_at", { ascending: false })
+        .order("display_order", { ascending: true });
+
+      if (error) {
+        console.error("error al cargar noticias admin", error.message);
+        throw error;
+      }
+
+      state.adminNews = (data || [])
+        .map(normalizeSupabaseNews)
+        .filter(Boolean);
+    }
+
+    function filterAdminNews() {
+      const search = state.filters.search.toLowerCase().trim();
+
+      return state.adminNews.filter((item) => {
+        const categoryOk = state.filters.category === "all" || item.category === state.filters.category;
+        const statusOk =
+          state.filters.status === "all" ||
+          (state.filters.status === "published" && item.isPublished) ||
+          (state.filters.status === "draft" && !item.isPublished);
+
+        const haystack = `${item.title} ${item.sourceName || ""} ${item.summary || ""}`.toLowerCase();
+        const searchOk = !search || haystack.includes(search);
+        return categoryOk && statusOk && searchOk;
+      });
+    }
+
+    async function createNews(payload) {
+      const { error } = await supabaseClient.from("Noticias").insert(payload);
+      if (error) throw error;
+    }
+
+    async function updateNews(id, payload) {
+      const { error } = await supabaseClient.from("Noticias").update(payload).eq("id", id);
+      if (error) throw error;
+    }
+
+    async function deleteNews(id) {
+      const { error } = await supabaseClient.from("Noticias").delete().eq("id", id);
+      if (error) throw error;
     }
 
     function groupNewsByCategory(newsItems) {
@@ -1231,6 +1334,19 @@
         option.textContent = cat;
         els.category.appendChild(option);
       });
+
+      els.filterCategory.innerHTML = "";
+      const allOpt = document.createElement("option");
+      allOpt.value = "all";
+      allOpt.textContent = "Todas";
+      els.filterCategory.appendChild(allOpt);
+
+      CATEGORY_ORDER.forEach((cat) => {
+        const option = document.createElement("option");
+        option.value = cat;
+        option.textContent = cat;
+        els.filterCategory.appendChild(option);
+      });
     }
 
     function limpiarFormulario() {
@@ -1243,10 +1359,17 @@
       els.sourceName.value = "";
       els.sourceUrl.value = "";
       els.featured.checked = false;
+      els.published.checked = true;
+      els.displayOrder.value = "";
+      els.formMode.value = "Creación";
       els.formStatus.textContent = "";
       els.extractStatus.textContent = "";
       els.formStatus.className = "status-msg";
       els.extractStatus.className = "status-msg";
+    }
+
+    function resetAdminForm() {
+      limpiarFormulario();
     }
 
     function validarFormulario() {
@@ -1264,39 +1387,40 @@
         sourceUrl: els.sourceUrl.value.trim(),
         date: els.date.value,
         featured: els.featured.checked,
+        isPublished: els.published.checked,
+        displayOrder: els.displayOrder.value === "" ? null : Number(els.displayOrder.value),
         meta: `Fuente: ${els.sourceName.value.trim() || "Fuente no indicada"} · ${els.date.value}`
       };
     }
 
-    function agregarNoticia(noticia) {
-      if (!isAuthenticated()) return;
-      state.news.push(noticia);
-      setLocalFallback(state.news);
+    function toSupabasePayload(noticia) {
+      return {
+        title: noticia.title,
+        summary: noticia.summary,
+        category: noticia.category,
+        source_name: noticia.sourceName,
+        source_url: noticia.sourceUrl || null,
+        published_at: noticia.date || null,
+        is_featured: noticia.featured,
+        is_published: noticia.isPublished,
+        display_order: noticia.displayOrder
+      };
     }
 
-    function editarNoticia(id, noticiaActualizada) {
-      if (!isAuthenticated()) return;
-      state.news = state.news.map((item) => (item.id === id ? noticiaActualizada : item));
-      setLocalFallback(state.news);
-    }
-
-    function eliminarNoticia(id) {
-      if (!isAuthenticated()) return;
-      state.news = state.news.filter((item) => item.id !== id);
-      setLocalFallback(state.news);
-    }
-
-    function renderizarListadoEditor() {
+    function renderAdminList() {
       els.adminList.innerHTML = "";
-      if (!state.news.length) {
+      const filtered = filterAdminNews();
+
+      if (!filtered.length) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
-        empty.textContent = "No hay noticias cargadas.";
+        empty.textContent = "No hay noticias que coincidan con los filtros.";
         els.adminList.appendChild(empty);
         return;
       }
 
-      const ordered = [...state.news].sort((a, b) => {
+      const ordered = [...filtered].sort((a, b) => {
+        if (a.featured !== b.featured) return a.featured ? -1 : 1;
         if (a.category !== b.category) return CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
         return String(b.date).localeCompare(String(a.date));
       });
@@ -1311,12 +1435,12 @@
         title.textContent = item.title;
         const pill = document.createElement("span");
         pill.className = "pill";
-        pill.textContent = item.featured ? "Destacada" : "Secundaria";
+        pill.textContent = item.featured ? "Destacada" : "Normal";
         top.append(title, pill);
 
         const meta = document.createElement("p");
         meta.className = "admin-meta";
-        meta.textContent = `${item.category} · ${item.sourceName || "Fuente no indicada"} · ${fechaLegible(item.date)}`;
+        meta.textContent = `${item.category} · ${item.sourceName || "Fuente no indicada"} · ${fechaLegible(item.date)} · ${item.isPublished ? "Publicada" : "Borrador"}`;
 
         const actions = document.createElement("div");
         actions.className = "inline-actions";
@@ -1336,10 +1460,7 @@
             els.formStatus.className = "status-msg error";
             return;
           }
-          if (!confirm("¿Eliminar esta noticia del estado local?") ) return;
-          eliminarNoticia(item.id);
-          if (state.editingId === item.id) limpiarFormulario();
-          renderAll();
+          handleDelete(item.id);
         });
 
         actions.append(editBtn, delBtn);
@@ -1349,7 +1470,7 @@
     }
 
     function cargarNoticiaEnFormulario(id) {
-      const item = state.news.find((news) => news.id === id);
+      const item = state.adminNews.find((news) => news.id === id);
       if (!item) return;
       state.editingId = id;
       els.newsId.value = id;
@@ -1360,15 +1481,27 @@
       els.sourceName.value = item.sourceName || "";
       els.sourceUrl.value = item.sourceUrl || "";
       els.featured.checked = Boolean(item.featured);
-      els.formStatus.textContent = "Editando noticia en estado local.";
+      els.published.checked = Boolean(item.isPublished);
+      els.displayOrder.value = item.displayOrder ?? "";
+      els.formMode.value = "Edición";
+      els.formStatus.textContent = "Editando noticia existente.";
       els.formStatus.className = "status-msg";
     }
 
-    function abrirEditor() {
+    async function abrirEditor() {
       els.adminModal.classList.add("open");
       els.adminModal.setAttribute("aria-hidden", "false");
       updateAdminVisibility();
       if (!state.editingId) limpiarFormulario();
+      if (isAuthenticated()) {
+        try {
+          await loadAdminNews();
+          renderAdminList();
+        } catch (error) {
+          els.formStatus.textContent = "Error al cargar noticias del administrador.";
+          els.formStatus.className = "status-msg error";
+        }
+      }
     }
 
     function cerrarEditor() {
@@ -1408,34 +1541,58 @@
       }
     }
 
-    function restaurarNoticiasDemo() {
-      if (!isAuthenticated()) {
-        els.formStatus.textContent = "Debes iniciar sesión para restaurar noticias.";
+    async function restaurarNoticiasDemo() {
+      if (!isAuthenticated()) return;
+      try {
+        await loadAdminNews();
+        await refreshPublicNews();
+        renderAll();
+        els.formStatus.textContent = "Datos recargados desde Supabase.";
+        els.formStatus.className = "status-msg ok";
+      } catch (error) {
+        console.error("error al recargar datos", error.message);
+        els.formStatus.textContent = "Error al recargar datos desde Supabase.";
         els.formStatus.className = "status-msg error";
-        return;
       }
-      if (!confirm("¿Restaurar noticias demo como fallback local?")) return;
-      state.news = DEMO_NEWS.map((n) => ({ ...n, id: crypto.randomUUID() }));
-      setLocalFallback(state.news);
-      limpiarFormulario();
-      renderAll();
-      els.formStatus.textContent = "Fallback local restaurado con noticias demo.";
-      els.formStatus.className = "status-msg ok";
     }
 
     function limpiarStorageNoticias() {
-      if (!isAuthenticated()) {
-        els.formStatus.textContent = "Debes iniciar sesión para limpiar localStorage.";
-        els.formStatus.className = "status-msg error";
-        return;
-      }
-      if (!confirm("¿Limpiar localStorage de noticias?")) return;
+      if (!confirm("¿Limpiar fallback local (localStorage)?")) return;
       localStorage.removeItem(STORAGE_KEY);
-      els.formStatus.textContent = "localStorage limpiado.";
+      els.formStatus.textContent = "Fallback local limpiado.";
       els.formStatus.className = "status-msg ok";
     }
 
-    function onSubmitFormulario(event) {
+    async function refreshPublicNews() {
+      try {
+        const supabaseNews = await fetchNewsFromSupabase();
+        state.news = supabaseNews;
+        setLocalFallback(supabaseNews);
+      } catch (error) {
+        console.error("error al refrescar portada", error.message);
+        state.news = getLocalFallback();
+      }
+    }
+
+    async function handleDelete(id) {
+      if (!isAuthenticated()) return;
+      if (!confirm("¿Eliminar esta noticia? Esta acción no se puede deshacer.")) return;
+      try {
+        await deleteNews(id);
+        if (state.editingId === id) resetAdminForm();
+        await loadAdminNews();
+        await refreshPublicNews();
+        renderAll();
+        els.formStatus.textContent = "Noticia eliminada.";
+        els.formStatus.className = "status-msg ok";
+      } catch (error) {
+        console.error("error al eliminar noticia", error.message);
+        els.formStatus.textContent = "Error al eliminar la noticia.";
+        els.formStatus.className = "status-msg error";
+      }
+    }
+
+    async function handleAdminSubmit(event) {
       event.preventDefault();
       els.formStatus.textContent = "";
       els.formStatus.className = "status-msg";
@@ -1453,16 +1610,27 @@
       }
 
       const noticia = construirNoticiaDesdeFormulario();
-      if (state.editingId) {
-        editarNoticia(state.editingId, noticia);
-        els.formStatus.textContent = "Noticia actualizada en estado local.";
-      } else {
-        agregarNoticia(noticia);
-        els.formStatus.textContent = "Noticia agregada en estado local.";
+      const payload = toSupabasePayload(noticia);
+
+      try {
+        if (state.editingId) {
+          await updateNews(state.editingId, payload);
+          els.formStatus.textContent = "Noticia actualizada.";
+        } else {
+          await createNews(payload);
+          els.formStatus.textContent = "Noticia creada.";
+        }
+      } catch (error) {
+        console.error("error al guardar/actualizar noticia", error.message);
+        els.formStatus.textContent = state.editingId ? "Error al actualizar la noticia." : "Error al crear la noticia.";
+        els.formStatus.classList.add("error");
+        return;
       }
 
       els.formStatus.classList.add("ok");
-      limpiarFormulario();
+      resetAdminForm();
+      await loadAdminNews();
+      await refreshPublicNews();
       renderAll();
     }
 
@@ -1470,7 +1638,7 @@
       applyCategoryAccent(state.activeCategory);
       renderizarTabs();
       renderizarNoticias();
-      renderizarListadoEditor();
+      renderAdminList();
     }
 
     function initEvents() {
@@ -1491,7 +1659,7 @@
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && els.adminModal.classList.contains("open")) cerrarEditor();
       });
-      els.form.addEventListener("submit", onSubmitFormulario);
+      els.form.addEventListener("submit", handleAdminSubmit);
       els.authForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         els.authStatus.textContent = "";
@@ -1506,20 +1674,39 @@
           els.authStatus.classList.add("error");
         }
       });
-      els.cancelBtn.addEventListener("click", limpiarFormulario);
-      els.restoreBtn.addEventListener("click", restaurarNoticiasDemo);
+      els.cancelBtn.addEventListener("click", resetAdminForm);
+      els.restoreBtn.addEventListener("click", () => { restaurarNoticiasDemo(); });
       els.clearBtn.addEventListener("click", limpiarStorageNoticias);
       els.extractBtn.addEventListener("click", intentarExtraerTituloDesdeURL);
+      els.filterCategory.addEventListener("change", () => {
+        state.filters.category = els.filterCategory.value;
+        renderAdminList();
+      });
+      els.filterStatus.addEventListener("change", () => {
+        state.filters.status = els.filterStatus.value;
+        renderAdminList();
+      });
+      els.filterSearch.addEventListener("input", () => {
+        state.filters.search = els.filterSearch.value;
+        renderAdminList();
+      });
 
-      supabaseClient.auth.onAuthStateChange((event, session) => {
+      supabaseClient.auth.onAuthStateChange(async (event, session) => {
         if (session?.user) {
           state.user = session.user;
           console.log("usuario activo", session.user.email || "");
+          try {
+            await loadAdminNews();
+          } catch (error) {
+            console.error("error al cargar noticias admin tras auth", error.message);
+          }
         } else {
           state.user = null;
           console.log("usuario sin sesión");
+          state.adminNews = [];
         }
         updateAdminVisibility();
+        renderAdminList();
       });
     }
 
@@ -1530,11 +1717,8 @@
       await checkActiveSession();
 
       try {
-        const supabaseNews = await fetchNewsFromSupabase();
-        if (supabaseNews.length) {
-          state.news = supabaseNews;
-          setLocalFallback(supabaseNews);
-        } else {
+        await refreshPublicNews();
+        if (!state.news.length) {
           console.warn("Supabase no devolvió noticias publicadas. Se aplicará fallback local.");
           state.news = getLocalFallback();
           if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
@@ -1543,6 +1727,15 @@
         console.error("Error al cargar noticias desde Supabase:", error);
         state.news = getLocalFallback();
         if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+      }
+
+      if (isAuthenticated()) {
+        try {
+          await loadAdminNews();
+        } catch (error) {
+          els.formStatus.textContent = "Error al cargar noticias del administrador.";
+          els.formStatus.className = "status-msg error";
+        }
       }
 
       renderAll();
