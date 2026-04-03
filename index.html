@@ -891,8 +891,7 @@
                 <div class="inline-actions">
                   <button class="btn btn-primary" type="submit" id="btn-save">Guardar noticia</button>
                   <button class="btn" type="button" id="btn-cancel-edit">Cancelar edición</button>
-                  <button class="btn" type="button" id="btn-restore-demo">Restaurar noticias demo</button>
-                  <button class="btn btn-danger" type="button" id="btn-clear-storage">Limpiar localStorage</button>
+                  <button class="btn" type="button" id="btn-restore-demo">Recargar desde Supabase</button>
                 </div>
                 <p class="status-msg" id="form-status" aria-live="polite"></p>
               </div>
@@ -935,8 +934,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const STORAGE_KEY = "el-chilometro-news-v1";
-
     const SUPABASE_URL = "https://isyemlgmnmwaoqweskyn.supabase.co";
     const SUPABASE_KEY = "sb_publishable_AVj9wl5N369ovPfSz9VFZw_a4_TZHrg";
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -986,15 +983,10 @@
       "INVERSIÓN": "INVERSIÓN"
     };
 
-    const DEMO_NEWS = [
-      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Plan regional amplía restauración de bosque nativo en zona centro-sur", summary: "El informe técnico incluye nuevos sectores priorizados para recuperación ecológica y seguimiento anual.", sourceName: "Gobierno regional", sourceUrl: "", date: "2026-04-02", featured: true },
-      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Monitoreo de humedales urbanos suma estaciones de observación comunitaria", summary: "Datos abiertos muestran mayor cobertura de medición en calidad de agua y biodiversidad.", sourceName: "Municipalidad", sourceUrl: "", date: "2026-04-01", featured: false },
-      { id: crypto.randomUUID(), category: "ENERGÍA", title: "Nueva planta solar inicia operación en la Región de Antofagasta", summary: "El proyecto incorpora capacidad adicional al sistema eléctrico del norte del país.", sourceName: "Coordinador eléctrico", sourceUrl: "", date: "2026-04-02", featured: true }
-    ];
-
     const state = {
       news: [],
       adminNews: [],
+      newsLoadError: false,
       activeCategory: CATEGORY_ORDER.includes(SITE_CONFIG.defaultCategory) ? SITE_CONFIG.defaultCategory : CATEGORY_ORDER[0],
       editingId: null,
       user: null,
@@ -1044,7 +1036,6 @@
       formStatus: document.getElementById("form-status"),
       cancelBtn: document.getElementById("btn-cancel-edit"),
       restoreBtn: document.getElementById("btn-restore-demo"),
-      clearBtn: document.getElementById("btn-clear-storage"),
       filterCategory: document.getElementById("filter-category"),
       filterStatus: document.getElementById("filter-status"),
       filterSearch: document.getElementById("filter-search")
@@ -1163,22 +1154,6 @@
         if (groups[item.category]) groups[item.category].push(item);
       });
       return groups;
-    }
-
-    function setLocalFallback(newsItems) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newsItems));
-    }
-
-    function getLocalFallback() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) return [];
-        return parsed.filter((n) => n && n.category && n.title && n.summary);
-      } catch {
-        return [];
-      }
     }
 
     function initializarCabecera() {
@@ -1328,6 +1303,14 @@
     function renderizarNoticias() {
       const { featured, secondary } = seleccionarNoticiasPortada(state.activeCategory);
       els.newsLayout.innerHTML = "";
+
+      if (state.newsLoadError) {
+        const error = document.createElement("p");
+        error.className = "empty-state";
+        error.textContent = "No se pudieron cargar noticias.";
+        els.newsLayout.appendChild(error);
+        return;
+      }
 
       if (!featured) {
         const empty = document.createElement("p");
@@ -1569,7 +1552,7 @@
       }
     }
 
-    async function restaurarNoticiasDemo() {
+    async function recargarNoticiasSupabase() {
       if (!isAuthenticated()) return;
       try {
         await loadAdminNews();
@@ -1584,21 +1567,15 @@
       }
     }
 
-    function limpiarStorageNoticias() {
-      if (!confirm("¿Limpiar fallback local (localStorage)?")) return;
-      localStorage.removeItem(STORAGE_KEY);
-      els.formStatus.textContent = "Fallback local limpiado.";
-      els.formStatus.className = "status-msg ok";
-    }
-
     async function refreshPublicNews() {
       try {
         const supabaseNews = await fetchNewsFromSupabase();
         state.news = supabaseNews;
-        setLocalFallback(supabaseNews);
+        state.newsLoadError = false;
       } catch (error) {
         console.error("error al refrescar portada", error.message);
-        state.news = getLocalFallback();
+        state.news = [];
+        state.newsLoadError = true;
       }
     }
 
@@ -1703,8 +1680,7 @@
         }
       });
       els.cancelBtn.addEventListener("click", resetAdminForm);
-      els.restoreBtn.addEventListener("click", () => { restaurarNoticiasDemo(); });
-      els.clearBtn.addEventListener("click", limpiarStorageNoticias);
+      els.restoreBtn.addEventListener("click", () => { recargarNoticiasSupabase(); });
       els.extractBtn.addEventListener("click", intentarExtraerTituloDesdeURL);
       els.filterCategory.addEventListener("change", () => {
         state.filters.category = els.filterCategory.value;
@@ -1743,11 +1719,6 @@
       llenarSelectCategorias();
       initEvents();
 
-      // Primera pintura rápida: mostrar fallback local/demo sin esperar red.
-      state.news = getLocalFallback();
-      if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
-      renderAll();
-
       // Cargar sesión y noticias en paralelo para evitar bloquear el inicio.
       const [sessionResult, newsResult] = await Promise.allSettled([
         checkActiveSession(),
@@ -1756,8 +1727,6 @@
 
       if (newsResult.status === "rejected") {
         console.error("Error al cargar noticias desde Supabase:", newsResult.reason);
-      } else if (!state.news.length) {
-        console.warn("Supabase no devolvió noticias publicadas. Se mantiene fallback.");
       }
 
       if (sessionResult.status === "rejected") {
