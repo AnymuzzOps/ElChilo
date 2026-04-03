@@ -1070,7 +1070,7 @@
 
     async function fetchNewsFromSupabase() {
       const { data, error } = await supabaseClient
-        .from("Noticias")
+        .from("noticias")
         .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
         .eq("is_published", true)
         .order("category", { ascending: true })
@@ -1093,7 +1093,7 @@
       }
 
       const { data, error } = await supabaseClient
-        .from("Noticias")
+        .from("noticias")
         .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
         .order("is_featured", { ascending: false })
         .order("published_at", { ascending: false })
@@ -1125,17 +1125,17 @@
     }
 
     async function createNews(payload) {
-      const { error } = await supabaseClient.from("Noticias").insert(payload);
+      const { error } = await supabaseClient.from("noticias").insert(payload);
       if (error) throw error;
     }
 
     async function updateNews(id, payload) {
-      const { error } = await supabaseClient.from("Noticias").update(payload).eq("id", id);
+      const { error } = await supabaseClient.from("noticias").update(payload).eq("id", id);
       if (error) throw error;
     }
 
     async function deleteNews(id) {
-      const { error } = await supabaseClient.from("Noticias").delete().eq("id", id);
+      const { error } = await supabaseClient.from("noticias").delete().eq("id", id);
       if (error) throw error;
     }
 
