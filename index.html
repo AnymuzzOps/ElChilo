@@ -113,6 +113,10 @@
       width: min(100% - .7rem, 1880px);
     }
 
+    .banner-shell {
+      width: min(100% - .9rem, 1820px);
+    }
+
     .hero::after {
       content: "";
       position: absolute;
@@ -727,6 +731,7 @@
       .container { width: min(100% - 1.2rem, var(--content-max)); }
       .topbar-container { width: min(100% - 1.2rem, 1460px); }
       .topbar-shell { width: min(100% - 1rem, 1880px); }
+      .banner-shell { width: min(100% - 1.1rem, 1820px); }
 
       .hero-grid {
         grid-template-columns: 1fr;
@@ -775,7 +780,7 @@
   </header>
 
   <section class="hero-banner-wrap" aria-label="Espacio de portada visual">
-    <div class="topbar-container">
+    <div class="topbar-container banner-shell">
       <div class="hero-banner" role="img" aria-label="Banner de portada"></div>
     </div>
   </section>
