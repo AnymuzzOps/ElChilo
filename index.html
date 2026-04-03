@@ -136,25 +136,17 @@
       display: inline-flex;
       align-items: baseline;
       gap: 0;
-      font-size: clamp(1.7rem, 3.9vw, 2.75rem);
-      letter-spacing: -0.028em;
+      font-size: clamp(1.45rem, 3.2vw, 2.25rem);
+      letter-spacing: -0.02em;
       text-transform: none;
       color: #222;
-      font-weight: 800;
-      animation: brand-wave 5.2s ease-in-out infinite;
-      transform-origin: left center;
-      padding-left: .45rem;
+      font-weight: 620;
+      padding-left: .35rem;
     }
 
     .hero-kicker .el { color: #2355a4; }
     .hero-kicker .chil { color: #bf1f2d; }
     .hero-kicker .ometro { color: #a9afb4; }
-    .hero-kicker .dot { margin-left: .2rem; font-size: .72em; line-height: 1; transform: translateY(-.02em); }
-
-    @keyframes brand-wave {
-      0%, 100% { transform: rotate(0deg) translateY(0); }
-      50% { transform: rotate(-1deg) translateY(-1px); }
-    }
 
     h1 {
       margin: 0;
@@ -191,8 +183,8 @@
 
     .hero-banner {
       width: 100%;
-      aspect-ratio: 21 / 6;
-      min-height: 160px;
+      aspect-ratio: 21 / 5;
+      min-height: 130px;
       border-radius: 0;
       border: 0;
       background: #ffffff;
@@ -200,49 +192,65 @@
       display: grid;
       place-items: center;
       text-align: center;
-      padding: clamp(1rem, 2.5vw, 2rem);
+      padding: clamp(.9rem, 2.1vw, 1.5rem);
       position: relative;
       overflow: hidden;
     }
 
     .hero-banner-content {
       display: grid;
-      gap: .8rem;
+      gap: .65rem;
       justify-items: center;
+      max-width: 980px;
     }
 
     .hero-banner-title {
       margin: 0;
-      font-size: clamp(1.35rem, 3.9vw, 3rem);
-      line-height: 1.08;
-      letter-spacing: .03em;
-      font-weight: 760;
-      text-transform: uppercase;
+      font-size: clamp(1.65rem, 4.5vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-weight: 740;
+      text-transform: none;
       color: #1f1f1f;
       text-wrap: balance;
-      max-width: 22ch;
+      max-width: 18ch;
+    }
+
+    .hero-banner-sub {
+      margin: 0;
+      max-width: 70ch;
+      text-wrap: balance;
+      color: #4b4f53;
+      font-size: clamp(.88rem, 1.8vw, 1rem);
+      line-height: 1.45;
+    }
+
+    .hero-banner-actions {
+      display: flex;
+      gap: .55rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .hero-banner-cta {
       appearance: none;
-      border: 1px solid rgba(255, 255, 255, 0.72);
-      background: rgba(255, 255, 255, 0.28);
-      color: #2f2f2f;
+      border: 1px solid #d8dadd;
+      background: #ffffff;
+      color: #2c2c2c;
       border-radius: 999px;
-      padding: .48rem .95rem;
-      font-size: .85rem;
+      padding: .5rem .98rem;
+      font-size: .86rem;
       font-weight: 620;
       text-decoration: none;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      box-shadow: 0 8px 18px rgba(14, 14, 14, 0.08);
+      box-shadow: 0 6px 14px rgba(14, 14, 14, 0.06);
       transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
     }
 
     .hero-banner-cta:hover,
     .hero-banner-cta:focus-visible {
-      background: rgba(255, 255, 255, 0.44);
-      border-color: rgba(255, 255, 255, 0.9);
+      background: #f7f8f8;
+      border-color: #cfd2d6;
       color: #1f1f1f;
       transform: translateY(-1px);
     }
@@ -411,14 +419,7 @@
 
     .news-featured::before,
     .news-side::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: var(--cat);
-      opacity: .74;
+      content: none;
     }
 
     .news-side {
@@ -823,7 +824,7 @@
   <header class="hero" aria-label="Encabezado editorial">
     <div class="topbar-container topbar-shell hero-grid">
       <div>
-        <p class="hero-kicker"><span class="el">El</span><span class="chil">Chil</span><span class="ometro">ometro</span><span class="dot">🔴</span></p>
+        <p class="hero-kicker"><span class="el">El</span><span class="chil">Chil</span><span class="ometro">ómetro</span></p>
       </div>
 
       <div class="hero-actions">
@@ -837,7 +838,12 @@
     <div class="banner-shell">
       <div class="hero-banner" aria-label="Banner de portada">
         <div class="hero-banner-content">
-          <h2 class="hero-banner-title">EL REGISTRO EDITORIAL DE CHILE PARA CHILE</h2>
+          <h2 class="hero-banner-title">Chile avanza. Aquí lo registramos.</h2>
+          <p class="hero-banner-sub">Noticias sobre avances, inversión, innovación, infraestructura y hechos concretos que impactan a Chile y a los chilenos.</p>
+          <div class="hero-banner-actions">
+            <a class="hero-banner-cta" href="#principal">Ver noticias</a>
+            <a class="hero-banner-cta" href="https://x.com/ElChilometro" target="_blank" rel="noopener noreferrer">Seguir en X</a>
+          </div>
         </div>
       </div>
     </div>
