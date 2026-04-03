@@ -27,7 +27,7 @@
       --project-name: "El Chilómetro";
       --project-tagline: "Avances concretos de Chile";
       --project-editorial-line: "Registro breve de hechos verificables en desarrollo.";
-      --x-url: "https://x.com/tu_perfil";
+      --x-url: "https://x.com/ElChilometro";
 
       --bg: #fcfcfc;
       --bg-soft: #f7f7f7;
@@ -184,6 +184,14 @@
       cursor: pointer;
     }
 
+    .admin-open {
+      color: #6f6f6f;
+      border-color: #efefef;
+      font-size: .78rem;
+      font-weight: 520;
+      opacity: .8;
+    }
+
     .x-button:hover,
     .x-button:focus-visible,
     .admin-open:hover,
@@ -192,6 +200,15 @@
       background: var(--accent-red-soft);
       border-color: #e2b9bd;
       transform: translateY(-1px);
+    }
+
+    .admin-open:hover,
+    .admin-open:focus-visible {
+      opacity: 1;
+      color: #454545;
+      background: #f8f8f8;
+      border-color: #e9e9e9;
+      transform: none;
     }
 
     .measure-mark {
@@ -743,8 +760,8 @@
       </div>
 
       <div class="hero-actions">
-        <button class="admin-open" id="open-admin" type="button">Administrar noticias</button>
-        <a id="x-link" class="x-button" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">Perfil en X</a>
+        <button class="admin-open" id="open-admin" type="button">Panel</button>
+        <a id="x-link" class="x-button" href="https://x.com/ElChilometro" target="_blank" rel="noopener noreferrer">Perfil en X</a>
         <div class="measure-mark" aria-hidden="true"></div>
       </div>
     </div>
@@ -928,7 +945,7 @@
       projectName: "El Chilómetro",
       projectTagline: "Avances concretos de Chile",
       projectEditorialLine: "Registro breve de hechos verificables en desarrollo.",
-      xUrl: "https://x.com/tu_perfil",
+      xUrl: "https://x.com/ElChilometro",
       defaultCategory: "NATURALEZA"
     };
 
@@ -1725,19 +1742,26 @@
       initializarCabecera();
       llenarSelectCategorias();
       initEvents();
-      await checkActiveSession();
 
-      try {
-        await refreshPublicNews();
-        if (!state.news.length) {
-          console.warn("Supabase no devolvió noticias publicadas. Se aplicará fallback local.");
-          state.news = getLocalFallback();
-          if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
-        }
-      } catch (error) {
-        console.error("Error al cargar noticias desde Supabase:", error);
-        state.news = getLocalFallback();
-        if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+      // Primera pintura rápida: mostrar fallback local/demo sin esperar red.
+      state.news = getLocalFallback();
+      if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+      renderAll();
+
+      // Cargar sesión y noticias en paralelo para evitar bloquear el inicio.
+      const [sessionResult, newsResult] = await Promise.allSettled([
+        checkActiveSession(),
+        refreshPublicNews()
+      ]);
+
+      if (newsResult.status === "rejected") {
+        console.error("Error al cargar noticias desde Supabase:", newsResult.reason);
+      } else if (!state.news.length) {
+        console.warn("Supabase no devolvió noticias publicadas. Se mantiene fallback.");
+      }
+
+      if (sessionResult.status === "rejected") {
+        console.error("Error al revisar sesión activa:", sessionResult.reason);
       }
 
       if (isAuthenticated()) {
