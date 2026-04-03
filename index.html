@@ -27,7 +27,7 @@
       --project-name: "El Chilómetro";
       --project-tagline: "Avances concretos de Chile";
       --project-editorial-line: "Registro breve de hechos verificables en desarrollo.";
-      --x-url: "https://x.com/tu_perfil";
+      --x-url: "https://x.com/ElChilometro";
 
       --bg: #fcfcfc;
       --bg-soft: #f7f7f7;
@@ -184,6 +184,14 @@
       cursor: pointer;
     }
 
+    .admin-open {
+      color: #6f6f6f;
+      border-color: #efefef;
+      font-size: .78rem;
+      font-weight: 520;
+      opacity: .8;
+    }
+
     .x-button:hover,
     .x-button:focus-visible,
     .admin-open:hover,
@@ -192,6 +200,15 @@
       background: var(--accent-red-soft);
       border-color: #e2b9bd;
       transform: translateY(-1px);
+    }
+
+    .admin-open:hover,
+    .admin-open:focus-visible {
+      opacity: 1;
+      color: #454545;
+      background: #f8f8f8;
+      border-color: #e9e9e9;
+      transform: none;
     }
 
     .measure-mark {
@@ -743,8 +760,8 @@
       </div>
 
       <div class="hero-actions">
-        <button class="admin-open" id="open-admin" type="button">Administrar noticias</button>
-        <a id="x-link" class="x-button" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">Perfil en X</a>
+        <button class="admin-open" id="open-admin" type="button">Panel</button>
+        <a id="x-link" class="x-button" href="https://x.com/ElChilometro" target="_blank" rel="noopener noreferrer">Perfil en X</a>
         <div class="measure-mark" aria-hidden="true"></div>
       </div>
     </div>
@@ -874,8 +891,7 @@
                 <div class="inline-actions">
                   <button class="btn btn-primary" type="submit" id="btn-save">Guardar noticia</button>
                   <button class="btn" type="button" id="btn-cancel-edit">Cancelar edición</button>
-                  <button class="btn" type="button" id="btn-restore-demo">Restaurar noticias demo</button>
-                  <button class="btn btn-danger" type="button" id="btn-clear-storage">Limpiar localStorage</button>
+                  <button class="btn" type="button" id="btn-restore-demo">Recargar desde Supabase</button>
                 </div>
                 <p class="status-msg" id="form-status" aria-live="polite"></p>
               </div>
@@ -918,8 +934,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const STORAGE_KEY = "el-chilometro-news-v1";
-
     const SUPABASE_URL = "https://isyemlgmnmwaoqweskyn.supabase.co";
     const SUPABASE_KEY = "sb_publishable_AVj9wl5N369ovPfSz9VFZw_a4_TZHrg";
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -928,7 +942,7 @@
       projectName: "El Chilómetro",
       projectTagline: "Avances concretos de Chile",
       projectEditorialLine: "Registro breve de hechos verificables en desarrollo.",
-      xUrl: "https://x.com/tu_perfil",
+      xUrl: "https://x.com/ElChilometro",
       defaultCategory: "NATURALEZA"
     };
 
@@ -969,15 +983,10 @@
       "INVERSIÓN": "INVERSIÓN"
     };
 
-    const DEMO_NEWS = [
-      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Plan regional amplía restauración de bosque nativo en zona centro-sur", summary: "El informe técnico incluye nuevos sectores priorizados para recuperación ecológica y seguimiento anual.", sourceName: "Gobierno regional", sourceUrl: "", date: "2026-04-02", featured: true },
-      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Monitoreo de humedales urbanos suma estaciones de observación comunitaria", summary: "Datos abiertos muestran mayor cobertura de medición en calidad de agua y biodiversidad.", sourceName: "Municipalidad", sourceUrl: "", date: "2026-04-01", featured: false },
-      { id: crypto.randomUUID(), category: "ENERGÍA", title: "Nueva planta solar inicia operación en la Región de Antofagasta", summary: "El proyecto incorpora capacidad adicional al sistema eléctrico del norte del país.", sourceName: "Coordinador eléctrico", sourceUrl: "", date: "2026-04-02", featured: true }
-    ];
-
     const state = {
       news: [],
       adminNews: [],
+      newsLoadError: false,
       activeCategory: CATEGORY_ORDER.includes(SITE_CONFIG.defaultCategory) ? SITE_CONFIG.defaultCategory : CATEGORY_ORDER[0],
       editingId: null,
       user: null,
@@ -1027,7 +1036,6 @@
       formStatus: document.getElementById("form-status"),
       cancelBtn: document.getElementById("btn-cancel-edit"),
       restoreBtn: document.getElementById("btn-restore-demo"),
-      clearBtn: document.getElementById("btn-clear-storage"),
       filterCategory: document.getElementById("filter-category"),
       filterStatus: document.getElementById("filter-status"),
       filterSearch: document.getElementById("filter-search")
@@ -1070,7 +1078,7 @@
 
     async function fetchNewsFromSupabase() {
       const { data, error } = await supabaseClient
-        .from("Noticias")
+        .from("noticias")
         .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
         .eq("is_published", true)
         .order("category", { ascending: true })
@@ -1093,7 +1101,7 @@
       }
 
       const { data, error } = await supabaseClient
-        .from("Noticias")
+        .from("noticias")
         .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
         .order("is_featured", { ascending: false })
         .order("published_at", { ascending: false })
@@ -1125,17 +1133,17 @@
     }
 
     async function createNews(payload) {
-      const { error } = await supabaseClient.from("Noticias").insert(payload);
+      const { error } = await supabaseClient.from("noticias").insert(payload);
       if (error) throw error;
     }
 
     async function updateNews(id, payload) {
-      const { error } = await supabaseClient.from("Noticias").update(payload).eq("id", id);
+      const { error } = await supabaseClient.from("noticias").update(payload).eq("id", id);
       if (error) throw error;
     }
 
     async function deleteNews(id) {
-      const { error } = await supabaseClient.from("Noticias").delete().eq("id", id);
+      const { error } = await supabaseClient.from("noticias").delete().eq("id", id);
       if (error) throw error;
     }
 
@@ -1146,22 +1154,6 @@
         if (groups[item.category]) groups[item.category].push(item);
       });
       return groups;
-    }
-
-    function setLocalFallback(newsItems) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newsItems));
-    }
-
-    function getLocalFallback() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) return [];
-        return parsed.filter((n) => n && n.category && n.title && n.summary);
-      } catch {
-        return [];
-      }
     }
 
     function initializarCabecera() {
@@ -1311,6 +1303,14 @@
     function renderizarNoticias() {
       const { featured, secondary } = seleccionarNoticiasPortada(state.activeCategory);
       els.newsLayout.innerHTML = "";
+
+      if (state.newsLoadError) {
+        const error = document.createElement("p");
+        error.className = "empty-state";
+        error.textContent = "No se pudieron cargar noticias.";
+        els.newsLayout.appendChild(error);
+        return;
+      }
 
       if (!featured) {
         const empty = document.createElement("p");
@@ -1552,7 +1552,7 @@
       }
     }
 
-    async function restaurarNoticiasDemo() {
+    async function recargarNoticiasSupabase() {
       if (!isAuthenticated()) return;
       try {
         await loadAdminNews();
@@ -1567,21 +1567,15 @@
       }
     }
 
-    function limpiarStorageNoticias() {
-      if (!confirm("¿Limpiar fallback local (localStorage)?")) return;
-      localStorage.removeItem(STORAGE_KEY);
-      els.formStatus.textContent = "Fallback local limpiado.";
-      els.formStatus.className = "status-msg ok";
-    }
-
     async function refreshPublicNews() {
       try {
         const supabaseNews = await fetchNewsFromSupabase();
         state.news = supabaseNews;
-        setLocalFallback(supabaseNews);
+        state.newsLoadError = false;
       } catch (error) {
         console.error("error al refrescar portada", error.message);
-        state.news = getLocalFallback();
+        state.news = [];
+        state.newsLoadError = true;
       }
     }
 
@@ -1686,8 +1680,7 @@
         }
       });
       els.cancelBtn.addEventListener("click", resetAdminForm);
-      els.restoreBtn.addEventListener("click", () => { restaurarNoticiasDemo(); });
-      els.clearBtn.addEventListener("click", limpiarStorageNoticias);
+      els.restoreBtn.addEventListener("click", () => { recargarNoticiasSupabase(); });
       els.extractBtn.addEventListener("click", intentarExtraerTituloDesdeURL);
       els.filterCategory.addEventListener("change", () => {
         state.filters.category = els.filterCategory.value;
@@ -1725,19 +1718,19 @@
       initializarCabecera();
       llenarSelectCategorias();
       initEvents();
-      await checkActiveSession();
 
-      try {
-        await refreshPublicNews();
-        if (!state.news.length) {
-          console.warn("Supabase no devolvió noticias publicadas. Se aplicará fallback local.");
-          state.news = getLocalFallback();
-          if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
-        }
-      } catch (error) {
-        console.error("Error al cargar noticias desde Supabase:", error);
-        state.news = getLocalFallback();
-        if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+      // Cargar sesión y noticias en paralelo para evitar bloquear el inicio.
+      const [sessionResult, newsResult] = await Promise.allSettled([
+        checkActiveSession(),
+        refreshPublicNews()
+      ]);
+
+      if (newsResult.status === "rejected") {
+        console.error("Error al cargar noticias desde Supabase:", newsResult.reason);
+      }
+
+      if (sessionResult.status === "rejected") {
+        console.error("Error al revisar sesión activa:", sessionResult.reason);
       }
 
       if (isAuthenticated()) {
