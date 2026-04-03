@@ -412,6 +412,53 @@
       gap: .85rem;
     }
 
+    .panel-more {
+      margin-top: .55rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .view-all-btn,
+    .close-all-btn {
+      border: 1px solid #d4d7da;
+      background: #fff;
+      color: #2a2d30;
+      border-radius: 6px;
+      padding: .45rem .78rem;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .all-news {
+      margin-top: .9rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      padding: .8rem;
+      display: grid;
+      gap: .6rem;
+    }
+
+    .all-news-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .all-news-title {
+      margin: 0;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 1.05rem;
+      color: #202224;
+    }
+
+    .all-news-list {
+      display: grid;
+      gap: .55rem;
+    }
+
     .news-featured,
     .news-side {
       border: 1px solid var(--border);
@@ -871,21 +918,6 @@
     </div>
   </section>
 
-  <section class="hero-banner-wrap" aria-label="Espacio de portada visual">
-    <div class="banner-shell">
-      <div class="hero-banner" aria-label="Banner de portada">
-        <div class="hero-banner-content">
-          <h2 class="hero-banner-title">Chile avanza. Aquí lo registramos.</h2>
-          <p class="hero-banner-sub">Noticias sobre avances, inversión, innovación, infraestructura y hechos concretos que impactan a Chile y a los chilenos.</p>
-          <div class="hero-banner-actions">
-            <a class="hero-banner-cta" href="#news-panel">Ver noticias</a>
-            <a class="hero-banner-cta" href="https://x.com/ElChilometro" target="_blank" rel="noopener noreferrer">Seguir en X</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <main id="principal">
     <section class="container" aria-labelledby="panel-title">
       <article class="news-panel" id="news-panel">
@@ -900,6 +932,16 @@
         </div>
 
         <section class="news-layout" id="news-layout" aria-live="polite" aria-label="Listado dinámico de noticias"></section>
+        <div class="panel-more">
+          <button class="view-all-btn" id="btn-view-all-cat" type="button">Ver todas</button>
+        </div>
+        <section class="all-news hidden" id="all-news-section" aria-label="Todas las noticias de la categoría">
+          <div class="all-news-head">
+            <h3 class="all-news-title" id="all-news-title"></h3>
+            <button class="close-all-btn" id="btn-close-all-cat" type="button">Cerrar</button>
+          </div>
+          <div class="all-news-list" id="all-news-list"></div>
+        </section>
       </article>
     </section>
   </main>
@@ -1109,6 +1151,7 @@
       activeCategory: CATEGORY_ORDER.includes(SITE_CONFIG.defaultCategory) ? SITE_CONFIG.defaultCategory : CATEGORY_ORDER[0],
       editingId: null,
       user: null,
+      showAllCategory: false,
       filters: {
         category: "all",
         status: "all",
@@ -1127,6 +1170,11 @@
       panelSub: document.getElementById("panel-sub"),
       tabs: document.getElementById("category-tabs"),
       newsLayout: document.getElementById("news-layout"),
+      viewAllBtn: document.getElementById("btn-view-all-cat"),
+      allNewsSection: document.getElementById("all-news-section"),
+      allNewsTitle: document.getElementById("all-news-title"),
+      allNewsList: document.getElementById("all-news-list"),
+      closeAllBtn: document.getElementById("btn-close-all-cat"),
       openAdmin: document.getElementById("open-admin"),
       closeAdmin: document.getElementById("close-admin"),
       adminModal: document.getElementById("admin-modal"),
@@ -1358,6 +1406,7 @@
         btn.addEventListener("click", () => {
           if (state.activeCategory !== category) {
             state.activeCategory = category;
+            state.showAllCategory = false;
             applyCategoryAccent(category);
             renderizarTabs();
             renderizarNoticias();
@@ -1417,6 +1466,8 @@
 
     function renderizarNoticias() {
       const { featured, secondary } = seleccionarNoticiasPortada(state.activeCategory);
+      const groups = groupNewsByCategory(state.news);
+      const categoryItems = groups[state.activeCategory] || [];
       els.newsLayout.innerHTML = "";
 
       if (state.newsLoadError) {
@@ -1432,6 +1483,8 @@
         empty.className = "empty-state";
         empty.textContent = "No hay noticias publicadas para esta categoría.";
         els.newsLayout.appendChild(empty);
+        els.viewAllBtn.classList.add("hidden");
+        els.allNewsSection.classList.add("hidden");
         return;
       }
 
@@ -1446,6 +1499,24 @@
         secondaryGrid.appendChild(empty);
       }
       els.newsLayout.appendChild(secondaryGrid);
+
+      els.viewAllBtn.classList.toggle("hidden", categoryItems.length <= 3);
+      renderizarTodasLasNoticiasCategoria(categoryItems);
+    }
+
+    function renderizarTodasLasNoticiasCategoria(categoryItems) {
+      if (!state.showAllCategory) {
+        els.allNewsSection.classList.add("hidden");
+        return;
+      }
+
+      els.allNewsSection.classList.remove("hidden");
+      els.allNewsTitle.textContent = `Todas las noticias: ${state.activeCategory}`;
+      els.allNewsList.innerHTML = "";
+
+      categoryItems.forEach((item) => {
+        els.allNewsList.appendChild(crearTarjetaNoticia(item, state.activeCategory, "secondary"));
+      });
     }
 
     function llenarSelectCategorias() {
@@ -1808,6 +1879,14 @@
       els.filterSearch.addEventListener("input", () => {
         state.filters.search = els.filterSearch.value;
         renderAdminList();
+      });
+      els.viewAllBtn.addEventListener("click", () => {
+        state.showAllCategory = true;
+        renderizarNoticias();
+      });
+      els.closeAllBtn.addEventListener("click", () => {
+        state.showAllCategory = false;
+        renderizarNoticias();
       });
 
       supabaseClient.auth.onAuthStateChange(async (event, session) => {
