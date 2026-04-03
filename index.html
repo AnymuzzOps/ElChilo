@@ -100,7 +100,7 @@
       border-bottom: 1px solid var(--border);
       position: relative;
       background:
-        linear-gradient(to bottom, rgba(243,216,221,.95), rgba(243,216,221,.95)),
+        linear-gradient(to bottom, rgba(240,204,211,.96), rgba(240,204,211,.96)),
         repeating-linear-gradient(90deg, transparent 0 28px, rgba(17,17,17,.018) 28px 29px);
     }
 
@@ -238,6 +238,16 @@
       border-color: rgba(255, 255, 255, 0.9);
       color: #1f1f1f;
       transform: translateY(-1px);
+    }
+
+    .hero-banner-image {
+      width: min(100%, 980px);
+      height: auto;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.68);
+      box-shadow: 0 10px 24px rgba(12, 12, 12, 0.12);
+      object-fit: cover;
+      display: block;
     }
 
     .x-button,
@@ -824,6 +834,7 @@
           <h2 class="hero-banner-title">
             <span class="el">El</span><span class="chil">Chil</span><span class="ometro">ometro</span>
           </h2>
+          <img class="hero-banner-image" src="banner.png" alt="Banner principal de ElChilometro" />
           <a class="hero-banner-cta" href="#principal">Ver noticias</a>
         </div>
       </div>
