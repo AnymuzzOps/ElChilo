@@ -139,13 +139,15 @@
       display: inline-flex;
       align-items: baseline;
       gap: 0;
-      font-size: clamp(1.35rem, 2.7vw, 2rem);
-      letter-spacing: -0.015em;
+      font-size: 1.9rem;
+      line-height: 1.02;
+      letter-spacing: -0.018em;
       text-transform: none;
       color: #222;
       font-weight: 560;
       padding-left: .35rem;
       font-family: "Source Serif 4", Georgia, serif;
+      white-space: nowrap;
     }
 
     .hero-kicker .el { color: #2355a4; }
@@ -778,6 +780,11 @@
     }
 
     @media (max-width: 980px) {
+      .hero-kicker {
+        font-size: 1.58rem;
+        line-height: 1.03;
+      }
+
       .hero-grid {
         grid-template-columns: auto 1fr;
       }
@@ -797,6 +804,12 @@
     }
 
     @media (max-width: 680px) {
+      .hero-kicker {
+        font-size: 1.34rem;
+        line-height: 1.04;
+        letter-spacing: -0.012em;
+      }
+
       .container { width: min(100% - 1.2rem, var(--content-max)); }
       .topbar-container { width: min(100% - 1.2rem, 1460px); }
       .topbar-shell { width: min(100% - 1rem, 1880px); }
