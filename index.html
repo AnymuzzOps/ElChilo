@@ -179,7 +179,7 @@
     }
 
     .hero-banner-wrap {
-      padding: .9rem 0 0;
+      padding: 0;
     }
 
     .hero-banner {
@@ -191,6 +191,53 @@
       background:
         linear-gradient(135deg, #f5f4f4 0%, #f0eded 52%, #ece9e9 100%);
       box-shadow: var(--shadow-soft);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: clamp(1rem, 2.5vw, 2rem);
+    }
+
+    .hero-banner-content {
+      display: grid;
+      gap: .8rem;
+      justify-items: center;
+    }
+
+    .hero-banner-title {
+      margin: 0;
+      font-size: clamp(1.9rem, 5.6vw, 4.4rem);
+      line-height: .98;
+      letter-spacing: -0.03em;
+      font-weight: 780;
+      text-wrap: balance;
+    }
+
+    .hero-banner-title .el { color: #1f4c8f; }
+    .hero-banner-title .chil { color: #b3131b; }
+    .hero-banner-title .ometro { color: #f1f2f3; text-shadow: 0 1px 0 rgba(0,0,0,0.08); }
+
+    .hero-banner-cta {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.28);
+      color: #2f2f2f;
+      border-radius: 999px;
+      padding: .48rem .95rem;
+      font-size: .85rem;
+      font-weight: 620;
+      text-decoration: none;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 8px 18px rgba(14, 14, 14, 0.08);
+      transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+    }
+
+    .hero-banner-cta:hover,
+    .hero-banner-cta:focus-visible {
+      background: rgba(255, 255, 255, 0.44);
+      border-color: rgba(255, 255, 255, 0.9);
+      color: #1f1f1f;
+      transform: translateY(-1px);
     }
 
     .x-button,
@@ -772,7 +819,14 @@
 
   <section class="hero-banner-wrap" aria-label="Espacio de portada visual">
     <div class="banner-shell">
-      <div class="hero-banner" role="img" aria-label="Banner de portada"></div>
+      <div class="hero-banner" aria-label="Banner de portada">
+        <div class="hero-banner-content">
+          <h2 class="hero-banner-title">
+            <span class="el">El</span><span class="chil">Chil</span><span class="ometro">ometro</span>
+          </h2>
+          <a class="hero-banner-cta" href="#principal">Ver noticias</a>
+        </div>
+      </div>
     </div>
   </section>
 
