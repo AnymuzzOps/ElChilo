@@ -305,9 +305,9 @@
 
     .tab {
       appearance: none;
-      border: 1px solid #d9d9d9;
-      background: #f7f7f7;
-      color: #262626;
+      border: 1px solid rgba(255, 255, 255, 0.68);
+      background: rgba(255, 255, 255, 0.62);
+      color: #222;
       border-radius: 999px;
       padding: .66rem 1.1rem;
       font-size: .91rem;
@@ -315,20 +315,26 @@
       font-weight: 680;
       text-transform: uppercase;
       cursor: pointer;
-      transition: transform .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      box-shadow: 0 8px 18px rgba(12, 12, 12, 0.06);
+      transition: transform .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease, color .18s ease;
       white-space: nowrap;
     }
 
     .tab:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 0.76);
+      border-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 20px rgba(12, 12, 12, 0.08);
+      color: #141414;
     }
 
     .tab.active {
-      border-color: #bcbcbc;
-      background: #ffffff;
+      border-color: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.9);
       color: #111111;
-      box-shadow: inset 0 0 0 1px #e3e3e3;
+      box-shadow: inset 0 0 0 1px rgba(220, 220, 220, 0.75), 0 10px 22px rgba(12, 12, 12, 0.08);
     }
 
     .news-layout {
