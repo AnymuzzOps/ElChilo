@@ -1255,9 +1255,12 @@
 
       if (error) throw error;
 
+      console.log("noticias recibidas supabase:", data);
+      console.log("noticias normalizadas:", (data || []).map(normalizeSupabaseNews));
+
       return (data || [])
         .map(normalizeSupabaseNews)
-        .filter((item) => item && item.title && item.summary && CATEGORY_ORDER.includes(item.category));
+        .filter((item) => item && item.title && item.summary);
     }
 
     async function loadAdminNews() {
@@ -1758,6 +1761,7 @@
         const supabaseNews = await fetchNewsFromSupabase();
         state.news = supabaseNews;
         state.newsLoadError = false;
+        console.log("state.news:", state.news.length);
       } catch (error) {
         console.error("error al refrescar portada", error.message);
         state.news = [];
