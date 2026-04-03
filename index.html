@@ -196,42 +196,41 @@
     .x-button,
     .admin-open {
       text-decoration: none;
-      color: #3a3a3a;
-      border: 1px solid var(--border);
-      background: var(--surface);
+      color: #222;
+      border: 1px solid rgba(255, 255, 255, 0.68);
+      background: rgba(255, 255, 255, 0.62);
       border-radius: 999px;
       padding: .5rem .88rem;
       font-size: .85rem;
       font-weight: 600;
-      transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease;
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      box-shadow: 0 8px 18px rgba(12, 12, 12, 0.06);
+      transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease, box-shadow .2s ease;
       cursor: pointer;
     }
 
     .admin-open {
-      color: #6f6f6f;
-      border-color: #efefef;
+      color: #262626;
       font-size: .78rem;
       font-weight: 520;
-      opacity: .8;
+      opacity: .95;
     }
 
     .x-button:hover,
     .x-button:focus-visible,
     .admin-open:hover,
     .admin-open:focus-visible {
-      color: #6f0f15;
-      background: var(--accent-red-soft);
-      border-color: #e2b9bd;
+      color: #151515;
+      background: rgba(255, 255, 255, 0.76);
+      border-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 20px rgba(12, 12, 12, 0.08);
       transform: translateY(-1px);
     }
 
     .admin-open:hover,
     .admin-open:focus-visible {
       opacity: 1;
-      color: #454545;
-      background: #f8f8f8;
-      border-color: #e9e9e9;
-      transform: none;
     }
 
     /* =============================
@@ -265,31 +264,20 @@
     .panel-head {
       display: grid;
       gap: .3rem;
-      margin-bottom: 1rem;
-      padding-top: .2rem;
+      margin-bottom: 0;
+      padding-top: 0;
     }
 
     .panel-eyebrow {
-      margin: 0;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: .72rem;
-      color: #797979;
-      font-weight: 650;
+      display: none;
     }
 
     .panel-title {
-      margin: 0;
-      font-size: clamp(1.28rem, 3vw, 1.75rem);
-      line-height: 1.15;
-      letter-spacing: -0.01em;
+      display: none;
     }
 
     .panel-sub {
-      margin: 0;
-      color: var(--text-soft);
-      font-size: .95rem;
-      max-width: 70ch;
+      display: none;
     }
 
     .tabs-wrap {
@@ -297,6 +285,8 @@
       border-bottom: 1px solid var(--border);
       padding: .8rem 0;
       margin-bottom: 1rem;
+      background: rgba(179, 19, 27, 0.07);
+      border-radius: 12px;
     }
 
     .category-tabs {
@@ -422,17 +412,18 @@
       align-items: center;
       gap: .3rem;
       text-decoration: none;
-      color: color-mix(in srgb, var(--cat) 82%, #1a1a1a);
+      color: #4a4a4a;
       font-weight: 660;
       font-size: .9rem;
       border-radius: 8px;
       padding: .25rem .48rem;
-      transition: background-color .16s ease;
+      transition: color .16s ease, background-color .16s ease;
     }
 
     .more:hover,
     .more:focus-visible {
-      background: var(--cat-soft);
+      color: #2d2d2d;
+      background: #f4f4f4;
     }
 
     .secondary-grid {
@@ -789,9 +780,9 @@
     <section class="container" aria-labelledby="panel-title">
       <article class="news-panel">
         <header class="panel-head">
-          <p class="panel-eyebrow">Portada</p>
-          <h2 class="panel-title" id="panel-title">Noticias por categoría</h2>
-          <p class="panel-sub" id="panel-sub">Selecciona una categoría para ver el hecho principal y dos actualizaciones relacionadas.</p>
+          <p class="panel-eyebrow"></p>
+          <h2 class="panel-title" id="panel-title"></h2>
+          <p class="panel-sub" id="panel-sub"></p>
         </header>
 
         <div class="tabs-wrap">
@@ -1236,7 +1227,7 @@
       root.style.setProperty("--cat", style.tone);
       root.style.setProperty("--cat-soft", style.soft);
       root.style.setProperty("--cat-border", style.border);
-      els.panelSub.textContent = `Categoría activa: ${category}. Hecho principal y dos actualizaciones relacionadas.`;
+      els.panelSub.textContent = "";
     }
 
     function renderizarTabs() {
