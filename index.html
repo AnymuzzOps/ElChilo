@@ -129,7 +129,7 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
       align-items: center;
     }
@@ -139,7 +139,7 @@
       display: inline-flex;
       align-items: baseline;
       gap: 0;
-      font-size: 1.9rem;
+      font-size: 2.2rem;
       line-height: 1.02;
       letter-spacing: -0.018em;
       text-transform: none;
@@ -763,6 +763,17 @@
       background: #fdfdfd;
     }
 
+    .admin-open-footer {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+
     .foot {
       display: flex;
       justify-content: space-between;
@@ -785,14 +796,7 @@
         line-height: 1.03;
       }
 
-      .hero-grid {
-        grid-template-columns: auto 1fr;
-      }
-
-      .hero-actions {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
+      .hero-grid { grid-template-columns: 1fr; }
 
       .secondary-grid {
         grid-template-columns: 1fr;
@@ -818,10 +822,6 @@
       .hero-grid {
         grid-template-columns: 1fr;
         align-items: start;
-      }
-
-      .hero-actions {
-        justify-content: flex-start;
       }
 
       .hero-banner {
@@ -853,13 +853,23 @@
       <div>
         <p class="hero-kicker"><span class="el">El</span><span class="chil">Chil</span><span class="ometro">ómetro</span></p>
       </div>
-
-      <div class="hero-actions">
-        <a id="x-link" class="x-button" href="https://x.com/ElChilometro" target="_blank" rel="noopener noreferrer">Perfil en X</a>
-        <button class="admin-open" id="open-admin" type="button" aria-label="Panel de administración">⋯</button>
-      </div>
     </div>
   </header>
+
+  <section class="hero-banner-wrap" aria-label="Espacio de portada visual">
+    <div class="banner-shell">
+      <div class="hero-banner" aria-label="Banner de portada">
+        <div class="hero-banner-content">
+          <h2 class="hero-banner-title">Chile avanza. Aquí lo registramos.</h2>
+          <p class="hero-banner-sub">Noticias sobre avances, inversión, innovación, infraestructura y hechos concretos que impactan a Chile y a los chilenos.</p>
+          <div class="hero-banner-actions">
+            <a class="hero-banner-cta" href="#news-panel">Ver noticias</a>
+            <a class="hero-banner-cta" href="https://x.com/ElChilometro" target="_blank" rel="noopener noreferrer">Seguir en X</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="hero-banner-wrap" aria-label="Espacio de portada visual">
     <div class="banner-shell">
@@ -1037,7 +1047,7 @@
   <footer>
     <div class="container foot">
       <span><mark id="footer-project">El Chilómetro</mark> · Portada editorial</span>
-      <span id="footer-year">© 2026</span>
+      <button class="admin-open-footer" id="open-admin" type="button" aria-label="Panel de administración"><span id="footer-year">© 2026</span></button>
     </div>
   </footer>
 
