@@ -98,10 +98,11 @@
     .hero {
       padding: clamp(.75rem, 2.2vw, 1.1rem) 0;
       border-bottom: 0;
-      position: relative;
-      background:
-        linear-gradient(to bottom, rgba(212, 108, 120, .95), rgba(203, 97, 109, .95)),
-        repeating-linear-gradient(90deg, transparent 0 28px, rgba(17,17,17,.018) 28px 29px);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(18, 18, 18, 0.08);
     }
 
     .topbar-container {
@@ -131,22 +132,27 @@
     }
 
     .hero-kicker {
-      margin: 0 0 .55rem;
+      margin: 0;
       display: inline-flex;
-      align-items: center;
-      gap: .45rem;
-      font-size: .78rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: #6a6a6a;
-      font-weight: 650;
+      align-items: baseline;
+      gap: 0;
+      font-size: clamp(1.35rem, 3.1vw, 2.2rem);
+      letter-spacing: -0.02em;
+      text-transform: none;
+      color: #222;
+      font-weight: 780;
+      animation: brand-wave 5.2s ease-in-out infinite;
+      transform-origin: left center;
     }
 
-    .hero-kicker::before {
-      content: "";
-      width: 24px;
-      height: 1px;
-      background: #8a8a8a;
+    .hero-kicker .el { color: #1f4c8f; }
+    .hero-kicker .chil { color: #b3131b; }
+    .hero-kicker .ometro { color: #bcc1c5; }
+    .hero-kicker .dot { margin-left: .25rem; font-size: .9em; }
+
+    @keyframes brand-wave {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      50% { transform: rotate(-1deg) translateY(-1px); }
     }
 
     h1 {
@@ -188,10 +194,7 @@
       min-height: 160px;
       border-radius: 0;
       border: 0;
-      background:
-        radial-gradient(140% 100% at 50% 20%, rgba(0, 0, 0, 0.07) 0%, rgba(0, 0, 0, 0) 58%),
-        linear-gradient(180deg, rgba(16, 16, 16, 0.22), rgba(16, 16, 16, 0.42)),
-        url("banner.png") center / cover no-repeat;
+      background: #ffffff;
       box-shadow: none;
       display: grid;
       place-items: center;
@@ -209,16 +212,15 @@
 
     .hero-banner-title {
       margin: 0;
-      font-size: clamp(1.9rem, 5.6vw, 4.4rem);
-      line-height: .98;
-      letter-spacing: -0.03em;
-      font-weight: 780;
+      font-size: clamp(1.35rem, 3.9vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: .03em;
+      font-weight: 760;
+      text-transform: uppercase;
+      color: #1f1f1f;
       text-wrap: balance;
+      max-width: 22ch;
     }
-
-    .hero-banner-title .el { color: #1f4c8f; }
-    .hero-banner-title .chil { color: #b3131b; }
-    .hero-banner-title .ometro { color: #f1f2f3; text-shadow: 0 2px 8px rgba(0,0,0,0.32); }
 
     .hero-banner-cta {
       appearance: none;
@@ -261,10 +263,22 @@
       cursor: pointer;
     }
 
+    .x-button {
+      font-size: .98rem;
+      padding: .7rem 1.15rem;
+    }
+
     .admin-open {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      justify-content: center;
+      display: inline-flex;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
       color: #262626;
-      font-size: .78rem;
-      font-weight: 520;
       opacity: .95;
     }
 
@@ -302,14 +316,7 @@
     }
 
     .news-panel::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(to right, var(--cat) 0 28%, transparent 28% 100%);
-      opacity: .85;
+      content: none;
     }
 
     .panel-head {
@@ -392,6 +399,7 @@
       background: var(--surface);
       position: relative;
       overflow: hidden;
+      box-shadow: 0 10px 22px rgba(15, 15, 15, 0.06);
     }
 
     .news-featured {
@@ -583,6 +591,7 @@
       border-radius: 12px;
       background: var(--bg-soft);
       padding: .85rem;
+      box-shadow: 0 10px 22px rgba(15, 15, 15, 0.06);
     }
 
     .admin-block h4 {
@@ -693,6 +702,7 @@
       padding: .55rem .62rem;
       display: grid;
       gap: .4rem;
+      box-shadow: 0 8px 18px rgba(15, 15, 15, 0.05);
     }
 
     .admin-item-top {
@@ -811,12 +821,12 @@
   <header class="hero" aria-label="Encabezado editorial">
     <div class="topbar-container topbar-shell hero-grid">
       <div>
-        <p class="hero-kicker">Registro editorial</p>
+        <p class="hero-kicker"><span class="el">El</span><span class="chil">Chil</span><span class="ometro">ometro</span><span class="dot">🔴</span></p>
       </div>
 
       <div class="hero-actions">
         <a id="x-link" class="x-button" href="https://x.com/ElChilometro" target="_blank" rel="noopener noreferrer">Perfil en X</a>
-        <button class="admin-open" id="open-admin" type="button">Panel</button>
+        <button class="admin-open" id="open-admin" type="button" aria-label="Panel de administración">⋯</button>
       </div>
     </div>
   </header>
@@ -825,9 +835,7 @@
     <div class="banner-shell">
       <div class="hero-banner" aria-label="Banner de portada">
         <div class="hero-banner-content">
-          <h2 class="hero-banner-title">
-            <span class="el">El</span><span class="chil">Chil</span><span class="ometro">ometro</span>
-          </h2>
+          <h2 class="hero-banner-title">EL REGISTRO EDITORIAL DE CHILE PARA CHILE</h2>
           <a class="hero-banner-cta" href="#principal">Ver noticias</a>
         </div>
       </div>
