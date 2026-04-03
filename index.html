@@ -136,19 +136,20 @@
       display: inline-flex;
       align-items: baseline;
       gap: 0;
-      font-size: clamp(1.35rem, 3.1vw, 2.2rem);
-      letter-spacing: -0.02em;
+      font-size: clamp(1.7rem, 3.9vw, 2.75rem);
+      letter-spacing: -0.028em;
       text-transform: none;
       color: #222;
-      font-weight: 780;
+      font-weight: 800;
       animation: brand-wave 5.2s ease-in-out infinite;
       transform-origin: left center;
+      padding-left: .45rem;
     }
 
-    .hero-kicker .el { color: #1f4c8f; }
-    .hero-kicker .chil { color: #b3131b; }
-    .hero-kicker .ometro { color: #bcc1c5; }
-    .hero-kicker .dot { margin-left: .25rem; font-size: .9em; }
+    .hero-kicker .el { color: #2355a4; }
+    .hero-kicker .chil { color: #bf1f2d; }
+    .hero-kicker .ometro { color: #a9afb4; }
+    .hero-kicker .dot { margin-left: .2rem; font-size: .72em; line-height: 1; transform: translateY(-.02em); }
 
     @keyframes brand-wave {
       0%, 100% { transform: rotate(0deg) translateY(0); }
@@ -339,18 +340,19 @@
     }
 
     .tabs-wrap {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      border-top: 0;
+      border-bottom: 0;
       padding: .8rem 0;
       margin-bottom: 1rem;
-      background: rgba(179, 19, 27, 0.07);
-      border-radius: 12px;
+      background: transparent;
+      border-radius: 0;
     }
 
     .category-tabs {
       display: flex;
       flex-wrap: wrap;
       gap: .52rem;
+      justify-content: center;
     }
 
     .tab {
@@ -367,7 +369,7 @@
       cursor: pointer;
       backdrop-filter: blur(7px);
       -webkit-backdrop-filter: blur(7px);
-      box-shadow: 0 8px 18px rgba(12, 12, 12, 0.06);
+      box-shadow: 0 7px 16px rgba(12, 12, 12, 0.08);
       transition: transform .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease, color .18s ease;
       white-space: nowrap;
     }
@@ -376,7 +378,7 @@
       transform: translateY(-1px);
       background: rgba(255, 255, 255, 0.76);
       border-color: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 10px 20px rgba(12, 12, 12, 0.08);
+      box-shadow: 0 9px 19px rgba(12, 12, 12, 0.1);
       color: #141414;
     }
 
@@ -836,7 +838,6 @@
       <div class="hero-banner" aria-label="Banner de portada">
         <div class="hero-banner-content">
           <h2 class="hero-banner-title">EL REGISTRO EDITORIAL DE CHILE PARA CHILE</h2>
-          <a class="hero-banner-cta" href="#principal">Ver noticias</a>
         </div>
       </div>
     </div>
