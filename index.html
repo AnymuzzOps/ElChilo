@@ -189,12 +189,15 @@
       border-radius: 18px;
       border: 1px solid #ece7e8;
       background:
-        linear-gradient(135deg, #f5f4f4 0%, #f0eded 52%, #ece9e9 100%);
+        linear-gradient(180deg, rgba(20, 20, 20, 0.12), rgba(20, 20, 20, 0.28)),
+        url("banner.png") center / cover no-repeat;
       box-shadow: var(--shadow-soft);
       display: grid;
       place-items: center;
       text-align: center;
       padding: clamp(1rem, 2.5vw, 2rem);
+      position: relative;
+      overflow: hidden;
     }
 
     .hero-banner-content {
@@ -214,7 +217,7 @@
 
     .hero-banner-title .el { color: #1f4c8f; }
     .hero-banner-title .chil { color: #b3131b; }
-    .hero-banner-title .ometro { color: #f1f2f3; text-shadow: 0 1px 0 rgba(0,0,0,0.08); }
+    .hero-banner-title .ometro { color: #f1f2f3; text-shadow: 0 2px 8px rgba(0,0,0,0.32); }
 
     .hero-banner-cta {
       appearance: none;
@@ -238,16 +241,6 @@
       border-color: rgba(255, 255, 255, 0.9);
       color: #1f1f1f;
       transform: translateY(-1px);
-    }
-
-    .hero-banner-image {
-      width: min(100%, 980px);
-      height: auto;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.68);
-      box-shadow: 0 10px 24px rgba(12, 12, 12, 0.12);
-      object-fit: cover;
-      display: block;
     }
 
     .x-button,
@@ -834,7 +827,6 @@
           <h2 class="hero-banner-title">
             <span class="el">El</span><span class="chil">Chil</span><span class="ometro">ometro</span>
           </h2>
-          <img class="hero-banner-image" src="banner.png" alt="Banner principal de ElChilometro" />
           <a class="hero-banner-cta" href="#principal">Ver noticias</a>
         </div>
       </div>
