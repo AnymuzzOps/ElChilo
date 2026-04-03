@@ -100,8 +100,13 @@
       border-bottom: 1px solid var(--border);
       position: relative;
       background:
-        linear-gradient(to bottom, rgba(255,255,255,.96), rgba(255,255,255,.96)),
-        repeating-linear-gradient(90deg, transparent 0 28px, rgba(17,17,17,.02) 28px 29px);
+        linear-gradient(to bottom, rgba(246,230,232,.94), rgba(246,230,232,.94)),
+        repeating-linear-gradient(90deg, transparent 0 28px, rgba(17,17,17,.018) 28px 29px);
+    }
+
+    .topbar-container {
+      width: min(100% - 2rem, 1460px);
+      margin-inline: auto;
     }
 
     .hero::after {
@@ -118,8 +123,8 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr auto;
-      gap: 1.2rem;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
       align-items: center;
     }
 
@@ -168,6 +173,22 @@
       display: flex;
       gap: .65rem;
       align-items: center;
+      justify-content: flex-end;
+    }
+
+    .hero-banner-wrap {
+      padding: .9rem 0 0;
+    }
+
+    .hero-banner {
+      width: 100%;
+      aspect-ratio: 21 / 6;
+      min-height: 160px;
+      border-radius: 18px;
+      border: 1px solid #ece7e8;
+      background:
+        linear-gradient(135deg, #f5f4f4 0%, #f0eded 52%, #ece9e9 100%);
+      box-shadow: var(--shadow-soft);
     }
 
     .x-button,
@@ -681,13 +702,12 @@
 
     @media (max-width: 980px) {
       .hero-grid {
-        grid-template-columns: 1fr;
-        align-items: start;
+        grid-template-columns: auto 1fr;
       }
 
       .hero-actions {
-        justify-content: flex-start;
         flex-wrap: wrap;
+        justify-content: flex-end;
       }
 
       .secondary-grid {
@@ -701,6 +721,23 @@
 
     @media (max-width: 680px) {
       .container { width: min(100% - 1.2rem, var(--content-max)); }
+      .topbar-container { width: min(100% - 1.2rem, 1460px); }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .hero-actions {
+        justify-content: flex-start;
+      }
+
+      .hero-banner {
+        aspect-ratio: 16 / 7;
+        min-height: 120px;
+        border-radius: 14px;
+      }
+
       .tabs-wrap { margin-inline: -.1rem; }
 
       .category-tabs {
@@ -720,7 +757,7 @@
   <a href="#principal" class="sr-only">Saltar al contenido principal</a>
 
   <header class="hero" aria-label="Encabezado editorial">
-    <div class="container hero-grid">
+    <div class="topbar-container hero-grid">
       <div>
         <p class="hero-kicker">Registro editorial</p>
       </div>
@@ -731,6 +768,12 @@
       </div>
     </div>
   </header>
+
+  <section class="hero-banner-wrap" aria-label="Espacio de portada visual">
+    <div class="topbar-container">
+      <div class="hero-banner" role="img" aria-label="Banner de portada"></div>
+    </div>
+  </section>
 
   <main id="principal">
     <section class="container" aria-labelledby="panel-title">
