@@ -118,15 +118,7 @@
     }
 
     .hero::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 3px;
-      background: linear-gradient(to right, transparent 0 12%, color-mix(in srgb, var(--accent-red) 70%, white) 12% 36%, transparent 36% 100%);
-      opacity: .65;
-      pointer-events: none;
+      content: none;
     }
 
     .hero-grid {
@@ -313,12 +305,12 @@
 
     .tab {
       appearance: none;
-      border: 1px solid var(--tone-border, var(--border));
-      background: var(--tone-soft, #f6f6f6);
-      color: var(--tone-text, #333);
+      border: 1px solid #d9d9d9;
+      background: #f7f7f7;
+      color: #262626;
       border-radius: 999px;
-      padding: .48rem .82rem;
-      font-size: .77rem;
+      padding: .66rem 1.1rem;
+      font-size: .91rem;
       letter-spacing: .03em;
       font-weight: 680;
       text-transform: uppercase;
@@ -333,10 +325,10 @@
     }
 
     .tab.active {
-      border-color: color-mix(in srgb, var(--tone) 55%, #ffffff);
-      background: color-mix(in srgb, var(--tone) 17%, #ffffff);
-      color: color-mix(in srgb, var(--tone) 73%, #161616);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 20%, #ffffff);
+      border-color: #bcbcbc;
+      background: #ffffff;
+      color: #111111;
+      box-shadow: inset 0 0 0 1px #e3e3e3;
     }
 
     .news-layout {
@@ -390,14 +382,14 @@
     }
 
     .news-featured h3 {
-      margin: .58rem 0 .5rem;
+      margin: 0 0 .5rem;
       font-size: clamp(1.3rem, 2.8vw, 2rem);
       line-height: 1.13;
       letter-spacing: -0.02em;
     }
 
     .news-side h4 {
-      margin: .35rem 0 .38rem;
+      margin: 0 0 .38rem;
       font-size: 1.04rem;
       line-height: 1.24;
       letter-spacing: -0.01em;
@@ -1287,10 +1279,6 @@
       const article = document.createElement("article");
       article.className = type === "featured" ? "news-featured" : "news-side";
 
-      const label = document.createElement("span");
-      label.className = "cat-label";
-      label.textContent = category;
-
       const title = document.createElement(type === "featured" ? "h3" : "h4");
       title.textContent = item.title;
 
@@ -1314,7 +1302,7 @@
       more.textContent = "Ver más";
       more.setAttribute("aria-label", `Ver más sobre: ${item.title}`);
 
-      article.append(label, title, summary, meta, more);
+      article.append(title, summary, meta, more);
       return article;
     }
 
