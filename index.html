@@ -18,6 +18,9 @@
   />
   <meta property="og:url" content="https://tu-usuario.github.io/el-chilometro/" />
   <meta property="og:locale" content="es_CL" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -52,7 +55,7 @@
 
     body {
       margin: 0;
-      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
@@ -101,8 +104,8 @@
       position: sticky;
       top: 0;
       z-index: 30;
-      background: #ffffff;
-      box-shadow: 0 8px 24px rgba(18, 18, 18, 0.08);
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(18, 18, 18, 0.06);
     }
 
     .topbar-container {
@@ -136,12 +139,13 @@
       display: inline-flex;
       align-items: baseline;
       gap: 0;
-      font-size: clamp(1.45rem, 3.2vw, 2.25rem);
-      letter-spacing: -0.02em;
+      font-size: clamp(1.35rem, 2.7vw, 2rem);
+      letter-spacing: -0.015em;
       text-transform: none;
       color: #222;
-      font-weight: 620;
+      font-weight: 560;
       padding-left: .35rem;
+      font-family: "Source Serif 4", Georgia, serif;
     }
 
     .hero-kicker .el { color: #2355a4; }
@@ -187,7 +191,7 @@
       min-height: 130px;
       border-radius: 0;
       border: 0;
-      background: #ffffff;
+      background: #fbfbfa;
       box-shadow: none;
       display: grid;
       place-items: center;
@@ -209,20 +213,22 @@
       font-size: clamp(1.65rem, 4.5vw, 3.2rem);
       line-height: 1.05;
       letter-spacing: -0.02em;
-      font-weight: 740;
+      font-weight: 650;
       text-transform: none;
       color: #1f1f1f;
       text-wrap: balance;
       max-width: 18ch;
+      font-family: "Source Serif 4", Georgia, serif;
     }
 
     .hero-banner-sub {
       margin: 0;
       max-width: 70ch;
       text-wrap: balance;
-      color: #4b4f53;
+      color: #4f5255;
       font-size: clamp(.88rem, 1.8vw, 1rem);
       line-height: 1.45;
+      font-family: "Inter", sans-serif;
     }
 
     .hero-banner-actions {
@@ -235,46 +241,46 @@
 
     .hero-banner-cta {
       appearance: none;
-      border: 1px solid #d8dadd;
+      border: 1px solid #d4d6d8;
       background: #ffffff;
-      color: #2c2c2c;
-      border-radius: 999px;
-      padding: .5rem .98rem;
-      font-size: .86rem;
-      font-weight: 620;
+      color: #2e3134;
+      border-radius: 6px;
+      padding: .48rem .86rem;
+      font-size: .84rem;
+      font-weight: 600;
       text-decoration: none;
-      box-shadow: 0 6px 14px rgba(14, 14, 14, 0.06);
+      box-shadow: none;
       transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+      font-family: "Inter", sans-serif;
     }
 
     .hero-banner-cta:hover,
     .hero-banner-cta:focus-visible {
       background: #f7f8f8;
-      border-color: #cfd2d6;
+      border-color: #c9cccf;
       color: #1f1f1f;
-      transform: translateY(-1px);
+      transform: none;
     }
 
     .x-button,
     .admin-open {
       text-decoration: none;
-      color: #222;
-      border: 1px solid rgba(255, 255, 255, 0.68);
-      background: rgba(255, 255, 255, 0.62);
-      border-radius: 999px;
+      color: #2a2d2f;
+      border: 1px solid #d5d8da;
+      background: #fff;
+      border-radius: 6px;
       padding: .5rem .88rem;
-      font-size: .85rem;
+      font-size: .84rem;
       font-weight: 600;
-      backdrop-filter: blur(7px);
-      -webkit-backdrop-filter: blur(7px);
-      box-shadow: 0 8px 18px rgba(12, 12, 12, 0.06);
+      box-shadow: none;
       transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease, box-shadow .2s ease;
       cursor: pointer;
+      font-family: "Inter", sans-serif;
     }
 
     .x-button {
-      font-size: .98rem;
-      padding: .7rem 1.15rem;
+      font-size: .9rem;
+      padding: .6rem .96rem;
     }
 
     .admin-open {
@@ -284,8 +290,8 @@
       justify-content: center;
       display: inline-flex;
       align-items: center;
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: .94rem;
+      font-weight: 600;
       line-height: 1;
       color: #262626;
       opacity: .95;
@@ -296,10 +302,10 @@
     .admin-open:hover,
     .admin-open:focus-visible {
       color: #151515;
-      background: rgba(255, 255, 255, 0.76);
-      border-color: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 10px 20px rgba(12, 12, 12, 0.08);
-      transform: translateY(-1px);
+      background: #f6f7f8;
+      border-color: #caced1;
+      box-shadow: none;
+      transform: none;
     }
 
     .admin-open:hover,
@@ -354,7 +360,7 @@
     .tabs-wrap {
       border-top: 0;
       border-bottom: 0;
-      padding: .8rem 0;
+      padding: .5rem 0 .7rem;
       margin-bottom: 1rem;
       background: transparent;
       border-radius: 0;
@@ -369,36 +375,34 @@
 
     .tab {
       appearance: none;
-      border: 1px solid rgba(255, 255, 255, 0.68);
-      background: rgba(255, 255, 255, 0.62);
-      color: #222;
-      border-radius: 999px;
-      padding: .66rem 1.1rem;
-      font-size: .91rem;
-      letter-spacing: .03em;
-      font-weight: 680;
+      border: 1px solid #d6d9dc;
+      background: #fff;
+      color: #242729;
+      border-radius: 5px;
+      padding: .56rem .84rem;
+      font-size: .8rem;
+      letter-spacing: .06em;
+      font-weight: 600;
       text-transform: uppercase;
       cursor: pointer;
-      backdrop-filter: blur(7px);
-      -webkit-backdrop-filter: blur(7px);
-      box-shadow: 0 7px 16px rgba(12, 12, 12, 0.08);
-      transition: transform .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease, color .18s ease;
+      box-shadow: 0 2px 6px rgba(12, 12, 12, 0.04);
+      transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease, color .18s ease;
       white-space: nowrap;
+      font-family: "Inter", sans-serif;
     }
 
     .tab:hover {
-      transform: translateY(-1px);
-      background: rgba(255, 255, 255, 0.76);
-      border-color: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 9px 19px rgba(12, 12, 12, 0.1);
-      color: #141414;
+      background: #fafafa;
+      border-color: #cdd0d3;
+      box-shadow: 0 3px 8px rgba(12, 12, 12, 0.06);
+      color: #15181a;
     }
 
     .tab.active {
-      border-color: rgba(255, 255, 255, 0.95);
-      background: rgba(255, 255, 255, 0.9);
+      border-color: #c5c9cc;
+      background: #f8f8f8;
       color: #111111;
-      box-shadow: inset 0 0 0 1px rgba(220, 220, 220, 0.75), 0 10px 22px rgba(12, 12, 12, 0.08);
+      box-shadow: inset 0 0 0 1px #e7e9eb;
     }
 
     .news-layout {
@@ -448,28 +452,34 @@
     .news-featured h3 {
       margin: 0 0 .5rem;
       font-size: clamp(1.3rem, 2.8vw, 2rem);
-      line-height: 1.13;
-      letter-spacing: -0.02em;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 600;
     }
 
     .news-side h4 {
       margin: 0 0 .38rem;
-      font-size: 1.04rem;
+      font-size: 1.08rem;
       line-height: 1.24;
       letter-spacing: -0.01em;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 560;
     }
 
     .summary {
       margin: 0;
-      color: #353535;
-      font-size: .95rem;
+      color: #3d3f42;
+      font-size: .94rem;
       max-width: 72ch;
+      font-family: "Inter", sans-serif;
     }
 
     .meta {
       margin: .62rem 0 0;
-      font-size: .8rem;
-      color: #7a7a7a;
+      font-size: .76rem;
+      color: #8a8e91;
+      font-family: "Inter", sans-serif;
     }
 
     .more {
