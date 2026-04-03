@@ -109,6 +109,10 @@
       margin-inline: auto;
     }
 
+    .topbar-shell {
+      width: min(100% - .7rem, 1880px);
+    }
+
     .hero::after {
       content: "";
       position: absolute;
@@ -722,6 +726,7 @@
     @media (max-width: 680px) {
       .container { width: min(100% - 1.2rem, var(--content-max)); }
       .topbar-container { width: min(100% - 1.2rem, 1460px); }
+      .topbar-shell { width: min(100% - 1rem, 1880px); }
 
       .hero-grid {
         grid-template-columns: 1fr;
@@ -757,7 +762,7 @@
   <a href="#principal" class="sr-only">Saltar al contenido principal</a>
 
   <header class="hero" aria-label="Encabezado editorial">
-    <div class="topbar-container hero-grid">
+    <div class="topbar-container topbar-shell hero-grid">
       <div>
         <p class="hero-kicker">Registro editorial</p>
       </div>
