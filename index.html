@@ -18,6 +18,9 @@
   />
   <meta property="og:url" content="https://tu-usuario.github.io/el-chilometro/" />
   <meta property="og:locale" content="es_CL" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -27,7 +30,7 @@
       --project-name: "El Chilómetro";
       --project-tagline: "Avances concretos de Chile";
       --project-editorial-line: "Registro breve de hechos verificables en desarrollo.";
-      --x-url: "https://x.com/tu_perfil";
+      --x-url: "https://x.com/ElChilometro";
 
       --bg: #fcfcfc;
       --bg-soft: #f7f7f7;
@@ -52,7 +55,7 @@
 
     body {
       margin: 0;
-      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
@@ -96,51 +99,60 @@
        HERO EDITORIAL
        ============================= */
     .hero {
-      padding: clamp(1.6rem, 4.5vw, 3rem) 0 clamp(1.1rem, 2.8vw, 1.8rem);
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      background:
-        linear-gradient(to bottom, rgba(255,255,255,.96), rgba(255,255,255,.96)),
-        repeating-linear-gradient(90deg, transparent 0 28px, rgba(17,17,17,.02) 28px 29px);
+      padding: clamp(.75rem, 2.2vw, 1.1rem) 0;
+      border-bottom: 0;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(18, 18, 18, 0.06);
+    }
+
+    .topbar-container {
+      width: min(100% - 2rem, 1460px);
+      margin-inline: auto;
+    }
+
+    .topbar-shell {
+      width: min(100% - .7rem, 1880px);
+    }
+
+    .banner-shell {
+      width: 100%;
+      max-width: none;
+      margin-inline: 0;
     }
 
     .hero::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 3px;
-      background: linear-gradient(to right, transparent 0 12%, color-mix(in srgb, var(--accent-red) 70%, white) 12% 36%, transparent 36% 100%);
-      opacity: .65;
-      pointer-events: none;
+      content: none;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr auto;
-      gap: 1.2rem;
-      align-items: end;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      align-items: center;
     }
 
     .hero-kicker {
-      margin: 0 0 .55rem;
+      margin: 0;
       display: inline-flex;
-      align-items: center;
-      gap: .45rem;
-      font-size: .78rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: #6a6a6a;
-      font-weight: 650;
+      align-items: baseline;
+      gap: 0;
+      font-size: 2.55rem;
+      line-height: 1.02;
+      letter-spacing: -0.018em;
+      text-transform: none;
+      color: #222;
+      font-weight: 560;
+      padding-left: .35rem;
+      font-family: "Source Serif 4", Georgia, serif;
+      white-space: nowrap;
     }
 
-    .hero-kicker::before {
-      content: "";
-      width: 24px;
-      height: 1px;
-      background: #8a8a8a;
-    }
+    .hero-kicker .el { color: #2355a4; }
+    .hero-kicker .chil { color: #bf1f2d; }
+    .hero-kicker .ometro { color: #a9afb4; }
 
     h1 {
       margin: 0;
@@ -168,61 +180,139 @@
       display: flex;
       gap: .65rem;
       align-items: center;
+      justify-content: flex-end;
+    }
+
+    .hero-banner-wrap {
+      padding: 0;
+    }
+
+    .hero-banner {
+      width: 100%;
+      aspect-ratio: 21 / 5;
+      min-height: 130px;
+      border-radius: 0;
+      border: 0;
+      background: #fbfbfa;
+      box-shadow: none;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: clamp(.9rem, 2.1vw, 1.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner-content {
+      display: grid;
+      gap: .65rem;
+      justify-items: center;
+      max-width: 980px;
+    }
+
+    .hero-banner-title {
+      margin: 0;
+      font-size: clamp(1.65rem, 4.5vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-weight: 650;
+      text-transform: none;
+      color: #1f1f1f;
+      text-wrap: balance;
+      max-width: 18ch;
+      font-family: "Source Serif 4", Georgia, serif;
+    }
+
+    .hero-banner-sub {
+      margin: 0;
+      max-width: 70ch;
+      text-wrap: balance;
+      color: #4f5255;
+      font-size: clamp(.88rem, 1.8vw, 1rem);
+      line-height: 1.45;
+      font-family: "Inter", sans-serif;
+    }
+
+    .hero-banner-actions {
+      display: flex;
+      gap: .55rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-banner-cta {
+      appearance: none;
+      border: 1px solid #d4d6d8;
+      background: #ffffff;
+      color: #2e3134;
+      border-radius: 6px;
+      padding: .48rem .86rem;
+      font-size: .84rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: none;
+      transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+      font-family: "Inter", sans-serif;
+    }
+
+    .hero-banner-cta:hover,
+    .hero-banner-cta:focus-visible {
+      background: #f7f8f8;
+      border-color: #c9cccf;
+      color: #1f1f1f;
+      transform: none;
     }
 
     .x-button,
     .admin-open {
       text-decoration: none;
-      color: #3a3a3a;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      border-radius: 999px;
+      color: #2a2d2f;
+      border: 1px solid #d5d8da;
+      background: #fff;
+      border-radius: 6px;
       padding: .5rem .88rem;
-      font-size: .85rem;
+      font-size: .84rem;
       font-weight: 600;
-      transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease;
+      box-shadow: none;
+      transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease, box-shadow .2s ease;
       cursor: pointer;
+      font-family: "Inter", sans-serif;
+    }
+
+    .x-button {
+      font-size: .9rem;
+      padding: .6rem .96rem;
+    }
+
+    .admin-open {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      justify-content: center;
+      display: inline-flex;
+      align-items: center;
+      font-size: .94rem;
+      font-weight: 600;
+      line-height: 1;
+      color: #262626;
+      opacity: .95;
     }
 
     .x-button:hover,
     .x-button:focus-visible,
     .admin-open:hover,
     .admin-open:focus-visible {
-      color: #6f0f15;
-      background: var(--accent-red-soft);
-      border-color: #e2b9bd;
-      transform: translateY(-1px);
+      color: #151515;
+      background: #f6f7f8;
+      border-color: #caced1;
+      box-shadow: none;
+      transform: none;
     }
 
-    .measure-mark {
-      width: 66px;
-      height: 56px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--surface);
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
-      flex: 0 0 auto;
-    }
-
-    .measure-mark::before {
-      content: "";
-      position: absolute;
-      inset: 10px 12px;
-      background: repeating-linear-gradient(to right, color-mix(in srgb, var(--accent-red) 34%, white) 0 2px, transparent 2px 10px);
-      opacity: .58;
-    }
-
-    .measure-mark::after {
-      content: "";
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 12px;
-      height: 2px;
-      background: color-mix(in srgb, var(--accent-red) 55%, white);
-      border-radius: 99px;
+    .admin-open:hover,
+    .admin-open:focus-visible {
+      opacity: 1;
     }
 
     /* =============================
@@ -242,91 +332,131 @@
       overflow: hidden;
     }
 
+    #news-panel {
+      scroll-margin-top: 110px;
+    }
+
     .news-panel::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(to right, var(--cat) 0 28%, transparent 28% 100%);
-      opacity: .85;
+      content: none;
     }
 
     .panel-head {
       display: grid;
       gap: .3rem;
-      margin-bottom: 1rem;
-      padding-top: .2rem;
+      margin-bottom: 0;
+      padding-top: 0;
     }
 
     .panel-eyebrow {
-      margin: 0;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: .72rem;
-      color: #797979;
-      font-weight: 650;
+      display: none;
     }
 
     .panel-title {
-      margin: 0;
-      font-size: clamp(1.28rem, 3vw, 1.75rem);
-      line-height: 1.15;
-      letter-spacing: -0.01em;
+      display: none;
     }
 
     .panel-sub {
-      margin: 0;
-      color: var(--text-soft);
-      font-size: .95rem;
-      max-width: 70ch;
+      display: none;
     }
 
     .tabs-wrap {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: .8rem 0;
+      border-top: 0;
+      border-bottom: 0;
+      padding: .5rem 0 .7rem;
       margin-bottom: 1rem;
+      background: transparent;
+      border-radius: 0;
     }
 
     .category-tabs {
       display: flex;
       flex-wrap: wrap;
       gap: .52rem;
+      justify-content: center;
     }
 
     .tab {
       appearance: none;
-      border: 1px solid var(--tone-border, var(--border));
-      background: var(--tone-soft, #f6f6f6);
-      color: var(--tone-text, #333);
-      border-radius: 999px;
-      padding: .48rem .82rem;
-      font-size: .77rem;
-      letter-spacing: .03em;
-      font-weight: 680;
+      border: 1px solid #d6d9dc;
+      background: #fff;
+      color: #242729;
+      border-radius: 5px;
+      padding: .56rem .84rem;
+      font-size: .8rem;
+      letter-spacing: .06em;
+      font-weight: 600;
       text-transform: uppercase;
       cursor: pointer;
-      transition: transform .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+      box-shadow: 0 2px 6px rgba(12, 12, 12, 0.04);
+      transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease, color .18s ease;
       white-space: nowrap;
+      font-family: "Inter", sans-serif;
     }
 
     .tab:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+      background: #fafafa;
+      border-color: #cdd0d3;
+      box-shadow: 0 3px 8px rgba(12, 12, 12, 0.06);
+      color: #15181a;
     }
 
     .tab.active {
-      border-color: color-mix(in srgb, var(--tone) 55%, #ffffff);
-      background: color-mix(in srgb, var(--tone) 17%, #ffffff);
-      color: color-mix(in srgb, var(--tone) 73%, #161616);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 20%, #ffffff);
+      border-color: #c5c9cc;
+      background: #f8f8f8;
+      color: #111111;
+      box-shadow: inset 0 0 0 1px #e7e9eb;
     }
 
     .news-layout {
       display: grid;
       gap: .85rem;
+    }
+
+    .panel-more {
+      margin-top: .55rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .view-all-btn,
+    .close-all-btn {
+      border: 1px solid #d4d7da;
+      background: #fff;
+      color: #2a2d30;
+      border-radius: 6px;
+      padding: .45rem .78rem;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .all-news {
+      margin-top: .9rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      padding: .8rem;
+      display: grid;
+      gap: .6rem;
+    }
+
+    .all-news-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .all-news-title {
+      margin: 0;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 1.05rem;
+      color: #202224;
+    }
+
+    .all-news-list {
+      display: grid;
+      gap: .55rem;
     }
 
     .news-featured,
@@ -336,6 +466,7 @@
       background: var(--surface);
       position: relative;
       overflow: hidden;
+      box-shadow: 0 10px 22px rgba(15, 15, 15, 0.06);
     }
 
     .news-featured {
@@ -345,14 +476,7 @@
 
     .news-featured::before,
     .news-side::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: var(--cat);
-      opacity: .74;
+      content: none;
     }
 
     .news-side {
@@ -375,30 +499,36 @@
     }
 
     .news-featured h3 {
-      margin: .58rem 0 .5rem;
+      margin: 0 0 .5rem;
       font-size: clamp(1.3rem, 2.8vw, 2rem);
-      line-height: 1.13;
-      letter-spacing: -0.02em;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 600;
     }
 
     .news-side h4 {
-      margin: .35rem 0 .38rem;
-      font-size: 1.04rem;
+      margin: 0 0 .38rem;
+      font-size: 1.08rem;
       line-height: 1.24;
       letter-spacing: -0.01em;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 560;
     }
 
     .summary {
       margin: 0;
-      color: #353535;
-      font-size: .95rem;
+      color: #3d3f42;
+      font-size: .94rem;
       max-width: 72ch;
+      font-family: "Inter", sans-serif;
     }
 
     .meta {
       margin: .62rem 0 0;
-      font-size: .8rem;
-      color: #7a7a7a;
+      font-size: .76rem;
+      color: #8a8e91;
+      font-family: "Inter", sans-serif;
     }
 
     .more {
@@ -407,17 +537,18 @@
       align-items: center;
       gap: .3rem;
       text-decoration: none;
-      color: color-mix(in srgb, var(--cat) 82%, #1a1a1a);
+      color: #4a4a4a;
       font-weight: 660;
       font-size: .9rem;
       border-radius: 8px;
       padding: .25rem .48rem;
-      transition: background-color .16s ease;
+      transition: color .16s ease, background-color .16s ease;
     }
 
     .more:hover,
     .more:focus-visible {
-      background: var(--cat-soft);
+      color: #2d2d2d;
+      background: #f4f4f4;
     }
 
     .secondary-grid {
@@ -526,6 +657,7 @@
       border-radius: 12px;
       background: var(--bg-soft);
       padding: .85rem;
+      box-shadow: 0 10px 22px rgba(15, 15, 15, 0.06);
     }
 
     .admin-block h4 {
@@ -636,6 +768,7 @@
       padding: .55rem .62rem;
       display: grid;
       gap: .4rem;
+      box-shadow: 0 8px 18px rgba(15, 15, 15, 0.05);
     }
 
     .admin-item-top {
@@ -677,6 +810,17 @@
       background: #fdfdfd;
     }
 
+    .admin-open-footer {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+
     .foot {
       display: flex;
       justify-content: space-between;
@@ -694,15 +838,12 @@
     }
 
     @media (max-width: 980px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-        align-items: start;
+      .hero-kicker {
+        font-size: 2rem;
+        line-height: 1.03;
       }
 
-      .hero-actions {
-        justify-content: flex-start;
-        flex-wrap: wrap;
-      }
+      .hero-grid { grid-template-columns: 1fr; }
 
       .secondary-grid {
         grid-template-columns: 1fr;
@@ -714,7 +855,28 @@
     }
 
     @media (max-width: 680px) {
+      .hero-kicker {
+        font-size: 1.62rem;
+        line-height: 1.04;
+        letter-spacing: -0.012em;
+      }
+
       .container { width: min(100% - 1.2rem, var(--content-max)); }
+      .topbar-container { width: min(100% - 1.2rem, 1460px); }
+      .topbar-shell { width: min(100% - 1rem, 1880px); }
+      .banner-shell { width: 100%; }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .hero-banner {
+        aspect-ratio: 16 / 7;
+        min-height: 120px;
+        border-radius: 14px;
+      }
+
       .tabs-wrap { margin-inline: -.1rem; }
 
       .category-tabs {
@@ -734,29 +896,35 @@
   <a href="#principal" class="sr-only">Saltar al contenido principal</a>
 
   <header class="hero" aria-label="Encabezado editorial">
-    <div class="container hero-grid">
+    <div class="topbar-container topbar-shell hero-grid">
       <div>
-        <p class="hero-kicker">Registro editorial</p>
-        <h1 id="project-name">El Chilómetro</h1>
-        <p class="hero-tagline" id="project-tagline">Avances concretos de Chile</p>
-        <p class="hero-line" id="project-line">Registro breve de hechos verificables en desarrollo.</p>
-      </div>
-
-      <div class="hero-actions">
-        <button class="admin-open" id="open-admin" type="button">Administrar noticias</button>
-        <a id="x-link" class="x-button" href="https://x.com/tu_perfil" target="_blank" rel="noopener noreferrer">Perfil en X</a>
-        <div class="measure-mark" aria-hidden="true"></div>
+        <p class="hero-kicker"><span class="el">El</span><span class="chil">Chil</span><span class="ometro">ómetro</span></p>
       </div>
     </div>
   </header>
 
+  <section class="hero-banner-wrap" aria-label="Espacio de portada visual">
+    <div class="banner-shell">
+      <div class="hero-banner" aria-label="Banner de portada">
+        <div class="hero-banner-content">
+          <h2 class="hero-banner-title">Chile avanza. Aquí lo registramos.</h2>
+          <p class="hero-banner-sub">Noticias sobre avances, inversión, innovación, infraestructura y hechos concretos que impactan a Chile y a los chilenos.</p>
+          <div class="hero-banner-actions">
+            <a class="hero-banner-cta" href="#news-panel">Ver noticias</a>
+            <a class="hero-banner-cta" href="https://x.com/ElChilometro" target="_blank" rel="noopener noreferrer">Seguir en X</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <main id="principal">
     <section class="container" aria-labelledby="panel-title">
-      <article class="news-panel">
+      <article class="news-panel" id="news-panel">
         <header class="panel-head">
-          <p class="panel-eyebrow">Portada</p>
-          <h2 class="panel-title" id="panel-title">Noticias por categoría</h2>
-          <p class="panel-sub" id="panel-sub">Selecciona una categoría para ver el hecho principal y dos actualizaciones relacionadas.</p>
+          <p class="panel-eyebrow"></p>
+          <h2 class="panel-title" id="panel-title"></h2>
+          <p class="panel-sub" id="panel-sub"></p>
         </header>
 
         <div class="tabs-wrap">
@@ -764,6 +932,16 @@
         </div>
 
         <section class="news-layout" id="news-layout" aria-live="polite" aria-label="Listado dinámico de noticias"></section>
+        <div class="panel-more">
+          <button class="view-all-btn" id="btn-view-all-cat" type="button">Ver todas</button>
+        </div>
+        <section class="all-news hidden" id="all-news-section" aria-label="Todas las noticias de la categoría">
+          <div class="all-news-head">
+            <h3 class="all-news-title" id="all-news-title"></h3>
+            <button class="close-all-btn" id="btn-close-all-cat" type="button">Cerrar</button>
+          </div>
+          <div class="all-news-list" id="all-news-list"></div>
+        </section>
       </article>
     </section>
   </main>
@@ -874,8 +1052,7 @@
                 <div class="inline-actions">
                   <button class="btn btn-primary" type="submit" id="btn-save">Guardar noticia</button>
                   <button class="btn" type="button" id="btn-cancel-edit">Cancelar edición</button>
-                  <button class="btn" type="button" id="btn-restore-demo">Restaurar noticias demo</button>
-                  <button class="btn btn-danger" type="button" id="btn-clear-storage">Limpiar localStorage</button>
+                  <button class="btn" type="button" id="btn-restore-demo">Recargar desde Supabase</button>
                 </div>
                 <p class="status-msg" id="form-status" aria-live="polite"></p>
               </div>
@@ -912,14 +1089,12 @@
   <footer>
     <div class="container foot">
       <span><mark id="footer-project">El Chilómetro</mark> · Portada editorial</span>
-      <span id="footer-year">© 2026</span>
+      <button class="admin-open-footer" id="open-admin" type="button" aria-label="Panel de administración"><span id="footer-year">© 2026</span></button>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const STORAGE_KEY = "el-chilometro-news-v1";
-
     const SUPABASE_URL = "https://isyemlgmnmwaoqweskyn.supabase.co";
     const SUPABASE_KEY = "sb_publishable_AVj9wl5N369ovPfSz9VFZw_a4_TZHrg";
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -928,7 +1103,7 @@
       projectName: "El Chilómetro",
       projectTagline: "Avances concretos de Chile",
       projectEditorialLine: "Registro breve de hechos verificables en desarrollo.",
-      xUrl: "https://x.com/tu_perfil",
+      xUrl: "https://x.com/ElChilometro",
       defaultCategory: "NATURALEZA"
     };
 
@@ -969,18 +1144,14 @@
       "INVERSIÓN": "INVERSIÓN"
     };
 
-    const DEMO_NEWS = [
-      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Plan regional amplía restauración de bosque nativo en zona centro-sur", summary: "El informe técnico incluye nuevos sectores priorizados para recuperación ecológica y seguimiento anual.", sourceName: "Gobierno regional", sourceUrl: "", date: "2026-04-02", featured: true },
-      { id: crypto.randomUUID(), category: "NATURALEZA", title: "Monitoreo de humedales urbanos suma estaciones de observación comunitaria", summary: "Datos abiertos muestran mayor cobertura de medición en calidad de agua y biodiversidad.", sourceName: "Municipalidad", sourceUrl: "", date: "2026-04-01", featured: false },
-      { id: crypto.randomUUID(), category: "ENERGÍA", title: "Nueva planta solar inicia operación en la Región de Antofagasta", summary: "El proyecto incorpora capacidad adicional al sistema eléctrico del norte del país.", sourceName: "Coordinador eléctrico", sourceUrl: "", date: "2026-04-02", featured: true }
-    ];
-
     const state = {
       news: [],
       adminNews: [],
+      newsLoadError: false,
       activeCategory: CATEGORY_ORDER.includes(SITE_CONFIG.defaultCategory) ? SITE_CONFIG.defaultCategory : CATEGORY_ORDER[0],
       editingId: null,
       user: null,
+      showAllCategory: false,
       filters: {
         category: "all",
         status: "all",
@@ -999,6 +1170,11 @@
       panelSub: document.getElementById("panel-sub"),
       tabs: document.getElementById("category-tabs"),
       newsLayout: document.getElementById("news-layout"),
+      viewAllBtn: document.getElementById("btn-view-all-cat"),
+      allNewsSection: document.getElementById("all-news-section"),
+      allNewsTitle: document.getElementById("all-news-title"),
+      allNewsList: document.getElementById("all-news-list"),
+      closeAllBtn: document.getElementById("btn-close-all-cat"),
       openAdmin: document.getElementById("open-admin"),
       closeAdmin: document.getElementById("close-admin"),
       adminModal: document.getElementById("admin-modal"),
@@ -1027,7 +1203,6 @@
       formStatus: document.getElementById("form-status"),
       cancelBtn: document.getElementById("btn-cancel-edit"),
       restoreBtn: document.getElementById("btn-restore-demo"),
-      clearBtn: document.getElementById("btn-clear-storage"),
       filterCategory: document.getElementById("filter-category"),
       filterStatus: document.getElementById("filter-status"),
       filterSearch: document.getElementById("filter-search")
@@ -1070,7 +1245,7 @@
 
     async function fetchNewsFromSupabase() {
       const { data, error } = await supabaseClient
-        .from("Noticias")
+        .from("noticias")
         .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
         .eq("is_published", true)
         .order("category", { ascending: true })
@@ -1080,9 +1255,12 @@
 
       if (error) throw error;
 
+      console.log("noticias recibidas supabase:", data);
+      console.log("noticias normalizadas:", (data || []).map(normalizeSupabaseNews));
+
       return (data || [])
         .map(normalizeSupabaseNews)
-        .filter((item) => item && item.title && item.summary && CATEGORY_ORDER.includes(item.category));
+        .filter((item) => item && item.title && item.summary);
     }
 
     async function loadAdminNews() {
@@ -1093,7 +1271,7 @@
       }
 
       const { data, error } = await supabaseClient
-        .from("Noticias")
+        .from("noticias")
         .select("id,title,summary,category,source_name,source_url,published_at,is_featured,is_published,display_order,created_at,updated_at")
         .order("is_featured", { ascending: false })
         .order("published_at", { ascending: false })
@@ -1125,17 +1303,17 @@
     }
 
     async function createNews(payload) {
-      const { error } = await supabaseClient.from("Noticias").insert(payload);
+      const { error } = await supabaseClient.from("noticias").insert(payload);
       if (error) throw error;
     }
 
     async function updateNews(id, payload) {
-      const { error } = await supabaseClient.from("Noticias").update(payload).eq("id", id);
+      const { error } = await supabaseClient.from("noticias").update(payload).eq("id", id);
       if (error) throw error;
     }
 
     async function deleteNews(id) {
-      const { error } = await supabaseClient.from("Noticias").delete().eq("id", id);
+      const { error } = await supabaseClient.from("noticias").delete().eq("id", id);
       if (error) throw error;
     }
 
@@ -1148,29 +1326,13 @@
       return groups;
     }
 
-    function setLocalFallback(newsItems) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newsItems));
-    }
-
-    function getLocalFallback() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        if (!Array.isArray(parsed)) return [];
-        return parsed.filter((n) => n && n.category && n.title && n.summary);
-      } catch {
-        return [];
-      }
-    }
-
     function initializarCabecera() {
-      els.projectName.textContent = SITE_CONFIG.projectName;
-      els.projectTagline.textContent = SITE_CONFIG.projectTagline;
-      els.projectLine.textContent = SITE_CONFIG.projectEditorialLine;
-      els.footerProject.textContent = SITE_CONFIG.projectName;
-      els.footerYear.textContent = `© ${new Date().getFullYear()}`;
-      els.xLink.href = SITE_CONFIG.xUrl;
+      if (els.projectName) els.projectName.textContent = SITE_CONFIG.projectName;
+      if (els.projectTagline) els.projectTagline.textContent = SITE_CONFIG.projectTagline;
+      if (els.projectLine) els.projectLine.textContent = SITE_CONFIG.projectEditorialLine;
+      if (els.footerProject) els.footerProject.textContent = SITE_CONFIG.projectName;
+      if (els.footerYear) els.footerYear.textContent = `© ${new Date().getFullYear()}`;
+      if (els.xLink) els.xLink.href = SITE_CONFIG.xUrl;
       document.title = `${SITE_CONFIG.projectName} | Portada editorial por categorías`;
     }
 
@@ -1226,7 +1388,7 @@
       root.style.setProperty("--cat", style.tone);
       root.style.setProperty("--cat-soft", style.soft);
       root.style.setProperty("--cat-border", style.border);
-      els.panelSub.textContent = `Categoría activa: ${category}. Hecho principal y dos actualizaciones relacionadas.`;
+      els.panelSub.textContent = "";
     }
 
     function renderizarTabs() {
@@ -1247,6 +1409,7 @@
         btn.addEventListener("click", () => {
           if (state.activeCategory !== category) {
             state.activeCategory = category;
+            state.showAllCategory = false;
             applyCategoryAccent(category);
             renderizarTabs();
             renderizarNoticias();
@@ -1277,10 +1440,6 @@
       const article = document.createElement("article");
       article.className = type === "featured" ? "news-featured" : "news-side";
 
-      const label = document.createElement("span");
-      label.className = "cat-label";
-      label.textContent = category;
-
       const title = document.createElement(type === "featured" ? "h3" : "h4");
       title.textContent = item.title;
 
@@ -1304,19 +1463,31 @@
       more.textContent = "Ver más";
       more.setAttribute("aria-label", `Ver más sobre: ${item.title}`);
 
-      article.append(label, title, summary, meta, more);
+      article.append(title, summary, meta, more);
       return article;
     }
 
     function renderizarNoticias() {
       const { featured, secondary } = seleccionarNoticiasPortada(state.activeCategory);
+      const groups = groupNewsByCategory(state.news);
+      const categoryItems = groups[state.activeCategory] || [];
       els.newsLayout.innerHTML = "";
+
+      if (state.newsLoadError) {
+        const error = document.createElement("p");
+        error.className = "empty-state";
+        error.textContent = "No se pudieron cargar noticias.";
+        els.newsLayout.appendChild(error);
+        return;
+      }
 
       if (!featured) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
         empty.textContent = "No hay noticias publicadas para esta categoría.";
         els.newsLayout.appendChild(empty);
+        els.viewAllBtn.classList.add("hidden");
+        els.allNewsSection.classList.add("hidden");
         return;
       }
 
@@ -1331,6 +1502,24 @@
         secondaryGrid.appendChild(empty);
       }
       els.newsLayout.appendChild(secondaryGrid);
+
+      els.viewAllBtn.classList.toggle("hidden", categoryItems.length <= 3);
+      renderizarTodasLasNoticiasCategoria(categoryItems);
+    }
+
+    function renderizarTodasLasNoticiasCategoria(categoryItems) {
+      if (!state.showAllCategory) {
+        els.allNewsSection.classList.add("hidden");
+        return;
+      }
+
+      els.allNewsSection.classList.remove("hidden");
+      els.allNewsTitle.textContent = `Todas las noticias: ${state.activeCategory}`;
+      els.allNewsList.innerHTML = "";
+
+      categoryItems.forEach((item) => {
+        els.allNewsList.appendChild(crearTarjetaNoticia(item, state.activeCategory, "secondary"));
+      });
     }
 
     function llenarSelectCategorias() {
@@ -1552,7 +1741,7 @@
       }
     }
 
-    async function restaurarNoticiasDemo() {
+    async function recargarNoticiasSupabase() {
       if (!isAuthenticated()) return;
       try {
         await loadAdminNews();
@@ -1567,21 +1756,15 @@
       }
     }
 
-    function limpiarStorageNoticias() {
-      if (!confirm("¿Limpiar fallback local (localStorage)?")) return;
-      localStorage.removeItem(STORAGE_KEY);
-      els.formStatus.textContent = "Fallback local limpiado.";
-      els.formStatus.className = "status-msg ok";
-    }
-
     async function refreshPublicNews() {
       try {
         const supabaseNews = await fetchNewsFromSupabase();
         state.news = supabaseNews;
-        setLocalFallback(supabaseNews);
+        state.newsLoadError = false;
+        console.log("state.news:", state.news.length);
       } catch (error) {
-        console.error("error al refrescar portada", error.message);
-        state.news = getLocalFallback();
+        console.error("error al refrescar portada, se mantiene portada actual", error.message);
+        state.newsLoadError = true;
       }
     }
 
@@ -1622,26 +1805,40 @@
 
       const noticia = construirNoticiaDesdeFormulario();
       const payload = toSupabasePayload(noticia);
+      const wasEditing = Boolean(state.editingId);
+      const wasDraft = !noticia.isPublished;
+      let saveMessage = "";
 
       try {
-        if (state.editingId) {
+        if (wasEditing) {
           await updateNews(state.editingId, payload);
-          els.formStatus.textContent = "Noticia actualizada.";
+          saveMessage = "Noticia actualizada.";
         } else {
           await createNews(payload);
-          els.formStatus.textContent = "Noticia creada.";
+          saveMessage = "Noticia creada.";
         }
       } catch (error) {
         console.error("error al guardar/actualizar noticia", error.message);
-        els.formStatus.textContent = state.editingId ? "Error al actualizar la noticia." : "Error al crear la noticia.";
+        els.formStatus.textContent = wasEditing ? "Error al actualizar la noticia." : "Error al crear la noticia.";
         els.formStatus.classList.add("error");
         return;
       }
 
-      els.formStatus.classList.add("ok");
-      resetAdminForm();
-      await loadAdminNews();
+      console.log("guardado ok, recargando admin y portada");
+      try {
+        await loadAdminNews();
+      } catch (error) {
+        console.error("error al recargar admin tras guardar", error.message);
+      }
+      console.log("admin noticias cargadas", state.adminNews.length);
       await refreshPublicNews();
+      console.log("news publicas cargadas", state.news.length);
+
+      resetAdminForm();
+      els.formStatus.classList.add("ok");
+      els.formStatus.textContent = wasDraft
+        ? "La noticia quedó guardada como borrador y no aparecerá en portada."
+        : saveMessage;
       renderAll();
     }
 
@@ -1686,8 +1883,7 @@
         }
       });
       els.cancelBtn.addEventListener("click", resetAdminForm);
-      els.restoreBtn.addEventListener("click", () => { restaurarNoticiasDemo(); });
-      els.clearBtn.addEventListener("click", limpiarStorageNoticias);
+      els.restoreBtn.addEventListener("click", () => { recargarNoticiasSupabase(); });
       els.extractBtn.addEventListener("click", intentarExtraerTituloDesdeURL);
       els.filterCategory.addEventListener("change", () => {
         state.filters.category = els.filterCategory.value;
@@ -1700,6 +1896,14 @@
       els.filterSearch.addEventListener("input", () => {
         state.filters.search = els.filterSearch.value;
         renderAdminList();
+      });
+      els.viewAllBtn.addEventListener("click", () => {
+        state.showAllCategory = true;
+        renderizarNoticias();
+      });
+      els.closeAllBtn.addEventListener("click", () => {
+        state.showAllCategory = false;
+        renderizarNoticias();
       });
 
       supabaseClient.auth.onAuthStateChange(async (event, session) => {
@@ -1725,19 +1929,19 @@
       initializarCabecera();
       llenarSelectCategorias();
       initEvents();
-      await checkActiveSession();
 
-      try {
-        await refreshPublicNews();
-        if (!state.news.length) {
-          console.warn("Supabase no devolvió noticias publicadas. Se aplicará fallback local.");
-          state.news = getLocalFallback();
-          if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
-        }
-      } catch (error) {
-        console.error("Error al cargar noticias desde Supabase:", error);
-        state.news = getLocalFallback();
-        if (!state.news.length) state.news = DEMO_NEWS.map((n) => ({ ...n }));
+      // Cargar sesión y noticias en paralelo para evitar bloquear el inicio.
+      const [sessionResult, newsResult] = await Promise.allSettled([
+        checkActiveSession(),
+        refreshPublicNews()
+      ]);
+
+      if (newsResult.status === "rejected") {
+        console.error("Error al cargar noticias desde Supabase:", newsResult.reason);
+      }
+
+      if (sessionResult.status === "rejected") {
+        console.error("Error al revisar sesión activa:", sessionResult.reason);
       }
 
       if (isAuthenticated()) {
