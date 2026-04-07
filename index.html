@@ -1763,8 +1763,7 @@
         state.newsLoadError = false;
         console.log("state.news:", state.news.length);
       } catch (error) {
-        console.error("error al refrescar portada", error.message);
-        state.news = [];
+        console.error("error al refrescar portada, se mantiene portada actual", error.message);
         state.newsLoadError = true;
       }
     }
@@ -1806,26 +1805,40 @@
 
       const noticia = construirNoticiaDesdeFormulario();
       const payload = toSupabasePayload(noticia);
+      const wasEditing = Boolean(state.editingId);
+      const wasDraft = !noticia.isPublished;
+      let saveMessage = "";
 
       try {
-        if (state.editingId) {
+        if (wasEditing) {
           await updateNews(state.editingId, payload);
-          els.formStatus.textContent = "Noticia actualizada.";
+          saveMessage = "Noticia actualizada.";
         } else {
           await createNews(payload);
-          els.formStatus.textContent = "Noticia creada.";
+          saveMessage = "Noticia creada.";
         }
       } catch (error) {
         console.error("error al guardar/actualizar noticia", error.message);
-        els.formStatus.textContent = state.editingId ? "Error al actualizar la noticia." : "Error al crear la noticia.";
+        els.formStatus.textContent = wasEditing ? "Error al actualizar la noticia." : "Error al crear la noticia.";
         els.formStatus.classList.add("error");
         return;
       }
 
-      els.formStatus.classList.add("ok");
-      resetAdminForm();
-      await loadAdminNews();
+      console.log("guardado ok, recargando admin y portada");
+      try {
+        await loadAdminNews();
+      } catch (error) {
+        console.error("error al recargar admin tras guardar", error.message);
+      }
+      console.log("admin noticias cargadas", state.adminNews.length);
       await refreshPublicNews();
+      console.log("news publicas cargadas", state.news.length);
+
+      resetAdminForm();
+      els.formStatus.classList.add("ok");
+      els.formStatus.textContent = wasDraft
+        ? "La noticia quedó guardada como borrador y no aparecerá en portada."
+        : saveMessage;
       renderAll();
     }
 
